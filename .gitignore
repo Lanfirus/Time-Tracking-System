@@ -21,6 +21,7 @@
 # Other
 .idea/workspace.xml
 *.tmp
+*.stackdump
 /bin
 /out
 /target
