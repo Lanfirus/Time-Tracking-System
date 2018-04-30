@@ -2,7 +2,7 @@
     <div class="main-container main-container--no-margin">
         <div class="footer__container">
             <p class="footer__title-menu">
-                <h1>Created by Dudchenko Andrei </h1>
+                <h1>Dudchenko Andrei 2018</h1>
             </p>
         </div>
     </div>

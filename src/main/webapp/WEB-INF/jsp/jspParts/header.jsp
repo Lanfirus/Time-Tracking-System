@@ -32,7 +32,7 @@
                 </form>
             </div>
             <br>
-            <a href="${pageContext.request.contextPath}/tts/login" class="button button--header"><fmt:message key="header.registration" /></a>
+            <a href="${pageContext.request.contextPath}/tts/registration" class="button button--header"><fmt:message key="header.registration" /></a>
             <div class="burger"><span class="burger__line"></span></div>
 
         </div>
