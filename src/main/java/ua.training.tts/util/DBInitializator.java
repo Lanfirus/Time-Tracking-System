@@ -3,6 +3,7 @@ package ua.training.tts.util;
 
 import ua.training.tts.constant.DBParameters;
 import ua.training.tts.constant.util.DBStatements;
+import ua.training.tts.model.DAO.connectionPool.DataSource;
 
 import java.sql.*;
 
@@ -61,7 +62,8 @@ public class DBInitializator {
     }
 
     public void setCustomConnectionToDB() throws SQLException{
-        setConnection(DriverManager.getConnection(getUrlCustom(), getNAME(), getPASSWORD()));
+//        setConnection(DriverManager.getConnection(getUrlCustom(), getNAME(), getPASSWORD()));
+        setConnection(DataSource.getConnection());
     }
 
     public void closeConnectionToDB() throws SQLException{
@@ -100,17 +102,12 @@ public class DBInitializator {
     public void initializeDB(){
         try {
             getDefaultConnection();
-            System.out.println("1");
             dropDB();
-            System.out.println("2");
             createDB();
             closeConnectionToDB();
             getCustomConnection();
-            System.out.println("3");
             createTables();
-            System.out.println("4");
             insertUserRecord(DBStatements.INSERT_EMPLOYEE_RECORD_STATEMENT + DBStatements.INSERT_EMPLOYEE_RECORD1_VALUE);
-            System.out.println("5");
             insertUserRecord(DBStatements.INSERT_EMPLOYEE_RECORD_STATEMENT + DBStatements.INSERT_EMPLOYEE_RECORD2_VALUE);
             insertUserRecord(DBStatements.INSERT_EMPLOYEE_RECORD_STATEMENT + DBStatements.INSERT_EMPLOYEE_RECORD3_VALUE);
             insertUserRecord(DBStatements.INSERT_PROJECT_RECORD_STATEMENT + DBStatements.INSERT_PROJECT_RECORD1_VALUE);

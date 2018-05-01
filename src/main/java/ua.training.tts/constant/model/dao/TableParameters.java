@@ -7,4 +7,6 @@ public interface TableParameters {
     String TASK_TABLE_NAME = "task";
 
     String EMPLOYEE_ID = "e_id";
+    String EMPLOYEE_LOGIN = "e_login";
+    String EMPLOYEE_OLD_LOGIN = "e_old_login";
 }

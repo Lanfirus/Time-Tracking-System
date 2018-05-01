@@ -51,6 +51,28 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder update(String tableName, String[] fieldNames) {
+        request.append("UPDATE ")
+                .append(tableName)
+                .append(" SET");
+        for (int fieldNumber = 0; fieldNumber < fieldNames.length; fieldNumber++) {
+            request.append(fieldNames[fieldNumber])
+                   .append(" = ?");
+            if (fieldNumber != fieldNames.length - 1) {
+                request.append(",");
+            }
+        }
+        request.append(" ");
+        return this;
+    }
+
+    public RequestBuilder delete(String columnName) {
+        request.append("DELETE FROM ")
+                .append(columnName)
+                .append(" ");
+        return this;
+    }
+
     public String build(){
         return request.toString();
     }

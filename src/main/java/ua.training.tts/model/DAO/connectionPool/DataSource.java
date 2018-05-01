@@ -19,6 +19,7 @@ public class DataSource{
         config.addDataSourceProperty( DBParameters.CACHE_PREPARED_STATEMENT , "true" );
         config.addDataSourceProperty( DBParameters.CACHE_SIZE_PREPARED_STATEMENT , "25" );
         config.addDataSourceProperty( DBParameters.CACHE_SQL_LIMIT_PREPARED_STATEMENT , "256" );
+        config.addDataSourceProperty("rewriteBatchedStatements",true);
         ds = new HikariDataSource( config );
     }
 

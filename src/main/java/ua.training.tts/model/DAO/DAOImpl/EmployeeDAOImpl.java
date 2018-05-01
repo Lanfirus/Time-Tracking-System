@@ -45,13 +45,15 @@ public class EmployeeDAOImpl implements GeneralDAO {
         }
     }
 
+
+
     @Override
     public Map<String, String> findById(int id) {
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .where(TableParameters.EMPLOYEE_ID).build();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
-            preparedStatement.setInt(1,id);
-            ResultSet set = preparedStatement.executeQuery();
+        try (PreparedStatement statement = connection.prepareStatement(request)) {
+            statement.setInt(1,id);
+            ResultSet set = statement.executeQuery();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -78,8 +80,8 @@ public class EmployeeDAOImpl implements GeneralDAO {
     public List<Map<String, String>> findAll() {
         List<Map<String, String>> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME).build();
-        try (Statement statement = connection.createStatement()){
-            ResultSet set = statement.executeQuery(request);
+        try (PreparedStatement statement = connection.prepareStatement(request)){
+            ResultSet set = statement.executeQuery();
             while (set.next()){
                 Map<String, String> result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -92,41 +94,39 @@ public class EmployeeDAOImpl implements GeneralDAO {
 
     @Override
     public void update(Map<String, String> map) {
-/*        Map<String, String> oldData = findByLogin(map.get(Constants.OLD_LOGIN));
-        map.remove(Constants.OLD_LOGIN);
-        User user = new User(map);
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE users SET name = ? , surname = ? , patronymic = ? , login = ? , password = ? , comment = ? ," +
-                        "homePhoneNumber = ? , mobilePhoneNumber = ? , email = ? WHERE login = ?")){
-            statement.setString(1 , user.getName());
-            statement.setString(2 , user.getSurame());
-            statement.setString(3, user.getPatronymic());
-            statement.setString(4, user.getLogin());
-            statement.setString(5, user.getPassword());
-            statement.setString(6, user.getComment());
-            statement.setString(7, user.getHomePhoneNumber());
-            statement.setString(8, user.getMobilePhoneNumber());
-            statement.setString(9, user.getEmail());
-            statement.setString(10, oldData.get(Constants.LOGIN));
-            statement.executeUpdate();
-            if (!map.get(Constants.LOGIN).equals(oldData.get(Constants.LOGIN))){
-                PremadeOrderDAO dao = new PremadeOrderDAO();
-                List<Map<String, String>> existingOrders = dao.findAllByLogin(oldData.get(Constants.LOGIN));
-                existingOrders.stream().forEach(x -> {
-                    x.put(Constants.LOGIN, map.get(Constants.LOGIN));
-                    x.put(Constants.OLD_LOGIN, oldData.get(Constants.LOGIN));
-                    dao.update(x);
-                });
-            }
-        } catch (Throwable e) {
-            create(oldData);
+        String login = map.get(TableParameters.EMPLOYEE_OLD_LOGIN);
+        map.remove(TableParameters.EMPLOYEE_OLD_LOGIN);
+        String[] parameterNames = map.keySet().stream().toArray(String[]::new);
+        String[] parameterValues = map.values().stream().toArray(String[]::new);
+        String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, parameterNames)
+                                .where(TableParameters.EMPLOYEE_ID).build();
+        try (PreparedStatement statement = connection.prepareStatement(request)){
+            setValuesToPreparedStatement(statement, parameterValues);
+            statement.setInt(parameterValues.length + 1, findIdByLogin(login));
+        } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
-       }*/
+       }
+    }
+
+    private int findIdByLogin(String login){
+        String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
+                .where(TableParameters.EMPLOYEE_LOGIN).build();
+        try (PreparedStatement statement = connection.prepareStatement(request)) {
+            statement.setString(1,login);
+            ResultSet set = statement.executeQuery();
+            set.next();
+            return set.getInt(Entity.EMPLOYEE_ID);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void delete(int id) {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM users  WHERE id = ?")){
+        String request = builder.delete(TableParameters.EMPLOYEE_TABLE_NAME)
+                                .where(TableParameters.EMPLOYEE_ID).build();
+        try (PreparedStatement statement = connection.prepareStatement(request)){
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
