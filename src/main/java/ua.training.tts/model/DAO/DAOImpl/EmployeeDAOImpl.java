@@ -40,8 +40,10 @@ public class EmployeeDAOImpl implements GeneralDAO {
 
     private void setValuesToPreparedStatement(PreparedStatement statement, String[] parameterValues)
             throws SQLException{
-        for (int parameterNumber = 1; parameterNumber <= parameterValues.length; parameterNumber++) {
-            statement.setString(parameterNumber, parameterValues[parameterNumber]);
+        for (int parameterNumber = 0; parameterNumber < parameterValues.length; parameterNumber++) {
+            System.out.println(parameterNumber);
+            System.out.println(parameterValues[parameterNumber]);
+            statement.setString(parameterNumber + 1, parameterValues[parameterNumber]);
         }
     }
 
@@ -72,6 +74,7 @@ public class EmployeeDAOImpl implements GeneralDAO {
         map.put(Entity.EMPLOYEE_PATRONYMIC, set.getString(Entity.EMPLOYEE_PATRONYMIC));
         map.put(Entity.EMPLOYEE_EMAIL, set.getString(Entity.EMPLOYEE_EMAIL));
         map.put(Entity.EMPLOYEE_MOBILE_PHONE, set.getString(Entity.EMPLOYEE_MOBILE_PHONE));
+        map.put(Entity.EMPLOYEE_COMMENT, set.getString(Entity.EMPLOYEE_COMMENT));
         map.put(Entity.EMPLOYEE_ACCOUNT_ROLE, set.getString(Entity.EMPLOYEE_ACCOUNT_ROLE));
         return map;
     }

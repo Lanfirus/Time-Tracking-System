@@ -12,12 +12,13 @@
             </c:when>
 
             <c:otherwise>
-                <%@ include file="WEB-INF/jsp/jspParts/header.jsp"%>
+                <%@ include file="WEB-INF/jsp/jspParts/header-guest.jsp"%>
             </c:otherwise>
 
         </c:choose>
 
 <%@ include file="WEB-INF/jsp/jspParts/language-setup.jsp"%>
+<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/home-page.scss" >
 
 <section class="land-panorama">
        <div class="main-container main-container--home-page">

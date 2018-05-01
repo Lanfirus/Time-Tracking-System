@@ -135,12 +135,12 @@ public interface DBStatements {
 
     String INSERT_EMPLOYEE_RECORD_STATEMENT = "INSERT INTO `employee` (`e_login`,`e_password`,`e_name`,`e_surname`," +
             "`e_patronymic`,`e_email`,`e_mobile_phone`,`e_comment`,`e_account_role`)";
-    String INSERT_EMPLOYEE_RECORD1_VALUE = " VALUES ('aaa','aaa','Petr','Petrov','Petrovich','petrovich@ua.ua'," +
-            " '380501234567', 'Petrovich is the best!', 'admin');";
-    String INSERT_EMPLOYEE_RECORD2_VALUE = " VALUES ('qqq','qqq','Ivan','Ivanov','','callToIvanych@i.ua'," +
-            "'380661234567', 'just usual user', '');";
-    String INSERT_EMPLOYEE_RECORD3_VALUE = " VALUES ('111','111','Maxim','Sidorov','Ivanovich','max@company.ua'," +
-            "'380501234568', '', '');";
+    String INSERT_EMPLOYEE_RECORD1_VALUE = " VALUES ('aaa','47bce5c74f589f4867dbd57e9ca9f808','Petr','Petrov'," +
+            "'Petrovich','petrovich@ua.ua','380501234567', 'Petrovich is the best!', 'admin');";
+    String INSERT_EMPLOYEE_RECORD2_VALUE = " VALUES ('qqq','b2ca678b4c936f905fb82f2733f5297f','Ivan','Ivanov',''," +
+            "'callToIvanych@i.ua','380661234567', 'just usual user', 'employee');";
+    String INSERT_EMPLOYEE_RECORD3_VALUE = " VALUES ('111','698d51a19d8a121ce581499d7b701668','Maxim','Sidorov'," +
+            "'Ivanovich','max@company.ua','380501234568', null, 'employee');";
 
     String INSERT_PROJECT_RECORD_STATEMENT = "INSERT INTO `project` (`p_name`,`p_deadline`,`p_costcenter`," +
             "  `p_team_size`,`p_task_qty`)";

@@ -11,18 +11,18 @@ public class RequestBuilder {
     }
 
     public RequestBuilder insertIntoTable(String tableName){
-        request.append("INSERT INTO '")
+        request.append("INSERT INTO `")
                .append(tableName)
-               .append("' ");
+               .append("` ");
         return this;
     }
 
     public RequestBuilder insertValues(String[] fieldNames){
         request.append("(");
         for (int fieldNumber = 0; fieldNumber < fieldNames.length; fieldNumber++) {
-            request.append("'")
+            request.append("`")
                    .append(fieldNames[fieldNumber])
-                   .append("'");
+                   .append("`");
             if (fieldNumber != fieldNames.length - 1){
                 request.append(",");
             }

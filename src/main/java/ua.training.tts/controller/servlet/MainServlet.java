@@ -2,6 +2,8 @@ package ua.training.tts.controller.servlet;
 
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.constant.controller.Servlet;
+import ua.training.tts.controller.command.Registration;
+import ua.training.tts.controller.command.pageNavigation.RegistrationForm;
 import ua.training.tts.util.DBInitializator;
 
 import javax.servlet.ServletException;
@@ -32,7 +34,8 @@ public class MainServlet extends HttpServlet {
     public void init(){
         DBInitializator.getInstance().initializeDB();
         {
- //           commands.put("logout", new LogOut());
+            commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
+            commands.put(Servlet.REGISTRATION, new Registration());
         }
     }
 

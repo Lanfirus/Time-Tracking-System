@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <title>Time Tracking System</title>
 
-    <link rel="stylesheet" media="screen" href="resources/css/main.css" >
-    <link rel="stylesheet" media="screen" href="resources/css/bootstrap.css" >
-    <link rel="stylesheet" media="screen" href="resources/css/base.scss" >
-    <link rel="stylesheet" media="screen" href="resources/css/home-page.scss" >
-    <link rel="stylesheet" media="screen" href="resources/css/header.scss" >
+    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/main.css" >
+    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/bootstrap.css" >
+    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/base.scss" >
+    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/header.scss" >
 
 </head>
 
@@ -32,7 +31,7 @@
                 </form>
             </div>
             <br>
-            <a href="${pageContext.request.contextPath}/tts/registration" class="button button--header"><fmt:message key="header.registration" /></a>
+            <a href="${pageContext.request.contextPath}/tts/registration_form" class="button button--header"><fmt:message key="header.registration" /></a>
             <div class="burger"><span class="burger__line"></span></div>
 
         </div>
