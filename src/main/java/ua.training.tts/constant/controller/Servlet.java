@@ -9,4 +9,6 @@ public interface Servlet {
 
     String REGISTRATION_FORM = "registration_form";
     String REGISTRATION = "registration";
+    String LOGIN_FORM = "login_form";
+    String LOGIN = "login";
 }

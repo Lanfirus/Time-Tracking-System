@@ -17,4 +17,5 @@ public interface TableParameters {
     String EMPLOYEE_COMMENT = "e_comment";
     String EMPLOYEE_ACCOUNT_ROLE = "e_account_role";
     String EMPLOYEE_OLD_LOGIN = "e_old_login";
+    String EMPLOYEE_OLD_PASSWORD = "e_old_password";
 }

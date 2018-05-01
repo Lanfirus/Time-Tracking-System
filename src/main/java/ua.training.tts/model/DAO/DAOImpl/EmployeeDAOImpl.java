@@ -98,27 +98,32 @@ public class EmployeeDAOImpl implements GeneralDAO {
     @Override
     public void update(Map<String, String> map) {
         String login = map.get(TableParameters.EMPLOYEE_OLD_LOGIN);
+        String password = map.get(TableParameters.EMPLOYEE_OLD_PASSWORD);
         map.remove(TableParameters.EMPLOYEE_OLD_LOGIN);
+        map.remove(TableParameters.EMPLOYEE_OLD_PASSWORD);
         String[] parameterNames = map.keySet().stream().toArray(String[]::new);
         String[] parameterValues = map.values().stream().toArray(String[]::new);
         String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, parameterNames)
                                 .where(TableParameters.EMPLOYEE_ID).build();
         try (PreparedStatement statement = connection.prepareStatement(request)){
             setValuesToPreparedStatement(statement, parameterValues);
-            statement.setInt(parameterValues.length + 1, findIdByLogin(login));
+            statement.setString(parameterValues.length + 1,
+                    findParamByLoginPassword(Entity.EMPLOYEE_ID, login, password));
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
        }
     }
 
-    private int findIdByLogin(String login){
+    public String findParamByLoginPassword(String parameter, String login, String password){
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
-                .where(TableParameters.EMPLOYEE_LOGIN).build();
+                .where(TableParameters.EMPLOYEE_LOGIN).and(TableParameters.EMPLOYEE_PASSWORD).build();
         try (PreparedStatement statement = connection.prepareStatement(request)) {
-            statement.setString(1,login);
+            statement.setString(1, login);
+            statement.setString(2, password);
+            System.out.println(statement);
             ResultSet set = statement.executeQuery();
             set.next();
-            return set.getInt(Entity.EMPLOYEE_ID);
+            return set.getString(parameter);
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -134,6 +139,16 @@ public class EmployeeDAOImpl implements GeneralDAO {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void closeConnection() {
+        try {
+            connection.close();
+        }
+        catch(SQLException e){
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

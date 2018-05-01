@@ -24,7 +24,7 @@
        <div class="main-container main-container--home-page">
            <h1 class="land-panorama__h1">Time Tracking<br>&amp; Scope Management</h1>
            <p class="land-panorama__description">Software to boost business with intelligent data</p>
-           <a class="button button--land" href="${pageContext.request.contextPath}/tts/login">Start Using XTIME</a>
+           <a class="button button--land" href="${pageContext.request.contextPath}/tts/login_form">Start Using XTIME</a>
        </div>
    </section>
 

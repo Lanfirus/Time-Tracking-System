@@ -12,4 +12,5 @@ public interface GeneralDAO {
     List<Map<String, String>> findAll();
     void update(Map<String, String> map);
     void delete(int id);
+    void closeConnection();
 }

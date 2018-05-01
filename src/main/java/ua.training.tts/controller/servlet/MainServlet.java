@@ -2,7 +2,9 @@ package ua.training.tts.controller.servlet;
 
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.constant.controller.Servlet;
+import ua.training.tts.controller.command.Login;
 import ua.training.tts.controller.command.Registration;
+import ua.training.tts.controller.command.pageNavigation.LoginForm;
 import ua.training.tts.controller.command.pageNavigation.RegistrationForm;
 import ua.training.tts.util.DBInitializator;
 
@@ -36,6 +38,8 @@ public class MainServlet extends HttpServlet {
         {
             commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
             commands.put(Servlet.REGISTRATION, new Registration());
+            commands.put(Servlet.LOGIN_FORM, new LoginForm());
+            commands.put(Servlet.LOGIN, new Login());
         }
     }
 

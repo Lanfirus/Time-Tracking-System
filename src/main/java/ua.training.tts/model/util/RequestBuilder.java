@@ -45,9 +45,16 @@ public class RequestBuilder {
     }
 
     public RequestBuilder where(String columnName) {
-        request.append("WHERE ")
+        request.append(" WHERE ")
                .append(columnName)
                .append(" = ?");
+        return this;
+    }
+
+    public RequestBuilder and(String columnName) {
+        request.append(" and ")
+                .append(columnName)
+                .append(" = ?");
         return this;
     }
 

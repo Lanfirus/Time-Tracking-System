@@ -16,13 +16,15 @@
             </c:otherwise>
 
         </c:choose>
+
 <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/reg-form.css" >
+
 <div class="main">
 <h2>
     <fmt:message key="registration.successful" />
 </h2>
 <form>
-    <button class="submit" type="submit" onclick='this.form.action="login";'>
+    <button class="submit" type="submit" onclick='this.form.action="login_form";'>
         <fmt:message key="login.login" />
     </button>
 </form>

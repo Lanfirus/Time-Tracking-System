@@ -3,7 +3,7 @@ package ua.training.tts.controller.command;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.NotUniqueLoginException;
-import ua.training.tts.model.service.UserService;
+import ua.training.tts.model.service.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Registration implements Command {
 
-    private UserService service = new UserService();
+    private EmployeeService service = new EmployeeService();
 
     @Override
     public String execute(HttpServletRequest request) {

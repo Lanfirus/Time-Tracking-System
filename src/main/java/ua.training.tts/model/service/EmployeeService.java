@@ -6,7 +6,6 @@ import ua.training.tts.constant.model.dao.DAOParameters;
 import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.DAO.DAOFactory;
 import ua.training.tts.model.DAO.DAOImpl.EmployeeDAOImpl;
-import ua.training.tts.model.DAO.GeneralDAO;
 import ua.training.tts.model.DAO.connectionPool.DataSource;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.NotUniqueLoginException;
@@ -21,7 +20,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class UserService {
+public class EmployeeService {
 
     private ResourceBundle regexpBundle;
 
@@ -40,6 +39,7 @@ public class UserService {
         if(request.getParameter(CommandParameters.UPDATE_FLAG) != null) {
             HttpSession session = request.getSession();
             preparedUserData.put(Entity.EMPLOYEE_OLD_LOGIN, (String) session.getAttribute(Entity.EMPLOYEE_LOGIN));
+            preparedUserData.put(Entity.EMPLOYEE_OLD_PASSWORD, (String) session.getAttribute(Entity.EMPLOYEE_PASSWORD));
         }
             return preparedUserData;
     }
@@ -115,10 +115,9 @@ public class UserService {
      * @param employeeData
      */
     public boolean sendReadyRegistrationDataToDB(Map<String, String> employeeData) throws NotUniqueLoginException {
-//        GeneralDAO dao = DAOFactory.create(DAOParameters.EMPLOYEE_DAO);
-        Connection connection = DataSource.getConnection();
-        EmployeeDAOImpl dao = new EmployeeDAOImpl(connection);
+        EmployeeDAOImpl dao = (EmployeeDAOImpl)DAOFactory.create(DAOParameters.EMPLOYEE_DAO);
         dao.create(employeeData);
+        dao.closeConnection();
         return true;
     }
 
@@ -146,6 +145,17 @@ public class UserService {
         request.setAttribute(Entity.EMPLOYEE_EMAIL, employee.getEmail());
         request.setAttribute(Entity.EMPLOYEE_MOBILE_PHONE, employee.getMobilePhone());
         request.setAttribute(Entity.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
+    }
 
+    public boolean isEmployeeExist(String login, String password) {
+//        EmployeeDAOImpl dao = (EmployeeDAOImpl)DAOFactory.create(DAOParameters.EMPLOYEE_DAO);
+        Connection connection = DataSource.getConnection();
+        EmployeeDAOImpl dao = new EmployeeDAOImpl(connection);
+        return dao.findParamByLoginPassword(Entity.EMPLOYEE_ID, login, password) != null;
+    }
+
+    public String getRoleByLoginPassword(String login, String password) {
+        EmployeeDAOImpl dao = (EmployeeDAOImpl)DAOFactory.create(DAOParameters.EMPLOYEE_DAO);
+        return dao.findParamByLoginPassword(Entity.EMPLOYEE_ACCOUNT_ROLE, login, password);
     }
 }
