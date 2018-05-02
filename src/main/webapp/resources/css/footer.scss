@@ -1,6 +1,3 @@
-@import "../../variables";
-@import "../../mixins";
-
 .footer {
 	margin-top: $footer-top;
 	display: flex;
@@ -168,7 +165,3 @@
 		color: #b9c4cf;
 	}
 }
-
-
-// WEBPACK FOOTER //
-// ./app/Sites/AT/assets/scss/layout/footer/_footer.scss

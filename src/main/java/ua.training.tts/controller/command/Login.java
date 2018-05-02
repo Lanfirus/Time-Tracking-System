@@ -1,12 +1,13 @@
 package ua.training.tts.controller.command;
 
+import ua.training.tts.constant.Pages;
+import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.constant.model.Entity;
 import ua.training.tts.model.service.EmployeeService;
 import ua.training.tts.model.util.PasswordHashing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 
 public class Login implements Command{
 
@@ -15,28 +16,25 @@ public class Login implements Command{
     @Override
     public String execute(HttpServletRequest request) {
 
-        String login = request.getParameter("login");
-        String password = PasswordHashing.hashPassword(request.getParameter("password"));
+        String login = request.getParameter(CommandParameters.LOGIN);
+        String password = PasswordHashing.hashPassword(request.getParameter(CommandParameters.PASSWORD));
         String role;
         HttpSession session = request.getSession();
         try {
-            if (session.getAttribute("login") != null && session.getAttribute("password") != null) {
-                role = (String) session.getAttribute("role");
+            if (session.getAttribute(CommandParameters.LOGIN) != null
+                    && session.getAttribute(CommandParameters.PASSWORD) != null) {
+                role = (String) session.getAttribute(Entity.EMPLOYEE_ACCOUNT_ROLE);
             }
             else if (service.isEmployeeExist(login, password)) {
                 role = service.getRoleByLoginPassword(login, password);
-                request.getSession().setAttribute(Entity.EMPLOYEE_LOGIN, login);
-                request.getSession().setAttribute(Entity.EMPLOYEE_PASSWORD, password);
-                request.getSession().setAttribute(Entity.EMPLOYEE_ACCOUNT_ROLE, role);
-            }
-            else {
-                role = "unknown";
+                session.setAttribute(Entity.EMPLOYEE_LOGIN, login);
+                session.setAttribute(Entity.EMPLOYEE_PASSWORD, password);
+                session.setAttribute(Entity.EMPLOYEE_ACCOUNT_ROLE, role);
             }
         }
         catch(Exception e){
             throw new RuntimeException(e.getMessage());
         }
-        System.out.println(role);
-        return "/index.jsp";
+        return Pages.INDEX_PAGE;
     }
 }

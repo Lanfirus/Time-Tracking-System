@@ -12,7 +12,7 @@
             </c:when>
 
             <c:otherwise>
-                <%@ include file="jspParts/header-empty.jsp"%>
+                <%@ include file="jspParts/header-guest.jsp"%>
             </c:otherwise>
 
         </c:choose>

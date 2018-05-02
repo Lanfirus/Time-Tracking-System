@@ -120,7 +120,6 @@ public class EmployeeDAOImpl implements GeneralDAO {
         try (PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setString(1, login);
             statement.setString(2, password);
-            System.out.println(statement);
             ResultSet set = statement.executeQuery();
             set.next();
             return set.getString(parameter);

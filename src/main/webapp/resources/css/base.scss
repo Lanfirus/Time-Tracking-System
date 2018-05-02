@@ -1,6 +1,3 @@
-@import "mixins";
-@import "variables";
-
 /* Set default body */
 html{
 	min-height: 100%;
@@ -414,7 +411,3 @@ only screen and (min-resolution: 2dppx) { /* для нормальных бра�
 		max-width: 100%;
 	}
 }
-
-
-// WEBPACK FOOTER //
-// ./app/Sites/AT/assets/scss/_base.scss
