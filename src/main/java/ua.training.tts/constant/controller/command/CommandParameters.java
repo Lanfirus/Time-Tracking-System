@@ -6,4 +6,7 @@ public interface CommandParameters {
     String LOGIN_PROBLEM = "loginProblem";
     String LOGIN = "login";
     String PASSWORD = "password";
+    String REDIRECT = "redirect";
+    String REGISTRATION_SUCCESSFUL = "registration_successful";
+    String MAIN = "main";
 }

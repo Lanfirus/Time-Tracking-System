@@ -35,6 +35,6 @@ public class Login implements Command{
         catch(Exception e){
             throw new RuntimeException(e.getMessage());
         }
-        return Pages.INDEX_PAGE;
+        return CommandParameters.REDIRECT + CommandParameters.MAIN;
     }
 }

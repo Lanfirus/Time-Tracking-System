@@ -1,5 +1,7 @@
 package ua.training.tts.controller.command;
 
+import ua.training.tts.constant.Pages;
+import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.NotUniqueLoginException;
@@ -23,13 +25,13 @@ public class Registration implements Command {
     private String tryToAddEmployeeRegistrationDataToDB(Employee Employee, HttpServletRequest request){
         try{
             service.onRecievingEmployeeRegistrationDataFromWeb(Employee, request);
-            return "/WEB-INF/jsp/registration-successful.jsp";
+            return CommandParameters.REDIRECT + CommandParameters.REGISTRATION_SUCCESSFUL;
         }
         catch (NotUniqueLoginException e) {
             service.setEmployeeEnteredDataBackToForm(request, Employee);
             setProblemWithLoginAttribute(request);
-            return "/WEB-INF/jsp/registration.jsp";
-        }
+            return Pages.REGISTRATION_PAGE;
+    }
         catch(Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -3,9 +3,12 @@ package ua.training.tts.controller.servlet;
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.controller.command.Login;
+import ua.training.tts.controller.command.Logout;
 import ua.training.tts.controller.command.Registration;
 import ua.training.tts.controller.command.pageNavigation.LoginForm;
+import ua.training.tts.controller.command.pageNavigation.Main;
 import ua.training.tts.controller.command.pageNavigation.RegistrationForm;
+import ua.training.tts.controller.command.pageNavigation.RegistrationSuccessful;
 import ua.training.tts.util.DBInitializator;
 
 import javax.servlet.ServletException;
@@ -36,10 +39,13 @@ public class MainServlet extends HttpServlet {
     public void init(){
         DBInitializator.getInstance().initializeDB();
         {
+            commands.put(Servlet.MAIN, new Main());
             commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
             commands.put(Servlet.REGISTRATION, new Registration());
+            commands.put(Servlet.REGISTRATION_SUCCESSFUL, new RegistrationSuccessful());
             commands.put(Servlet.LOGIN_FORM, new LoginForm());
             commands.put(Servlet.LOGIN, new Login());
+            commands.put(Servlet.LOGOUT, new Logout());
         }
     }
 
@@ -65,7 +71,7 @@ public class MainServlet extends HttpServlet {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
         Command command = commands.getOrDefault(path, x-> Servlet.INDEX_PAGE);
         String page = command.execute(request);
-        request.getRequestDispatcher(page).forward(request, response);
+        pageProcessing(page, request, response);
     }
 
     /**
@@ -73,5 +79,16 @@ public class MainServlet extends HttpServlet {
      */
     public void destroy(){
         DBInitializator.getInstance().deInitializeDB();
+    }
+
+    private void pageProcessing(String page, HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException{
+        if(page.contains(Servlet.REDIRECT)){
+            response.sendRedirect(page.replace(Servlet.REDIRECT, Servlet.REPLACEMENT));
+            return;
+        }
+        else {
+            request.getRequestDispatcher(page).forward(request, response);
+        }
     }
 }
