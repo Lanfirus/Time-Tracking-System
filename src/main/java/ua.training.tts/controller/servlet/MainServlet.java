@@ -74,18 +74,10 @@ public class MainServlet extends HttpServlet {
         pageProcessing(page, request, response);
     }
 
-    /**
-     * Drops time_tracking schema from local DB.
-     */
-    public void destroy(){
-        DBInitializator.getInstance().deInitializeDB();
-    }
-
     private void pageProcessing(String page, HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException{
         if(page.contains(Servlet.REDIRECT)){
             response.sendRedirect(page.replace(Servlet.REDIRECT, Servlet.REPLACEMENT));
-            return;
         }
         else {
             request.getRequestDispatcher(page).forward(request, response);

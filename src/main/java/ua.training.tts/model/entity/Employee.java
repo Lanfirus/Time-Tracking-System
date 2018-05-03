@@ -47,10 +47,4 @@ public class Employee {
     public Map<String, String> getEmployeeData(){
         return employeeData;
     }
-
-    protected String[] getFieldNames() {
-        return new String[]{Entity.EMPLOYEE_LOGIN, Entity.EMPLOYEE_PASSWORD, Entity.EMPLOYEE_NAME,
-                Entity.EMPLOYEE_SURNAME, Entity.EMPLOYEE_PATRONYMIC, Entity.EMPLOYEE_EMAIL,
-                Entity.EMPLOYEE_MOBILE_PHONE, Entity.EMPLOYEE_COMMENT};
-    }
 }

@@ -61,7 +61,7 @@ public class RequestBuilder {
     public RequestBuilder update(String tableName, String[] fieldNames) {
         request.append("UPDATE ")
                 .append(tableName)
-                .append(" SET");
+                .append(" SET ");
         for (int fieldNumber = 0; fieldNumber < fieldNames.length; fieldNumber++) {
             request.append(fieldNames[fieldNumber])
                    .append(" = ?");
