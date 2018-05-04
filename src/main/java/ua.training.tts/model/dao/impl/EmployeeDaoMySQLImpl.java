@@ -7,6 +7,7 @@ import ua.training.tts.model.dao.connectionPool.ConnectionPool;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.EmployeeBuilder;
+import ua.training.tts.util.LogMessageHolder;
 
 import java.sql.*;
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
 public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     private RequestBuilder builder = new RequestBuilder();
+    private String savedStatement;
 
     public EmployeeDaoMySQLImpl(){
     }
@@ -28,9 +30,12 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)) {
             setValuesToPreparedStatement(statement, fieldValues);
+            savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
-                throw new RuntimeException(e.getMessage());
+            log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -56,11 +61,14 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setInt(1,id);
+            savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
             set.next();
             return extractDataFromResultSet(set);
         }
         catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -89,12 +97,15 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){
+            savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
             while (set.next()){
                 Employee result = extractDataFromResultSet(set);
                 resultList.add(result);
             }
         } catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                        savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
         return resultList;
@@ -117,7 +128,11 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             setValuesToPreparedStatement(statement, fieldValues);
             statement.setInt(fieldValues.size() + 1, employee.getId());
+            savedStatement = statement.toString();
+            statement.executeUpdate();
         } catch (SQLException e) {
+            log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -130,8 +145,11 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){
             statement.setInt(1, id);
+            savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
+            log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -147,12 +165,14 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                 PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setString(1, keyValues[0]);
             statement.setString(2, keyValues[1]);
+            savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
             set.next();
             return set.getInt(TableParameters.EMPLOYEE_ID);
         }
         catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -168,11 +188,14 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                 PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setString(1, keyValues[0]);
             statement.setString(2, keyValues[1]);
+            savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
             set.next();
             return set.getString(parameter);
         }
         catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -188,6 +211,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
              PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setString(1, login);
             statement.setString(2, password);
+            savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
             set.next();
             set.getString(TableParameters.EMPLOYEE_ID);
@@ -198,6 +222,8 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                 return false;
             }
             else {
+                log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
                 throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
             }
         }

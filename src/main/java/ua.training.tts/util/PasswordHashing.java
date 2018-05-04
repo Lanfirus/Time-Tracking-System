@@ -1,4 +1,4 @@
-package ua.training.tts.model.util;
+package ua.training.tts.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

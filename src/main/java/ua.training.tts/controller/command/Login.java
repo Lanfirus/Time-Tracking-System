@@ -4,7 +4,8 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
-import ua.training.tts.model.util.PasswordHashing;
+import ua.training.tts.util.LogMessageHolder;
+import ua.training.tts.util.PasswordHashing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -41,6 +42,7 @@ public class Login implements Command {
             role = Employee.AccountRole.unknown.toString();
             session.setAttribute(ReqSesParameters.ROLE, role);
         }
+        log.info(LogMessageHolder.userLogin(login, password, role));
         return CommandParameters.REDIRECT + CommandParameters.MAIN;
     }
 }

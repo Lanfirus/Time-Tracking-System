@@ -1,8 +1,12 @@
 package ua.training.tts.model.dao;
 
+import org.apache.log4j.Logger;
+
 import java.util.List;
 
 public interface GeneralDao<T, ID, Param, Keys>{
+
+    Logger log = Logger.getRootLogger();
 
     /**
      * Creates entry in database

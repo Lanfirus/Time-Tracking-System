@@ -10,7 +10,7 @@ import ua.training.tts.model.dao.factory.JDBCDaoFactoryImpl;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.BadRegistrationDataException;
 import ua.training.tts.model.exception.NotUniqueLoginException;
-import ua.training.tts.model.util.PasswordHashing;
+import ua.training.tts.util.PasswordHashing;
 import ua.training.tts.model.util.builder.EmployeeBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +44,7 @@ public class EmployeeService {
                 sendReadyRegistrationDataToDB(employee);
             }
             catch(RuntimeException e){
-                if (e.getMessage().toLowerCase().contains(ExceptionMessages.UNIQUE)) {
+                if (e.getMessage().contains(ExceptionMessages.UNIQUE)) {
                     throw new NotUniqueLoginException();
                 }
                 else {

@@ -2,8 +2,11 @@ package ua.training.tts.model.dao.connectionPool;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.log4j.Logger;
 import ua.training.tts.constant.DBParameters;
 import ua.training.tts.constant.ExceptionMessages;
+import ua.training.tts.constant.LogMessages;
+import ua.training.tts.util.LogMessageHolder;
 
 import java.sql.Connection;
 
@@ -15,6 +18,7 @@ public class ConnectionPool {
 
     private final static HikariConfig config = new HikariConfig();
     private final static HikariDataSource dataSource;
+    private final static Logger log = Logger.getRootLogger();
 
     static {
         config.setJdbcUrl(DBParameters.URL_CUSTOM);
@@ -36,6 +40,7 @@ public class ConnectionPool {
             return dataSource.getConnection();
         }
         catch(Exception e){
+            log.error(LogMessageHolder.getConnectionProblem(), e);
             throw new RuntimeException(ExceptionMessages.CONNECTION_PROBLEM);
         }
     }
