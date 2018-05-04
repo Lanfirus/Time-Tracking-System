@@ -5,10 +5,13 @@ import org.testng.Assert;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.model.util.RequestBuilder;
 
+import java.util.Arrays;
+import java.util.List;
+
 class RequestBuilderTest extends Assert{
 
     RequestBuilder builder = new RequestBuilder();
-    String[] values = {TestConstants.VALUE1, TestConstants.VALUE2};
+    List<String> values = Arrays.asList(TestConstants.VALUE1, TestConstants.VALUE2);
 
     @Test
     void insertIntoTable() {

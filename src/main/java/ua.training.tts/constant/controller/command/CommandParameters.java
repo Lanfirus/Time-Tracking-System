@@ -4,6 +4,7 @@ public interface CommandParameters {
 
     String UPDATE_FLAG = "updateFlag";
     String LOGIN_PROBLEM = "loginProblem";
+    String REGISTRATION_DATA_PROBLEM = "regDataProblem";
     String LOGIN = "login";
     String PASSWORD = "password";
     String REDIRECT = "redirect";

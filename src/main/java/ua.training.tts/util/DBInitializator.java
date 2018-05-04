@@ -3,7 +3,7 @@ package ua.training.tts.util;
 
 import ua.training.tts.constant.DBParameters;
 import ua.training.tts.constant.util.DBStatements;
-import ua.training.tts.model.DAO.connectionPool.DataSource;
+import ua.training.tts.model.dao.connectionPool.ConnectionPool;
 
 import java.sql.*;
 
@@ -63,7 +63,7 @@ public class DBInitializator {
 
     public void setCustomConnectionToDB() throws SQLException{
 //        setConnection(DriverManager.getConnection(getUrlCustom(), getNAME(), getPASSWORD()));
-        setConnection(DataSource.getConnection());
+        setConnection(ConnectionPool.getConnection());
     }
 
     public void closeConnectionToDB() throws SQLException{

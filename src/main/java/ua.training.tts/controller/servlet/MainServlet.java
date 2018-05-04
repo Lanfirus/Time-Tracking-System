@@ -37,7 +37,7 @@ public class MainServlet extends HttpServlet {
      * Be careful, as initialization drops any existing schema named time_tracking.
      */
     public void init(){
-        DBInitializator.getInstance().initializeDB();
+//        DBInitializator.getInstance().initializeDB();
         {
             commands.put(Servlet.MAIN, new Main());
             commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
@@ -76,7 +76,7 @@ public class MainServlet extends HttpServlet {
 
     private void pageProcessing(String page, HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException{
-        if(page.contains(Servlet.REDIRECT)){
+        if (page.contains(Servlet.REDIRECT)){
             response.sendRedirect(page.replace(Servlet.REDIRECT, Servlet.REPLACEMENT));
         }
         else {

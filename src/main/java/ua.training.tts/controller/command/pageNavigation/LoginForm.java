@@ -1,5 +1,6 @@
 package ua.training.tts.controller.command.pageNavigation;
 
+import ua.training.tts.constant.Pages;
 import ua.training.tts.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginForm implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        return "/WEB-INF/jsp/login.jsp";
+        return Pages.LOGIN_PAGE;
     }
 }

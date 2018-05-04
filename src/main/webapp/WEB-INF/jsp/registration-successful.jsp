@@ -1,21 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="jspParts/general.jsp" %>
-
-<c:choose>
-
-            <c:when test = "${sessionScope.role == 'employee'}">
-                 <%@ include file="jspParts/header-employee.jsp"%>
-            </c:when>
-
-            <c:when test = "${sessionScope.role == 'admin'}">
-                 <%@ include file="jspParts/header-admin.jsp"%>
-            </c:when>
-
-            <c:otherwise>
-                <%@ include file="jspParts/header-empty.jsp"%>
-            </c:otherwise>
-
-        </c:choose>
+<%@ include file="jspParts/header-empty.jsp"%>
 
 <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/reg-form.css" >
 

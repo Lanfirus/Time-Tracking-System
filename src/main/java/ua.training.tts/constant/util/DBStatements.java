@@ -19,7 +19,8 @@ public interface DBStatements {
             "  `e_comment` VARCHAR(45) NULL," +
             "  `e_account_role` VARCHAR(45) NOT NULL DEFAULT 'employee'," +
             "  PRIMARY KEY (`e_id`)," +
-            "  UNIQUE INDEX `e_id_UNIQUE` (`e_id` ASC))" +
+            "  UNIQUE INDEX `e_id_UNIQUE` (`e_id` ASC), " +
+            "  UNIQUE INDEX `e_login_UNIQUE` (`e_login` ASC))" +
             "  ENGINE = InnoDB;";
     String CREATE_PROJECT_TABLE_STATEMENT = "CREATE TABLE `project` (" +
             "  `p_id` INT NOT NULL AUTO_INCREMENT," +

@@ -2,49 +2,145 @@ package ua.training.tts.model.entity;
 
 import ua.training.tts.constant.model.Entity;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Employee {
 
-    private Map<String, String> employeeData;
+    /**
+     * Possible account roles
+     */
+    public enum AccountRole{admin, employee, unknown}
 
-    public Employee(Map<String, String> employeeData){
-        this.employeeData = employeeData;
+    private Integer id;
+    private String login;
+    private String password;
+    private String name;
+    private String surname;
+    private String patronymic;
+    private String email;
+    private String mobilePhone;
+    private String comment;
+    private String accountRole;
+
+    public int getId() {
+        return id;
     }
 
-    public String getLogin(){
-        return employeeData.get(Entity.EMPLOYEE_LOGIN);
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getPassword(){
-        return employeeData.get(Entity.EMPLOYEE_PASSWORD);
+    public String getLogin() {
+        return login;
     }
 
-    public String getName(){
-        return employeeData.get(Entity.EMPLOYEE_NAME);
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getSurname(){
-        return employeeData.get(Entity.EMPLOYEE_SURNAME);
+    public String getPassword() {
+        return password;
     }
 
-    public String getPatronymic(){
-        return employeeData.get(Entity.EMPLOYEE_PATRONYMIC);
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getEmail(){
-        return employeeData.get(Entity.EMPLOYEE_EMAIL);
+    public String getName() {
+        return name;
     }
 
-    public String getMobilePhone(){
-        return employeeData.get(Entity.EMPLOYEE_MOBILE_PHONE);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getComment(){
-        return employeeData.get(Entity.EMPLOYEE_COMMENT);
+    public String getSurname() {
+        return surname;
     }
 
-    public Map<String, String> getEmployeeData(){
-        return employeeData;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getAccountRole() {
+        return accountRole;
+    }
+
+    public void setAccountRole(String accountRole) {
+        this.accountRole = accountRole;
+    }
+
+    public List<String> getFieldNames() {
+        return Arrays.asList(Entity.EMPLOYEE_LOGIN, Entity.EMPLOYEE_PASSWORD, Entity.EMPLOYEE_NAME,
+                Entity.EMPLOYEE_SURNAME, Entity.EMPLOYEE_PATRONYMIC, Entity.EMPLOYEE_EMAIL,
+                Entity.EMPLOYEE_MOBILE_PHONE, Entity.EMPLOYEE_COMMENT);
+    }
+
+    /**
+     * Returns all fields except for id and accountRole.
+     * This method designed to be used for employee purposes where both those fields non accessible.
+     * Both fields are part of full variant of this method.
+     * @return
+     */
+    public List<String> getFieldValues(){
+        List<String> list = new ArrayList<>();
+        list.add(getLogin());
+        list.add(getPassword());
+        list.add(getName());
+        list.add(getSurname());
+        list.add(getPatronymic());
+        list.add(getEmail());
+        list.add(getMobilePhone());
+        list.add(getComment());
+        return list;
+    }
+
+    public List<Object> getFieldValuesFull(){
+        List<Object> list = new ArrayList<>();
+        list.add(getId());
+        list.add(getLogin());
+        list.add(getPassword());
+        list.add(getName());
+        list.add(getSurname());
+        list.add(getPatronymic());
+        list.add(getEmail());
+        list.add(getMobilePhone());
+        list.add(getComment());
+        list.add(getAccountRole());
+        return list;
     }
 }

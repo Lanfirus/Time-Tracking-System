@@ -1,6 +1,6 @@
 package ua.training.tts.model.util;
 
-import java.util.Map;
+import java.util.List;
 
 public class RequestBuilder {
 
@@ -17,20 +17,20 @@ public class RequestBuilder {
         return this;
     }
 
-    public RequestBuilder insertValues(String[] fieldNames){
+    public RequestBuilder insertValues(List<String> fieldNames){
         request.append("(");
-        for (int fieldNumber = 0; fieldNumber < fieldNames.length; fieldNumber++) {
+        for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++) {
             request.append("`")
-                   .append(fieldNames[fieldNumber])
+                   .append(fieldNames.get(fieldNumber))
                    .append("`");
-            if (fieldNumber != fieldNames.length - 1){
+            if (fieldNumber != fieldNames.size() - 1){
                 request.append(",");
             }
         }
         request.append(") VALUES (");
-        for (int fieldNumber = 0; fieldNumber < fieldNames.length; fieldNumber++) {
+        for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++) {
             request.append("?");
-            if (fieldNumber != fieldNames.length - 1){
+            if (fieldNumber != fieldNames.size() - 1){
                 request.append(",");
             }
         }
@@ -58,14 +58,14 @@ public class RequestBuilder {
         return this;
     }
 
-    public RequestBuilder update(String tableName, String[] fieldNames) {
+    public RequestBuilder update(String tableName, List<String> fieldNames) {
         request.append("UPDATE ")
                 .append(tableName)
                 .append(" SET ");
-        for (int fieldNumber = 0; fieldNumber < fieldNames.length; fieldNumber++) {
-            request.append(fieldNames[fieldNumber])
+        for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++) {
+            request.append(fieldNames.get(fieldNumber))
                    .append(" = ?");
-            if (fieldNumber != fieldNames.length - 1) {
+            if (fieldNumber != fieldNames.size() - 1) {
                 request.append(",");
             }
         }

@@ -2,6 +2,6 @@ package ua.training.tts.constant.model.service;
 
 public interface Service {
 
-    String LANGUAGE = "language";
+    String ENGLISH = "en";
     String REGEXP_BUNDLE_NAME = "regexp";
 }
