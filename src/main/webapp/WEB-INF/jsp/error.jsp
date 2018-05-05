@@ -1,23 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ include file="jspParts/general.jsp" %>
+<%@ include file="jspParts/language-setup.jsp"%>
+<%@ include file="jspParts/header-empty.jsp"%>
 
-<%@ page language="java" isErrorPage="true"  contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, java.text.*" %>
+<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/reg-form.css" >
 
-
-
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Error Page</title>
-</head>
-    <body>
-        <h2>
-           Error Page<br/>
-            <i>Error <%= exception %></i>
-        </h2>
+<div class="main">
+    <h2><fmt:message key="error.message.initial" /></h2>
     <br>
-        <a href="${pageContext.request.contextPath}/index.jsp">Index</a>
+    <i>Error <%= exception %></i>
+    <br>
+    <fmt:message key="error.message.indexPage" />
+    <br>
+        <a href="${pageContext.request.contextPath}/tts/main"><fmt:message key="error.link.mainPage" /></a>
+</div>
 
-
-    </body>
-</html>
+<jsp:include page="jspParts/footer.jsp"/>
