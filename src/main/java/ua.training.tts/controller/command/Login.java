@@ -37,12 +37,14 @@ public class Login implements Command {
             session.setAttribute(ReqSesParameters.LOGIN, login);
             session.setAttribute(ReqSesParameters.PASSWORD, password);
             session.setAttribute(ReqSesParameters.ROLE, role);
+            log.info(LogMessageHolder.userLogin(login, password, role));
         }
         else {
             role = Employee.AccountRole.unknown.toString();
             session.setAttribute(ReqSesParameters.ROLE, role);
+            log.info(LogMessageHolder.userLogin(login, password, role));
         }
-        log.info(LogMessageHolder.userLogin(login, password, role));
+
         return CommandParameters.REDIRECT + CommandParameters.MAIN;
     }
 }
