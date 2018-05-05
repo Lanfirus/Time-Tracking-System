@@ -11,6 +11,7 @@ public interface Servlet {
     String REGISTRATION_FORM = "registration_form";
     String REGISTRATION = "registration";
     String REGISTRATION_SUCCESSFUL = "registration_successful";
+    String SERVLET_MAIN = "/company/tts/main";
     String MAIN = "main";
     String LOGIN_FORM = "login_form";
     String LOGIN = "login";

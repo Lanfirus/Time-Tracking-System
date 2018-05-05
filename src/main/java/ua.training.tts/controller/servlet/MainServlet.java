@@ -1,5 +1,6 @@
 package ua.training.tts.controller.servlet;
 
+import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.controller.command.Login;
@@ -69,7 +70,7 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
-        Command command = commands.getOrDefault(path, x-> Servlet.INDEX_PAGE);
+        Command command = commands.getOrDefault(path, x-> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
         String page = command.execute(request);
         pageProcessing(page, request, response);
     }
