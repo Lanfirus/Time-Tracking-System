@@ -32,7 +32,7 @@ public class Login implements Command {
         String login = request.getParameter(ReqSesParameters.LOGIN);
         String password = PasswordHashing.hashPassword(request.getParameter(ReqSesParameters.PASSWORD));
         HttpSession session = request.getSession();
-
+        session.setMaxInactiveInterval(5);
 
         if (session.getAttribute(ReqSesParameters.DTO) != null) {
             dto = (EmployeeDTO) session.getAttribute(ReqSesParameters.DTO);

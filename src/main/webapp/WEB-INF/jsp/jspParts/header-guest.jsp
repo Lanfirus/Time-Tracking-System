@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title>Time Tracking System</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/main.css" >
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/bootstrap.css" >
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/base.scss" >
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/header.scss" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/main.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/bootstrap.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/base.scss" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/header.scss" >
 
 </head>
 

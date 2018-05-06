@@ -1,9 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="jspParts/general.jsp" %>
+<%@ include file="jspParts/general.jsp"%>
 <%@ include file="jspParts/language-setup.jsp"%>
 <%@ include file="jspParts/header-guest.jsp"%>
 
-<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/home-page.scss" >
+<link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/home-page.scss" >
 
 <section class="land-panorama">
 
