@@ -1,4 +1,4 @@
-package ua.training.tts.controller.command.pageNavigation;
+package ua.training.tts.controller.command.redirect;
 
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;

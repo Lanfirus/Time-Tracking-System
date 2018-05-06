@@ -3,7 +3,7 @@ package ua.training.tts.model.dao.impl;
 import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.EmployeeDao;
-import ua.training.tts.model.dao.connectionPool.ConnectionPool;
+import ua.training.tts.model.dao.connectionpool.ConnectionPool;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.EmployeeBuilder;

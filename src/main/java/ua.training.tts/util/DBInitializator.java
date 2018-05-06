@@ -3,7 +3,7 @@ package ua.training.tts.util;
 
 import ua.training.tts.constant.DBParameters;
 import ua.training.tts.constant.util.DBStatements;
-import ua.training.tts.model.dao.connectionPool.ConnectionPool;
+import ua.training.tts.model.dao.connectionpool.ConnectionPool;
 
 import java.sql.*;
 
@@ -12,7 +12,7 @@ import java.sql.*;
  */
 public class DBInitializator {
 
-    private final static DBInitializator instance = new DBInitializator();
+    private final static DBInitializator INSTANCE = new DBInitializator();
     private Connection connection;
 
     private DBInitializator(){}
@@ -137,6 +137,6 @@ public class DBInitializator {
     }
 
     public static DBInitializator getInstance(){
-        return instance;
+        return INSTANCE;
     }
 }

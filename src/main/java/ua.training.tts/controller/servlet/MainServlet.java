@@ -6,11 +6,10 @@ import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.controller.command.Login;
 import ua.training.tts.controller.command.Logout;
 import ua.training.tts.controller.command.Registration;
-import ua.training.tts.controller.command.pageNavigation.LoginForm;
-import ua.training.tts.controller.command.pageNavigation.Main;
-import ua.training.tts.controller.command.pageNavigation.RegistrationForm;
-import ua.training.tts.controller.command.pageNavigation.RegistrationSuccessful;
-import ua.training.tts.util.DBInitializator;
+import ua.training.tts.controller.command.redirect.LoginForm;
+import ua.training.tts.controller.command.redirect.Main;
+import ua.training.tts.controller.command.redirect.RegistrationForm;
+import ua.training.tts.controller.command.redirect.RegistrationSuccessful;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
