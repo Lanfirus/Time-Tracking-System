@@ -40,4 +40,8 @@ public interface Entity {
     String TASK_STATUS = "Status";
     String TASK_DEADLINE = "Deadline";
     String TASK_SPENT_TIME = "Spent time";
+
+    String ACCOUNT_ROLE_ADMIN = "admin";
+    String ACCOUNT_ROLE_EMPLOYEE = "employee";
+    String ACCOUNT_ROLE_UNKNOWN = "unknown";
 }

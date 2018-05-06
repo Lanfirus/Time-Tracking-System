@@ -1,15 +1,15 @@
 package ua.training.tts.controller.servlet;
 
+import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.Command;
-import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.controller.command.Login;
 import ua.training.tts.controller.command.Logout;
 import ua.training.tts.controller.command.Registration;
 import ua.training.tts.controller.command.redirect.LoginForm;
-import ua.training.tts.controller.command.redirect.Main;
+import ua.training.tts.controller.command.redirect.MainPage;
 import ua.training.tts.controller.command.redirect.RegistrationForm;
-import ua.training.tts.controller.command.redirect.RegistrationSuccessful;
+import ua.training.tts.controller.command.redirect.RegistrationSuccessfulPage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 /**
- * Execute role of controller class switching user requests to respective command implementation.
+ * Executes role of controller class switching user requests to respective command implementation.
  * In case of incorrect request forward user to the main (index) page.
  */
 @WebServlet(Servlet.URL_PATTERN)
@@ -31,10 +31,10 @@ public class MainServlet extends HttpServlet {
     
     public void init(){
         {
-            commands.put(Servlet.MAIN, new Main());
+            commands.put(Servlet.MAIN, new MainPage());
             commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
             commands.put(Servlet.REGISTRATION, new Registration());
-            commands.put(Servlet.REGISTRATION_SUCCESSFUL, new RegistrationSuccessful());
+            commands.put(Servlet.REGISTRATION_SUCCESSFUL, new RegistrationSuccessfulPage());
             commands.put(Servlet.LOGIN_FORM, new LoginForm());
             commands.put(Servlet.LOGIN, new Login());
             commands.put(Servlet.LOGOUT, new Logout());
@@ -53,8 +53,11 @@ public class MainServlet extends HttpServlet {
 
     /**
      * Processing method for both Get and Post requests.
-     * @param request
-     * @param response
+     * Defines what Command class to use for each particular request based on request's URL.
+     * Redirect user to main page in case of requesting non-existing resources.
+     *
+     * @param request               User's request from his browser.
+     * @param response              Response to be send to user.
      * @throws ServletException
      * @throws IOException
      */
@@ -63,10 +66,21 @@ public class MainServlet extends HttpServlet {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
         Command command = commands.getOrDefault(path, x-> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
         String page = command.execute(request);
-        pageProcessing(page, request, response);
+        sendUserToPage(page, request, response);
     }
 
-    private void pageProcessing(String page, HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Defines how and where to send user according to link got from respective Command class.
+     * User could be forwarded or redirected to respective page.
+     *
+     * @param page              Page where user will be send afterwards. Consist of additional word "redirect" in case
+     *                          of redirection that is removed in method to get correct page link.
+     * @param request           User's request from his browser
+     * @param response          Response to be send to user.
+     * @throws IOException
+     * @throws ServletException
+     */
+    private void sendUserToPage(String page, HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException{
         if (page.contains(Servlet.REDIRECT)){
             response.sendRedirect(page.replace(Servlet.REDIRECT, Servlet.REPLACEMENT));

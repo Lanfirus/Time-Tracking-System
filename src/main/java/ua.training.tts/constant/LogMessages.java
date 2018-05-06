@@ -7,6 +7,7 @@ public interface LogMessages {
     String LOGIN_TO_SYSTEM = " login to the system.";
     String TRIED_TO = " tried to";
     String EMPTY = "";
+    String REENTER_SITE = " reenter to the site.";
     String LOGOUT_FROM_SYSTEM = " logout from the system.";
     String REGISTERED_SUCCESSFULLY = " registered successfully";
     String USED_EXISTING_LOGIN = " has tried to register with login that already exist in our system.";
@@ -19,4 +20,5 @@ public interface LogMessages {
     String RECORD_SEARCHING = " record searching";
     String RECORD_UPDATING = " record updating";
     String RECORD_DELETING = " record deleting";
+    String LOGIN_SECOND_TIME = " login second time.";
 }

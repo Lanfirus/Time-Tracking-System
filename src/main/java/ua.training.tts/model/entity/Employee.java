@@ -8,11 +8,6 @@ import java.util.List;
 
 public class Employee {
 
-    /**
-     * Possible account roles
-     */
-    public enum AccountRole{admin, employee, unknown}
-
     private Integer id;
     private String login;
     private String password;
@@ -112,7 +107,7 @@ public class Employee {
 
     /**
      * Returns all fields except for id and accountRole.
-     * This method designed to be used for employee purposes where both those fields non accessible.
+     * This method designed to be used for EMPLOYEE purposes where both those fields non accessible.
      * Both fields are part of full variant of this method.
      * @return
      */

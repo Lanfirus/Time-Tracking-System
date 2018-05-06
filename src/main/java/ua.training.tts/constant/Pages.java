@@ -8,4 +8,5 @@ public interface Pages {
     String REGISTRATION_SUCCESSFUL_PAGE = "/WEB-INF/jsp/registration-successful.jsp";
     String REGISTRATION_PAGE = "/WEB-INF/jsp/registration.jsp";
     String LOGIN_PAGE = "/WEB-INF/jsp/login.jsp";
+    String DOUBLE_LOGIN_RESOLUTION_PAGE ="/WEB-INF/jsp/double-login.jsp";
 }

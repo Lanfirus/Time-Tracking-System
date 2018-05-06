@@ -13,4 +13,7 @@ public interface ReqSesParameters {
     String ID = "id";
     String LANGUAGE = "language";
     String BAD_LOGIN_PASSWORD = "badLoginPassword";
+    String DTO = "dto";
+    String DROP_OLD_SESSION = "dropOld";
+    String DROP_NEW_SESSION = "dropNew";
 }

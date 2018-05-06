@@ -1,8 +1,11 @@
 package ua.training.tts.util;
 
 import ua.training.tts.constant.LogMessages;
-import ua.training.tts.model.entity.Employee;
+import ua.training.tts.constant.model.Entity;
 
+/**
+ * Stores templates for messages to be put into logs.
+ */
 public class LogMessageHolder {
 
     public static String userLogin(String login, String password, String role) {
@@ -11,9 +14,19 @@ public class LogMessageHolder {
                .append(login)
                .append(LogMessages.AND_PASSWORD)
                .append(password)
-               .append(role.equals(Employee.AccountRole.unknown.toString()) ? LogMessages.TRIED_TO
+               .append((Entity.ACCOUNT_ROLE_UNKNOWN.equals(role)) ? LogMessages.TRIED_TO
                                                                             : LogMessages.EMPTY)
                .append(LogMessages.LOGIN_TO_SYSTEM);
+        return builder.toString();
+    }
+
+    public static String userReenter(String login, String password, String role) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(LogMessages.USER_WITH_LOGIN)
+                .append(login)
+                .append(LogMessages.AND_PASSWORD)
+                .append(password)
+                .append(LogMessages.REENTER_SITE);
         return builder.toString();
     }
 
@@ -99,6 +112,15 @@ public class LogMessageHolder {
                 .append(tableName)
                 .append(LogMessages.WITH_STATEMENT)
                 .append(statement);
+        return builder.toString();
+    }
+
+    public static String userDoubleLogin(String login) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(LogMessages.USER_WITH_LOGIN)
+                .append(login)
+                .append(LogMessages.TRIED_TO)
+                .append(LogMessages.LOGIN_SECOND_TIME);
         return builder.toString();
     }
 }

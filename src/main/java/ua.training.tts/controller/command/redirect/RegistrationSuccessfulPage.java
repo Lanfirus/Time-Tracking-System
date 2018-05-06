@@ -5,7 +5,7 @@ import ua.training.tts.controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RegistrationSuccessful implements Command {
+public class RegistrationSuccessfulPage implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         return Pages.REGISTRATION_SUCCESSFUL_PAGE;

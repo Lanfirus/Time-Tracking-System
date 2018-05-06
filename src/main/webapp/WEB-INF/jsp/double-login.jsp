@@ -6,13 +6,9 @@
 <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/reg-form.css" >
 
 <div class="main">
-    <h2><fmt:message key="error.message.initialMessage" /></h2>
+    <h2><fmt:message key="doublelogin.initialMessage" /></h2>
     <br>
-    <i>Error <%= exception %></i>
-    <br>
-    <fmt:message key="error.message.indexPage" />
-    <br>
-        <a href="${pageContext.request.contextPath}/tts/main"><fmt:message key="error.link.mainPage" /></a>
+           <a href="${pageContext.request.contextPath}/tts/main"><fmt:message key="error.link.mainPage" /></a>
 </div>
 
 <jsp:include page="jspParts/footer.jsp"/>
