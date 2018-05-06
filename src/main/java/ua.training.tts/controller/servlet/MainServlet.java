@@ -28,16 +28,8 @@ import java.util.Map;
 @WebServlet(Servlet.URL_PATTERN)
 public class MainServlet extends HttpServlet {
     private Map<String, Command> commands = new HashMap<>();
-
-    /**
-     * Initializes DB with time_tracking schema.
-     * Creates full DB structure required for program to operate and fills it with some mock data.
-     * To operate requires login and password to be set as 'admin' or to be changed to appropriate values in
-     * constant/DBParameters file.
-     * Be careful, as initialization drops any existing schema named time_tracking.
-     */
+    
     public void init(){
-//        DBInitializator.getInstance().initializeDB();
         {
             commands.put(Servlet.MAIN, new Main());
             commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
