@@ -1,17 +1,24 @@
 package ua.training.tts.util;
 
-import org.junit.jupiter.api.Test;
-import org.testng.Assert;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.model.util.RequestBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 
-class RequestBuilderTest extends Assert{
+public class RequestBuilderTest extends Assert {
 
-    RequestBuilder builder = new RequestBuilder();
-    List<String> values = Arrays.asList(TestConstants.VALUE1, TestConstants.VALUE2);
+    private RequestBuilder builder;
+    private List<String> values;
+
+    @Before
+    void init() throws Exception {
+        builder = new RequestBuilder();
+        values = Arrays.asList(TestConstants.VALUE1, TestConstants.VALUE2);
+    }
 
     @Test
     void insertIntoTable() {
