@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import static org.mockito.Mockito.mock;
 
 
-public class LoginFormTest extends Assert {
+public class RegistrationFormTest extends Assert {
 
-    private LoginForm form = new LoginForm();
+    private RegistrationForm form = new RegistrationForm();
     private HttpServletRequest request = mock(HttpServletRequest.class);
 
     @Test
     public void excecute() {
         String page = form.execute(request);
-        assertEquals(Pages.LOGIN_PAGE, page);
+        assertEquals(Pages.REGISTRATION_PAGE, page);
     }
 }

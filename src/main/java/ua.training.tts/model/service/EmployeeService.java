@@ -28,7 +28,7 @@ public class EmployeeService {
         Employee employee = new EmployeeBuilder().setLogin(request.getParameter(TableParameters.EMPLOYEE_LOGIN))
                                                  .setPassword(hashedPassword)
                                                  .setName(request.getParameter(TableParameters.EMPLOYEE_NAME))
-                                                 .setSurame(request.getParameter(TableParameters.EMPLOYEE_SURNAME))
+                                                 .setSurname(request.getParameter(TableParameters.EMPLOYEE_SURNAME))
                                                  .setPatronymic(request.getParameter(TableParameters.EMPLOYEE_PATRONYMIC))
                                                  .setEmail(request.getParameter(TableParameters.EMPLOYEE_EMAIL))
                                                  .setMobilePhone(request.getParameter(TableParameters.EMPLOYEE_MOBILE_PHONE))
@@ -37,7 +37,7 @@ public class EmployeeService {
             return employee;
     }
 
-    public boolean onRecievingEmployeeRegistrationDataFromWeb(Employee employee, HttpServletRequest request)
+    public void onRecievingEmployeeRegistrationDataFromWeb(Employee employee, HttpServletRequest request)
                     throws NotUniqueLoginException, BadRegistrationDataException {
         if (checkDataFromWebForCorrectness(employee, request)) {
             try{
@@ -51,7 +51,6 @@ public class EmployeeService {
                     throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
                 }
             }
-            return true;
         }
         else {
             throw new BadRegistrationDataException();

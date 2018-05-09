@@ -8,6 +8,10 @@ import java.util.List;
 
 public class Employee {
 
+    public enum AccountRole {
+        ADMIN, EMPLOYEE, UNKNOWN
+    }
+
     private Integer id;
     private String login;
     private String password;
@@ -17,7 +21,7 @@ public class Employee {
     private String email;
     private String mobilePhone;
     private String comment;
-    private String accountRole;
+    private AccountRole accountRole;
 
     public int getId() {
         return id;
@@ -91,11 +95,11 @@ public class Employee {
         this.comment = comment;
     }
 
-    public String getAccountRole() {
+    public AccountRole getAccountRole() {
         return accountRole;
     }
 
-    public void setAccountRole(String accountRole) {
+    public void setAccountRole(AccountRole accountRole) {
         this.accountRole = accountRole;
     }
 

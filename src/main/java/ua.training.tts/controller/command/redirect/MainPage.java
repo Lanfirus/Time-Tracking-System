@@ -5,6 +5,7 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.model.Entity;
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.controller.util.EmployeeDTO;
+import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,13 +29,13 @@ public class MainPage implements Command {
             role = dto.getRole();
         }
 
-        if (Entity.ACCOUNT_ROLE_ADMIN.equals(role)) {
+        if (Employee.AccountRole.ADMIN.name().equalsIgnoreCase(role)) {
             return Pages.ADMIN_INDEX_PAGE;
         }
-        if (Entity.ACCOUNT_ROLE_EMPLOYEE.equals(role)) {
+        if (Employee.AccountRole.EMPLOYEE.name().equalsIgnoreCase(role)) {
             return Pages.EMPLOYEE_INDEX_PAGE;
         }
-        if (Entity.ACCOUNT_ROLE_UNKNOWN.equals(role)) {
+        if (Employee.AccountRole.UNKNOWN.name().equalsIgnoreCase(role)) {
             request.setAttribute(ReqSesParameters.BAD_LOGIN_PASSWORD, true);
             request.getSession().removeAttribute(ReqSesParameters.DTO);
             return Pages.INDEX_PAGE;

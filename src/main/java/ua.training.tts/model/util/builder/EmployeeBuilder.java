@@ -1,5 +1,6 @@
 package ua.training.tts.model.util.builder;
 
+import ua.training.tts.constant.model.Entity;
 import ua.training.tts.model.entity.Employee;
 
 /**
@@ -16,7 +17,7 @@ public class EmployeeBuilder {
     private String email;
     private String mobilePhone;
     private String comment;
-    private String accountRole;
+    private Employee.AccountRole accountRole;
 
     public EmployeeBuilder setId(Integer id) {
         this.id = id;
@@ -38,7 +39,7 @@ public class EmployeeBuilder {
         return this;
     }
 
-    public EmployeeBuilder setSurame(String surname) {
+    public EmployeeBuilder setSurname(String surname) {
         this.surname = surname;
         return this;
     }
@@ -64,13 +65,19 @@ public class EmployeeBuilder {
     }
 
     public EmployeeBuilder setAccountRole(String accountRole) {
-        this.accountRole = accountRole;
+        if (Employee.AccountRole.ADMIN.name().equalsIgnoreCase(accountRole)) {
+            this.accountRole = Employee.AccountRole.ADMIN;
+        } else if (Employee.AccountRole.EMPLOYEE.name().equalsIgnoreCase(accountRole)) {
+            this.accountRole = Employee.AccountRole.EMPLOYEE;
+        } else {
+            this.accountRole = Employee.AccountRole.UNKNOWN;
+        }
         return this;
     }
 
     /**
      * Builds full entity Employee with all available fields.
-     * Designed to be used by admins to see Id and AccountRoles of employees.
+     * Designed to be used by admins to see Id and AccountRole of employees.
      * @return Employee
      */
     public Employee buildEmployeeFull(){

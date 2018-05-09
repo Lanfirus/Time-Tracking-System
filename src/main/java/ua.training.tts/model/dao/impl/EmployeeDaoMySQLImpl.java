@@ -80,7 +80,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                                     .setLogin(set.getString(TableParameters.EMPLOYEE_LOGIN))
                                     .setPassword(set.getString(TableParameters.EMPLOYEE_PASSWORD))
                                     .setName(set.getString(TableParameters.EMPLOYEE_NAME))
-                                    .setSurame(set.getString(TableParameters.EMPLOYEE_SURNAME))
+                                    .setSurname(set.getString(TableParameters.EMPLOYEE_SURNAME))
                                     .setPatronymic(set.getString(TableParameters.EMPLOYEE_PATRONYMIC))
                                     .setEmail(set.getString(TableParameters.EMPLOYEE_EMAIL))
                                     .setMobilePhone(set.getString(TableParameters.EMPLOYEE_MOBILE_PHONE))

@@ -10,6 +10,7 @@ import ua.training.tts.controller.command.redirect.LoginForm;
 import ua.training.tts.controller.command.redirect.MainPage;
 import ua.training.tts.controller.command.redirect.RegistrationForm;
 import ua.training.tts.controller.command.redirect.RegistrationSuccessfulPage;
+import ua.training.tts.model.service.EmployeeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,10 +34,10 @@ public class MainServlet extends HttpServlet {
         {
             commands.put(Servlet.MAIN, new MainPage());
             commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
-            commands.put(Servlet.REGISTRATION, new Registration());
+            commands.put(Servlet.REGISTRATION, new Registration(new EmployeeService()));
             commands.put(Servlet.REGISTRATION_SUCCESSFUL, new RegistrationSuccessfulPage());
             commands.put(Servlet.LOGIN_FORM, new LoginForm());
-            commands.put(Servlet.LOGIN, new Login());
+            commands.put(Servlet.LOGIN, new Login(new EmployeeService()));
             commands.put(Servlet.LOGOUT, new Logout());
         }
     }

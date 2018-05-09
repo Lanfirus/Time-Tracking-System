@@ -15,55 +15,55 @@ public class RequestBuilderTest extends Assert {
     private List<String> values;
 
     @Before
-    void init() throws Exception {
+    public void init() throws Exception {
         builder = new RequestBuilder();
         values = Arrays.asList(TestConstants.VALUE1, TestConstants.VALUE2);
     }
 
     @Test
-    void insertIntoTable() {
+    public void insertIntoTable() {
         String actuals = builder.insertIntoTable(TestConstants.TABLE).build().toLowerCase();
         String expected = TestConstants.INSERT_INTO_TABLE_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }
 
     @Test
-    void insertValues() {
+    public void insertValues() {
         String actuals = builder.insertValues(values).build().toLowerCase();
         String expected = TestConstants.INSERT_VALUES_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }
 
     @Test
-    void selectAllFromTable() {
+    public void selectAllFromTable() {
         String actuals = builder.selectAllFromTable(TestConstants.TABLE).build().toLowerCase();
         String expected = TestConstants.SELECT_ALL_FROM_TABLE_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }
 
     @Test
-    void where() {
+    public void where() {
         String actuals = builder.where(TestConstants.COLUMN).build().toLowerCase();
         String expected = TestConstants.WHERE_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }
 
     @Test
-    void and() {
+    public void and() {
         String actuals = builder.and(TestConstants.COLUMN).build().toLowerCase();
         String expected = TestConstants.AND_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }
 
     @Test
-    void update() {
+    public void update() {
         String actuals = builder.update(TestConstants.TABLE, values).build().toLowerCase();
         String expected = TestConstants.UPDATE_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }
 
     @Test
-    void delete() {
+    public void delete() {
         String actuals = builder.delete(TestConstants.COLUMN).build().toLowerCase();
         String expected = TestConstants.DELETE.toLowerCase();
         Assert.assertEquals(expected, actuals);

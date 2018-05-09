@@ -12,12 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Registration implements Command {
 
-    private EmployeeService service = new EmployeeService();
+    private EmployeeService service;
+
+    public Registration(EmployeeService service) {
+        this.service = service;
+    }
 
     @Override
     public String execute(HttpServletRequest request) {
-        Employee Employee = service.buildEmployee(request);
-        return tryToAddEmployeeRegistrationDataToDB(Employee, request);
+        Employee employee = service.buildEmployee(request);
+        return tryToAddEmployeeRegistrationDataToDB(employee, request);
     }
 
     private String tryToAddEmployeeRegistrationDataToDB(Employee employee, HttpServletRequest request){
@@ -34,7 +38,6 @@ public class Registration implements Command {
         }
         catch (BadRegistrationDataException e) {
             service.setEmployeeEnteredDataBackToForm(request, employee);
-            request.setAttribute(CommandParameters.LOGIN_PROBLEM, true);
             log.warn(LogMessageHolder.userUsedNotExistingCredentials(employee.getLogin(), employee.getPassword()));
             return Pages.REGISTRATION_PAGE;
         }

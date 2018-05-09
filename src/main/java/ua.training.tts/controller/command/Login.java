@@ -5,6 +5,7 @@ import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.constant.model.Entity;
 import ua.training.tts.controller.exception.DoubleLoginException;
 import ua.training.tts.controller.util.EmployeeDTO;
+import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
 import ua.training.tts.util.LogMessageHolder;
 import ua.training.tts.util.PasswordHashing;
@@ -15,6 +16,11 @@ import javax.servlet.http.HttpSession;
 public class Login implements Command {
 
     private EmployeeDTO dto;
+    private EmployeeService service;
+
+    public Login(EmployeeService service){
+        this.service = service;
+    }
 
     /**
      * Checks existing session whether it's new or not. If it's later, passes such user further.
@@ -27,8 +33,6 @@ public class Login implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        EmployeeService service = new EmployeeService();
-
         String login = request.getParameter(ReqSesParameters.LOGIN);
         String password = PasswordHashing.hashPassword(request.getParameter(ReqSesParameters.PASSWORD));
         HttpSession session = request.getSession();
@@ -43,9 +47,10 @@ public class Login implements Command {
             checkDoubleLogin();
         }
         else {
-            dto = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY, Entity.ACCOUNT_ROLE_UNKNOWN);
+            dto = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY,
+                    Employee.AccountRole.UNKNOWN.name().toLowerCase());
             session.setAttribute(ReqSesParameters.DTO, dto);
-            log.info(LogMessageHolder.userLogin(login, password, Entity.ACCOUNT_ROLE_UNKNOWN));
+            log.info(LogMessageHolder.userLogin(login, password, Employee.AccountRole.UNKNOWN.name().toLowerCase()));
         }
         return CommandParameters.REDIRECT + CommandParameters.MAIN;
     }
