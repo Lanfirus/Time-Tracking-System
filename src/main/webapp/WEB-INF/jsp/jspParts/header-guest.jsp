@@ -2,20 +2,20 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Time Tracking System</title>
+    <title><fmt:message key="header.title" /></title>
 
-    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/main.css" >
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/bootstrap.css" >
-    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/base.scss" >
-    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/header.scss" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/base.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/header.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/footer.css" >
 
 </head>
 
 <body>
 
     <header class="header">
-        <div class="header__container">
-            <a href="/company/tts" class="header__logo"></a>
+        <div class="header-container">
+            <a href="/company/tts" class="header-logo"></a>
 
             <div>
                 <form action="${pageContext.request.contextPath}/app/language" method="post">
@@ -31,8 +31,7 @@
                 </form>
             </div>
             <br>
-            <a href="${pageContext.request.contextPath}/tts/registration_form" class="button button--header"><fmt:message key="header.registration" /></a>
-            <div class="burger"><span class="burger__line"></span></div>
+            <a href="${pageContext.request.contextPath}/tts/registration_form" class="button button-header"><fmt:message key="header.registration" /></a>
 
         </div>
     </header>

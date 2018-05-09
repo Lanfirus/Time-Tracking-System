@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 
 <head>
-
+    <meta charset="utf-8">
     <title><fmt:message key="header.title" /></title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/bootstrap.css" >
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/main.css" >
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/base.scss" >
-    <link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/header.scss" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/bootstrap.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/base.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/header.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/footer.css" >
 
 </head>
 
 <body>
 
     <header class="header">
-        <div class="header__container">
-            <a href="/company/tts" class="header__logo"></a>
+        <div class="header-container">
+            <a href="/company/tts" class="header-logo"></a>
 
-            <nav class="main-menu header__item">
-                <ul class="main-menu__ul">
+            <nav class="main-menu header-item">
+                <ul class="main-menu-ul">
 
-                        <li class="main-menu__item  main-menu__item--parent ">
-                            <a class="main-menu__link" href="${pageContext.request.contextPath}/tts/task_show">
+                        <li class="main-menu-item  main-menu-item-parent ">
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/task_show">
                                 <fmt:message key="header.tasks" />
                             </a>
                             <ul class="sub-menu">
 
-                                <li class="sub-menu__li">
-                                    <a class="sub-menu__link" href="${pageContext.request.contextPath}/tts/task_show">
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/task_show">
                                         <fmt:message key="header.task.show" />
                                     </a>
                                 </li>
 
-                                <li class="sub-menu__li">
-                                    <a class="sub-menu__link" href="${pageContext.request.contextPath}/tts/task_request">
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/task_request">
                                         <fmt:message key="header.task.request" />
                                     </a>
                                 </li>
@@ -41,20 +41,20 @@
                             </ul>
                         </li>
 
-                        <li class="main-menu__item ">
-                            <a class="main-menu__link" href="${pageContext.request.contextPath}/tts/projects">
+                        <li class="main-menu-item ">
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/projects">
                                 <fmt:message key="header.projects" />
                             </a>
                         </li>
 
-                        <li class="main-menu__item ">
-                            <a class="main-menu__link" href="${pageContext.request.contextPath}/tts/profile">
+                        <li class="main-menu-item ">
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/profile">
                                 <fmt:message key="header.profile" />
                             </a>
                         </li>
 
-                        <li class="main-menu__item ">
-                            <a class="main-menu__link" href="${pageContext.request.contextPath}/tts/about">
+                        <li class="main-menu-item ">
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/about">
                                 <fmt:message key="header.aboutXTime" />
                             </a>
                         </li>
@@ -62,7 +62,6 @@
                 </ul>
             </nav>
 
-            <a href="${pageContext.request.contextPath}/tts/logout" class="button button--header"><fmt:message key="header.logout" /></a>
-            <div class="burger"><span class="burger__line"></span></div>
+            <a href="${pageContext.request.contextPath}/tts/logout" class="button button-header"><fmt:message key="header.logout" /></a>
         </div>
     </header>

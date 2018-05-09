@@ -1,8 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="jspParts/general.jsp" %>
 <%@ include file="jspParts/header-empty.jsp"%>
-
-<link rel="stylesheet" type="text/css" media="screen" href="http://localhost:8888/company/resources/css/reg-form.css" >
 
 <div class="main">
 <form class="contact_form" action="registration" method="post" name="contact_form">

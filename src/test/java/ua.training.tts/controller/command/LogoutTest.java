@@ -1,15 +1,10 @@
 package ua.training.tts.controller.command;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.constant.controller.command.CommandParameters;
-import ua.training.tts.constant.model.Entity;
-import ua.training.tts.controller.command.redirect.MainPage;
-import ua.training.tts.controller.util.EmployeeDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

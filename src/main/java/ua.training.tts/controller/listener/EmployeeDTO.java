@@ -1,8 +1,9 @@
-package ua.training.tts.controller.util;
+package ua.training.tts.controller.listener;
+
+import ua.training.tts.constant.controller.Listener;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionBindingListener;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,9 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * On login this DTO is filled with respective employee's data and put into his session.
  * Could be extended later on to implement other functionalities or to improve some code during refactoring.
  */
-public class EmployeeDTO implements HttpSessionBindingListener {
-
-    private final static Map<EmployeeDTO, HttpSession> LOGINS = new ConcurrentHashMap<>();
+public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListener {
 
     private String login;
     private String password;
@@ -27,15 +26,16 @@ public class EmployeeDTO implements HttpSessionBindingListener {
      * @param event             Putting this DTO into session's attribute.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void valueBound(HttpSessionBindingEvent event) {
-        Optional<HttpSession> oldSession = Optional.ofNullable(LOGINS.get(this));
+        Map<EmployeeDTO, HttpSession> logins =
+                (Map<EmployeeDTO, HttpSession>) event.getSession().getServletContext().getAttribute(Listener.LOGINS);
+        Optional<HttpSession> oldSession = Optional.ofNullable(logins.get(this));
         if (oldSession.isPresent()) {
             oldSession.get().invalidate();
             alreadyLoggedIn = true;
-            LOGINS.put(this, event.getSession());
-        } else {
-            LOGINS.put(this, event.getSession());
         }
+        logins.put(this, event.getSession());
     }
 
     /**
@@ -44,8 +44,11 @@ public class EmployeeDTO implements HttpSessionBindingListener {
      * @param event             Removing this DTO from session's attribute.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void valueUnbound(HttpSessionBindingEvent event) {
-        LOGINS.remove(this);
+        Map<EmployeeDTO, HttpSession> logins =
+                (Map<EmployeeDTO, HttpSession>) event.getSession().getServletContext().getAttribute(Listener.LOGINS);
+        logins.remove(this);
     }
 
     /**
@@ -118,5 +121,7 @@ public class EmployeeDTO implements HttpSessionBindingListener {
         this.password = password;
         this.role = role;
     }
+
+    //ToDo implement serialization
 
 }
