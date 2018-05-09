@@ -14,10 +14,11 @@ import java.util.*;
 
 public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
-    private RequestBuilder builder = new RequestBuilder();
+    private RequestBuilder builder;
     private String savedStatement;
 
-    public EmployeeDaoMySQLImpl(){
+    public EmployeeDaoMySQLImpl(RequestBuilder builder){
+        this.builder = builder;
     }
 
     @Override
@@ -52,6 +53,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setString(fieldNumber + 1, fieldValues.get(fieldNumber));
         }
     }
+
 
     @Override
     public Employee findById(Integer id) {

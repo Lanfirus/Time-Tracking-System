@@ -11,6 +11,7 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.listener.EmployeeDTO;
+import ua.training.tts.controller.listener.EmployeeDTOTest;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
 
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpSession;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
@@ -51,8 +51,8 @@ public class LoginTest extends Assert{
     public void executeDtoNotExistUserExist() throws Exception{
         given(session.getAttribute(ReqSesParameters.DTO)).willReturn(null);
         given(service.isEmployeeExist(TestConstants.LOGIN, TestConstants.PASSWORD)).willReturn(TestConstants.TRUE);
-        final EmployeeDTO mockedDto = mock(EmployeeDTO.class);
-        whenNew(EmployeeDTO.class).withAnyArguments().thenReturn(mockedDto);
+        final EmployeeDTOTest mockedDto = mock(EmployeeDTOTest.class);
+        whenNew(EmployeeDTOTest.class).withAnyArguments().thenReturn(mockedDto);
         String page = login.execute(request);
         assertEquals(CommandParameters.REDIRECT + CommandParameters.MAIN, page);
         verify(session, times(1)).setAttribute(ReqSesParameters.DTO, mockedDto);
@@ -65,8 +65,8 @@ public class LoginTest extends Assert{
     public void executeDtoNotExistUserNotExist() throws Exception{
         given(session.getAttribute(ReqSesParameters.DTO)).willReturn(null);
         given(service.isEmployeeExist(TestConstants.LOGIN, TestConstants.PASSWORD)).willReturn(TestConstants.FALSE);
-        final EmployeeDTO mockedDto = mock(EmployeeDTO.class);
-        whenNew(EmployeeDTO.class).withAnyArguments().thenReturn(mockedDto);
+        final EmployeeDTOTest mockedDto = mock(EmployeeDTOTest.class);
+        whenNew(EmployeeDTOTest.class).withAnyArguments().thenReturn(mockedDto);
         String page = login.execute(request);
         assertEquals(CommandParameters.REDIRECT + CommandParameters.MAIN, page);
         verify(session, times(1)).setAttribute(ReqSesParameters.DTO, mockedDto);
