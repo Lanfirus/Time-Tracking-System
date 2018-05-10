@@ -37,11 +37,31 @@ public class EmployeeService {
             return employee;
     }
 
-    public void onRecievingEmployeeRegistrationDataFromWeb(Employee employee, HttpServletRequest request)
-                    throws NotUniqueLoginException, BadRegistrationDataException {
+    public void tryToPutRegistrationDataFromWebIntoDB(Employee employee, HttpServletRequest request)
+            throws NotUniqueLoginException, BadRegistrationDataException {
         if (checkDataFromWebForCorrectness(employee, request)) {
             try{
                 sendReadyRegistrationDataToDB(employee);
+            }
+            catch(RuntimeException e){
+                if (e.getMessage().contains(ExceptionMessages.UNIQUE)) {
+                    throw new NotUniqueLoginException();
+                }
+                else {
+                    throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+                }
+            }
+        }
+        else {
+            throw new BadRegistrationDataException();
+        }
+    }
+
+    public void tryToPutUpdateDataFromWebIntoDB(Employee employee, HttpServletRequest request)
+            throws NotUniqueLoginException, BadRegistrationDataException {
+        if (checkDataFromWebForCorrectness(employee, request)) {
+            try{
+                sendReadyUpdateDataToDB(employee);
             }
             catch(RuntimeException e){
                 if (e.getMessage().contains(ExceptionMessages.UNIQUE)) {
@@ -64,7 +84,7 @@ public class EmployeeService {
      * @param request
      * @return boolean
      */
-    public boolean checkDataFromWebForCorrectness(Employee employee, HttpServletRequest request) {
+    private boolean checkDataFromWebForCorrectness(Employee employee, HttpServletRequest request) {
         List<String> fieldNames = employee.getFieldNames();
         List<String> fieldValues = employee.getFieldValues();
         boolean check = true;
@@ -82,10 +102,18 @@ public class EmployeeService {
      * Sends checked data to user to be put into DB.
      * @param employee
      */
-    public boolean sendReadyRegistrationDataToDB(Employee employee) {
+    private void sendReadyRegistrationDataToDB(Employee employee) {
         EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.create(employee);
-        return true;
+    }
+
+    /**
+     * Sends checked data to user to be put into DB.
+     * @param employee
+     */
+    public void sendReadyUpdateDataToDB(Employee employee) {
+        EmployeeDao dao = daoFactory.createEmployeeDao();
+        dao.update(employee);
     }
 
     /**
@@ -131,5 +159,10 @@ public class EmployeeService {
     public String getRoleByLoginPassword(String login, String password) {
         EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.findParamByKeys(TableParameters.EMPLOYEE_ACCOUNT_ROLE, login, password);
+    }
+
+    public Employee findByLogin(String login){
+        EmployeeDao dao = daoFactory.createEmployeeDao();
+        return dao.findByLogin(login);
     }
 }

@@ -1,29 +1,44 @@
-<%@ include file="jspParts/general.jsp" %>
-<%@ include file="jspParts/header-empty.jsp"%>
+<%@ include file="../jspParts/general.jsp" %>
+<%@ include file="../jspParts/header-employee.jsp"%>
 
 <div class="main">
-<form class="contact_form" action="registration" method="post" name="contact_form">
+<form class="contact_form" action="profile_update" method="post" name="update_form">
 
     <ul>
         <li>
-                 <h2><fmt:message key="registration.formName" /></h2>
-                 <span class="required_notification"><fmt:message key="registration.mandatoryFields" /></span>
-                 <br>
-                 <c:if test = "${not empty requestScope.not_unique_login}">
-                     <h5 style="color:red;">Warning: You have to choose another login.</h5>
-                 </c:if>
+                <h2><fmt:message key="view.title" /></h2>
+                <span class="required_notification"><fmt:message key="registration.mandatoryFields" /></span>
+
+                <c:if test = "${not empty requestScope.profile_update_ok}">
+                    <br>
+                    <h5>You have updated your profile.</h5>
+                </c:if>
+
+                <c:if test = "${not empty requestScope.bad_registration_data}">
+                    <br>
+                    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your profile.</h5>
+                </c:if>
+
+                <c:if test = "${not empty requestScope.not_unique_login}">
+                    <h5 style="color:red;">Warning: You have to choose another login.</h5>
+                    </c:if>
         </li>
 
         <li>
             <label for="login"><fmt:message key="registration.login" />:</label>
             <input type="text" name="e_login" placeholder="<fmt:message key="registration.loginPlaceholder" />" required
                 pattern="^(?!
-                    <c:if test = "${not empty requestScope.loginProblem}">
+                    <c:if test = "${not empty requestScope.not_unique_login}">
                         ${requestScope.login}
                     </c:if>
                     .+"
                     value="${requestScope.e_login}"
             />
+            <c:if test = "${not empty requestScope.not_unique_login}">
+                <br>
+                <p style="color:red;">Warning: You have to choose another login!</p>
+            </c:if>
+
             <span class="form_hint">
                 <c:if test = "${not empty requestScope.loginProblem}">
                     <fmt:message key="registration.loginProblemRegexp" />
@@ -100,7 +115,7 @@
 
         <li>
 
-        <button class="submit" type="submit"><fmt:message key="registration.submit" /></button>
+        <button class="submit" type="submit" ><fmt:message key="registration.update" /></button>
 
         </li>
 
@@ -109,4 +124,4 @@
 </form>
        </div>
 
-<jsp:include page="jspParts/footer.jsp"/>
+<jsp:include page="../jspParts/footer.jsp"/>

@@ -123,4 +123,12 @@ public class LogMessageHolder {
                 .append(LogMessages.LOGIN_SECOND_TIME);
         return builder.toString();
     }
+
+    public static String userProfileUpdateSuccessful(String login) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(LogMessages.USER_WITH_LOGIN)
+                .append(login)
+                .append(LogMessages.UPDATED_PROFILE_SUCCESSFULLY);
+        return builder.toString();
+    }
 }

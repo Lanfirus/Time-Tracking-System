@@ -26,7 +26,7 @@ public class Registration implements Command {
 
     private String tryToAddEmployeeRegistrationDataToDB(Employee employee, HttpServletRequest request){
         try{
-            service.onRecievingEmployeeRegistrationDataFromWeb(employee, request);
+            service.tryToPutRegistrationDataFromWebIntoDB(employee, request);
             log.info(LogMessageHolder.userRegistrationSuccessful(employee.getLogin()));
             return CommandParameters.REDIRECT + CommandParameters.REGISTRATION_SUCCESSFUL;
         }

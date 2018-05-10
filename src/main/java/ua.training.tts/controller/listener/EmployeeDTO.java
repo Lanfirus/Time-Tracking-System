@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListener {
 
+    private Integer id;
     private String login;
     private String password;
     private String role;
@@ -84,6 +85,14 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
         return result;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -116,7 +125,8 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
         this.alreadyLoggedIn = alreadyLoggedIn;
     }
 
-    public EmployeeDTO(String login, String password, String role) {
+    public EmployeeDTO(Integer id, String login, String password, String role) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;

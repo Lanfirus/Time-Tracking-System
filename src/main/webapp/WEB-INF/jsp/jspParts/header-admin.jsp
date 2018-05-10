@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/base.css" >
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/header.css" >
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/footer.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/reg-form.css" >
 
 </head>
 

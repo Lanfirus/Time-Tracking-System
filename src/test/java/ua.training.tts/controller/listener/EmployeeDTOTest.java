@@ -20,7 +20,8 @@ public class EmployeeDTOTest extends Assert{
     private String login = TestConstants.LOGIN;
     private String password = TestConstants.PASSWORD;
     private String role = TestConstants.ROLE;
-    private EmployeeDTO dto = new EmployeeDTO(login, password, role);
+    private Integer id = TestConstants.ID;
+    private EmployeeDTO dto = new EmployeeDTO(id, login, password, role);
     private Map<EmployeeDTO, HttpSession> logins = mock(Map.class);
     private HttpSessionBindingEvent event = mock(HttpSessionBindingEvent.class);
     private HttpSession session = mock(HttpSession.class);
@@ -63,13 +64,13 @@ public class EmployeeDTOTest extends Assert{
 
     @Test
     public void equalsEqual(){
-        Boolean check = dto.equals(new EmployeeDTO(login, password, role));
+        Boolean check = dto.equals(new EmployeeDTO(id, login, password, role));
         assertTrue(check);
     }
 
     @Test
     public void equalsNotEqual(){
-        Boolean check = dto.equals(new EmployeeDTO(login, login, role));
+        Boolean check = dto.equals(new EmployeeDTO(id, login, login, role));
         assertFalse(check);
     }
 
@@ -87,32 +88,32 @@ public class EmployeeDTOTest extends Assert{
 
     @Test
     public void hashcodeEqual(){
-        Boolean check = (dto.hashCode() == new EmployeeDTO(login, password, role).hashCode());
+        Boolean check = (dto.hashCode() == new EmployeeDTO(id, login, password, role).hashCode());
         assertTrue(check);
     }
 
     @Test
     public void hashcodeNotEqualOnLogin(){
-        Boolean check = (dto.hashCode() == new EmployeeDTO(password, password, role).hashCode());
+        Boolean check = (dto.hashCode() == new EmployeeDTO(id, password, password, role).hashCode());
         assertFalse(check);
     }
 
     @Test
     public void hashcodeNotEqualOnPassword(){
-        Boolean check = (dto.hashCode() == new EmployeeDTO(login, login, role).hashCode());
+        Boolean check = (dto.hashCode() == new EmployeeDTO(id, login, login, role).hashCode());
         assertFalse(check);
     }
 
     @Test
     public void hashcodeNotEqualOnRole(){
-        Boolean check = (dto.hashCode() == new EmployeeDTO(login, password, login).hashCode());
+        Boolean check = (dto.hashCode() == new EmployeeDTO(id, login, password, login).hashCode());
         assertFalse(check);
     }
 
     @Test
     public void hashcodeNotEqualOnAlreadyLoggedIn(){
         dto.setAlreadyLoggedIn(true);
-        Boolean check = (dto.hashCode() == new EmployeeDTO(login, password, role).hashCode());
+        Boolean check = (dto.hashCode() == new EmployeeDTO(id, login, password, role).hashCode());
         assertFalse(check);
     }
 }

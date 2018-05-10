@@ -30,7 +30,7 @@ public class LoginTest extends Assert{
     private Login login = PowerMockito.spy(new Login(service));
     private HttpServletRequest request = mock(HttpServletRequest.class);
     private HttpSession session = mock(HttpSession.class);
-    private EmployeeDTO dto = new EmployeeDTO(TestConstants.LOGIN, TestConstants.PASSWORD,
+    private EmployeeDTO dto = new EmployeeDTO(TestConstants.ID, TestConstants.LOGIN, TestConstants.PASSWORD,
             Employee.AccountRole.EMPLOYEE.name().toLowerCase());
 
     @Before

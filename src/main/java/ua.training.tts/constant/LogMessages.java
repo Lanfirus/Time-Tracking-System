@@ -21,4 +21,5 @@ public interface LogMessages {
     String RECORD_UPDATING = " record updating";
     String RECORD_DELETING = " record deleting";
     String LOGIN_SECOND_TIME = " login second time.";
+    String UPDATED_PROFILE_SUCCESSFULLY = " updated profile successfully.";
 }

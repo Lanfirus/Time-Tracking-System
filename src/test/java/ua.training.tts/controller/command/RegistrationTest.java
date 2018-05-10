@@ -31,7 +31,7 @@ public class RegistrationTest extends Assert{
     @Test
     public void executeCorrectData() throws BadRegistrationDataException, NotUniqueLoginException{
 
-        doNothing().when(service).onRecievingEmployeeRegistrationDataFromWeb(employee, request);
+        doNothing().when(service).tryToPutRegistrationDataFromWebIntoDB(employee, request);
         String page = registration.execute(request);
         assertEquals(CommandParameters.REDIRECT + CommandParameters.REGISTRATION_SUCCESSFUL, page);
         verify(service, times(1)).buildEmployee(request);
@@ -39,7 +39,7 @@ public class RegistrationTest extends Assert{
 
     @Test
     public void executeNotUniqueLogin() throws BadRegistrationDataException, NotUniqueLoginException{
-        doThrow(new NotUniqueLoginException()).when(service).onRecievingEmployeeRegistrationDataFromWeb(employee, request);
+        doThrow(new NotUniqueLoginException()).when(service).tryToPutRegistrationDataFromWebIntoDB(employee, request);
         String page = registration.execute(request);
         assertEquals(Pages.REGISTRATION_PAGE, page);
         verify(service, times(1)).buildEmployee(request);
@@ -49,7 +49,7 @@ public class RegistrationTest extends Assert{
 
     @Test
     public void executeBadRegistrationData() throws BadRegistrationDataException, NotUniqueLoginException{
-        doThrow(new BadRegistrationDataException()).when(service).onRecievingEmployeeRegistrationDataFromWeb(employee, request);
+        doThrow(new BadRegistrationDataException()).when(service).tryToPutRegistrationDataFromWebIntoDB(employee, request);
         String page = registration.execute(request);
         assertEquals(Pages.REGISTRATION_PAGE, page);
         verify(service, times(1)).buildEmployee(request);

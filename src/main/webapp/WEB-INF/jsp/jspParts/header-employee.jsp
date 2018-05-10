@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/base.css" >
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/header.css" >
     <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/footer.css" >
+    <link rel="stylesheet" type="text/css" href="http://localhost:8888/company/resources/css/reg-form.css" >
 
 </head>
 
@@ -54,8 +55,8 @@
                         </li>
 
                         <li class="main-menu-item ">
-                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/about">
-                                <fmt:message key="header.aboutXTime" />
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/contacts">
+                                <fmt:message key="header.contacts" />
                             </a>
                         </li>
 

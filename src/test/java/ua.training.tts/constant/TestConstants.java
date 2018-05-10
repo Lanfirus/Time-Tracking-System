@@ -8,6 +8,7 @@ public interface TestConstants {
     boolean FALSE = false;
 
     int ROW_COUNT = 8;
+    Integer ID = 0;
 
     String TABLE = "table";
     String COLUMN = "column";

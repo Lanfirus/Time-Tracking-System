@@ -16,4 +16,7 @@ public interface ReqSesParameters {
     String DTO = "dto";
     String DROP_OLD_SESSION = "dropOld";
     String DROP_NEW_SESSION = "dropNew";
+    String PROFILE_UPDATE_OK = "profile_update_ok";
+    String NOT_UNIQUE_LOGIN = "not_unique_login";
+    String BAD_REGISTRATION_DATA = "bad_registration_data";
 }

@@ -93,6 +93,26 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
     }
 
     @Override
+    public Employee findByLogin(String login) {
+        String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
+                                .where(TableParameters.EMPLOYEE_LOGIN)
+                                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(request)) {
+            statement.setString(1, login);
+            savedStatement = statement.toString();
+            ResultSet set = statement.executeQuery();
+            set.next();
+            return extractDataFromResultSet(set);
+        }
+        catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                    savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+    }
+
+    @Override
     public List<Employee> findAll() {
         List<Employee> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)

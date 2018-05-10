@@ -29,14 +29,14 @@ public class MainPageTest extends Assert{
 
     @Before
     public void init() {
-        dtoAdmin = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY,
+        dtoAdmin = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
                 Entity.ACCOUNT_ROLE_ADMIN);
-        dtoEmployee = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY,
+        dtoEmployee = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
                 Entity.ACCOUNT_ROLE_EMPLOYEE);
-        dtoUnknown = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY,
+        dtoUnknown = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
                 Entity.ACCOUNT_ROLE_UNKNOWN);
         when(request.getSession()).thenReturn(session);
-        dtoRoleNotExist = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY,
+        dtoRoleNotExist = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
                 TestConstants.VALUE1);
         when(request.getSession()).thenReturn(session);
     }

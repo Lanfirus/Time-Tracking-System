@@ -2,14 +2,10 @@ package ua.training.tts.controller.servlet;
 
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
-import ua.training.tts.controller.command.Command;
-import ua.training.tts.controller.command.Login;
-import ua.training.tts.controller.command.Logout;
-import ua.training.tts.controller.command.Registration;
-import ua.training.tts.controller.command.redirect.LoginForm;
-import ua.training.tts.controller.command.redirect.MainPage;
-import ua.training.tts.controller.command.redirect.RegistrationForm;
-import ua.training.tts.controller.command.redirect.RegistrationSuccessfulPage;
+import ua.training.tts.controller.command.*;
+import ua.training.tts.controller.command.profile.Profile;
+import ua.training.tts.controller.command.profile.ProfileUpdate;
+import ua.training.tts.controller.command.redirect.*;
 import ua.training.tts.model.service.EmployeeService;
 
 import javax.servlet.ServletException;
@@ -30,17 +26,7 @@ import java.util.Map;
 public class MainServlet extends HttpServlet {
     private Map<String, Command> commands = new HashMap<>();
     
-    public void init(){
-        {
-            commands.put(Servlet.MAIN, new MainPage());
-            commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
-            commands.put(Servlet.REGISTRATION, new Registration(new EmployeeService()));
-            commands.put(Servlet.REGISTRATION_SUCCESSFUL, new RegistrationSuccessfulPage());
-            commands.put(Servlet.LOGIN_FORM, new LoginForm());
-            commands.put(Servlet.LOGIN, new Login(new EmployeeService()));
-            commands.put(Servlet.LOGOUT, new Logout());
-        }
-    }
+
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -88,6 +74,20 @@ public class MainServlet extends HttpServlet {
         }
         else {
             request.getRequestDispatcher(page).forward(request, response);
+        }
+    }
+
+    public void init(){
+        {
+            commands.put(Servlet.MAIN, new MainPage());
+            commands.put(Servlet.REGISTRATION_FORM, new RegistrationForm());
+            commands.put(Servlet.REGISTRATION, new Registration(new EmployeeService()));
+            commands.put(Servlet.REGISTRATION_SUCCESSFUL, new RegistrationSuccessfulPage());
+            commands.put(Servlet.LOGIN_FORM, new LoginForm());
+            commands.put(Servlet.LOGIN, new Login(new EmployeeService()));
+            commands.put(Servlet.LOGOUT, new Logout());
+            commands.put(Servlet.PROFILE, new Profile(new EmployeeService()));
+            commands.put(Servlet.PROFILE_UPDATE, new ProfileUpdate(new EmployeeService()));
         }
     }
 }

@@ -16,4 +16,6 @@ public interface Servlet {
     String LOGIN_FORM = "login_form";
     String LOGIN = "login";
     String LOGOUT = "logout";
+    String PROFILE = "profile";
+    String PROFILE_UPDATE = "profile_update";
 }

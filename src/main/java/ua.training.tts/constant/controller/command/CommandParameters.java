@@ -10,5 +10,7 @@ public interface CommandParameters {
     String REDIRECT = "redirect";
     String REGISTRATION_SUCCESSFUL = "registration_successful";
     String MAIN = "main";
+    String PROFILE = "profile";
     String EMPTY = "";
+    Integer ZERO = 0;
 }

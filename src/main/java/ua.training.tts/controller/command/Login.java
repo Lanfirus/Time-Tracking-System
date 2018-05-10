@@ -41,12 +41,13 @@ public class Login implements Command {
             log.info(LogMessageHolder.userReenter(login, password, dto.getRole()));
         }
         else if (service.isEmployeeExist(login, password)) {
-            dto = new EmployeeDTO(login, password, service.getRoleByLoginPassword(login, password));
+            Employee employee = service.findByLogin(login);
+            dto = new EmployeeDTO(employee.getId(), login, password, employee.getAccountRole().name().toLowerCase());
             session.setAttribute(ReqSesParameters.DTO, dto);
             checkDoubleLogin();
         }
         else {
-            dto = new EmployeeDTO(CommandParameters.EMPTY, CommandParameters.EMPTY,
+            dto = new EmployeeDTO(CommandParameters.ZERO, CommandParameters.EMPTY, CommandParameters.EMPTY,
                     Employee.AccountRole.UNKNOWN.name().toLowerCase());
             session.setAttribute(ReqSesParameters.DTO, dto);
             log.info(LogMessageHolder.userLogin(login, password, Employee.AccountRole.UNKNOWN.name().toLowerCase()));
