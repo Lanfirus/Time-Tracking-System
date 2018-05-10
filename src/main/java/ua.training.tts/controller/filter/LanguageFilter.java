@@ -25,12 +25,12 @@ public class LanguageFilter implements Filter {
      *
      * @param servletRequest
      * @param servletResponse
-     * @param filterChain
+     * @param chain
      * @throws IOException
      * @throws ServletException
      */
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
@@ -40,10 +40,7 @@ public class LanguageFilter implements Filter {
             session.setAttribute(ReqSesParameters.LANGUAGE, request.getParameter(ReqSesParameters.LANGUAGE));
             response.sendRedirect(request.getHeader(FilterParameters.REFERER));
         }
-        else{
-            filterChain.doFilter(servletRequest, servletResponse);
-        }
-
+            chain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

@@ -9,4 +9,6 @@ public interface FilterParameters {
     String LOGIN = "login";
     String REGISTRATION = "registration";
     String MAIN = "main";
+    String ADMIN_PATH = "/admin/*";
+    String INCORRECT_URL = "incorrect_url";
 }
