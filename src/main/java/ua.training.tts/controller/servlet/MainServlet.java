@@ -3,6 +3,9 @@ package ua.training.tts.controller.servlet;
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.*;
+import ua.training.tts.controller.command.admin.EmployeeChangeRole;
+import ua.training.tts.controller.command.admin.EmployeeDelete;
+import ua.training.tts.controller.command.admin.EmployeeInformation;
 import ua.training.tts.controller.command.profile.Profile;
 import ua.training.tts.controller.command.profile.ProfileUpdate;
 import ua.training.tts.controller.command.redirect.*;
@@ -51,8 +54,10 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
+        System.out.println(path);
         Command command = commands.getOrDefault(path, x-> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
         String page = command.execute(request);
+        System.out.println(page);
         sendUserToPage(page, request, response);
     }
 
@@ -88,6 +93,9 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.LOGOUT, new Logout());
             commands.put(Servlet.PROFILE, new Profile(new EmployeeService()));
             commands.put(Servlet.PROFILE_UPDATE, new ProfileUpdate(new EmployeeService()));
+            commands.put(Servlet.ADMIN_EMPLOYEE_INFORMATION, new EmployeeInformation(new EmployeeService()));
+            commands.put(Servlet.ADMIN_EMPLOYEE_CHANGE_ROLE, new EmployeeChangeRole(new EmployeeService()));
+            commands.put(Servlet.ADMIN_EMPLOYEE_DELETE, new EmployeeDelete(new EmployeeService()));
         }
     }
 }

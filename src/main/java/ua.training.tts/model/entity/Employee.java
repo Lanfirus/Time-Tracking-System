@@ -109,6 +109,12 @@ public class Employee {
                 Entity.EMPLOYEE_MOBILE_PHONE, Entity.EMPLOYEE_COMMENT);
     }
 
+    public List<String> getFieldNamesFull() {
+        return Arrays.asList(Entity.EMPLOYEE_LOGIN, Entity.EMPLOYEE_PASSWORD, Entity.EMPLOYEE_NAME,
+                Entity.EMPLOYEE_SURNAME, Entity.EMPLOYEE_PATRONYMIC, Entity.EMPLOYEE_EMAIL,
+                Entity.EMPLOYEE_MOBILE_PHONE, Entity.EMPLOYEE_COMMENT, Entity.EMPLOYEE_ACCOUNT_ROLE);
+    }
+
     /**
      * Returns all fields except for id and accountRole.
      * This method designed to be used for EMPLOYEE purposes where both those fields non accessible.
@@ -130,7 +136,6 @@ public class Employee {
 
     public List<Object> getFieldValuesFull(){
         List<Object> list = new ArrayList<>();
-        list.add(getId());
         list.add(getLogin());
         list.add(getPassword());
         list.add(getName());

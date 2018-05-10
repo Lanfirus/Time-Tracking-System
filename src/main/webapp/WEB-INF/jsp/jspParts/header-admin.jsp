@@ -83,7 +83,7 @@
                         </li>
 
                         <li class="main-menu-item ">
-                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/admin/employee">
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/admin/employees">
                                 <fmt:message key="header.employee.show.all" />
                             </a>
                         </li>

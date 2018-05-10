@@ -6,5 +6,7 @@ public interface EmployeeDao extends GeneralDao<Employee, Integer, String, Strin
 
     boolean isEntryExist(String login, String password);
 
+    void setRoleById(Integer id, String role);
+
     Employee findByLogin(String login);
 }

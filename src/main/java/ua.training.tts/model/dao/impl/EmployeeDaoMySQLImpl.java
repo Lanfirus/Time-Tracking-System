@@ -250,4 +250,24 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             }
         }
     }
+
+    @Override
+    public void setRoleById(Integer id, String role) {
+        List<String> fieldNames = Arrays.asList(TableParameters.EMPLOYEE_ACCOUNT_ROLE);
+        List<String> fieldValues = Arrays.asList(role);
+        String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, fieldNames)
+                .where(TableParameters.EMPLOYEE_ID)
+                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(request)){
+            setValuesToPreparedStatement(statement, fieldValues);
+            statement.setInt(fieldValues.size() + 1, id);
+            savedStatement = statement.toString();
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                    savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+    }
 }

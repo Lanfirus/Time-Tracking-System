@@ -18,4 +18,7 @@ public interface Servlet {
     String LOGOUT = "logout";
     String PROFILE = "profile";
     String PROFILE_UPDATE = "profile_update";
+    String ADMIN_EMPLOYEE_INFORMATION = "admin/employees";
+    String ADMIN_EMPLOYEE_CHANGE_ROLE = "admin/employee_change_role";
+    String ADMIN_EMPLOYEE_DELETE = "admin/employee_delete";
 }

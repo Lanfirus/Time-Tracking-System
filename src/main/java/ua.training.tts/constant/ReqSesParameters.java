@@ -19,4 +19,6 @@ public interface ReqSesParameters {
     String PROFILE_UPDATE_OK = "profile_update_ok";
     String NOT_UNIQUE_LOGIN = "not_unique_login";
     String BAD_REGISTRATION_DATA = "bad_registration_data";
+    String EMPLOYEE_LIST = "employees";
+    String ACCOUNT_ROLE = "e_account_role";
 }

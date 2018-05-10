@@ -11,6 +11,8 @@ public interface CommandParameters {
     String REGISTRATION_SUCCESSFUL = "registration_successful";
     String MAIN = "main";
     String PROFILE = "profile";
+    String EMPLOYEES = "employees";
+
     String EMPTY = "";
     Integer ZERO = 0;
 }

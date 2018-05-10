@@ -25,6 +25,7 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         EmployeeDTO dto = (EmployeeDTO) request.getSession().getAttribute(ReqSesParameters.DTO);
         if (!Employee.AccountRole.ADMIN.name().equalsIgnoreCase(dto.getRole())){
+            //ToDo Add logging
             response.sendRedirect(FilterParameters.INCORRECT_URL);
         }
         chain.doFilter(servletRequest, servletResponse);

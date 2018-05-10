@@ -140,3 +140,28 @@ body {
     margin: 0 auto;
     padding: 0 15px;
 }
+
+table {
+    border-spacing: 0;
+    width: 40%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+th {
+    cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+th form {
+    display : table-cell;
+    vertical-align: middle;
+    margin : 0;
+    padding : 0;

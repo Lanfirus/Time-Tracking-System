@@ -37,6 +37,23 @@ public class EmployeeService {
             return employee;
     }
 
+    public Employee buildEmployeeFull(HttpServletRequest request){
+        String hashedPassword = PasswordHashing.hashPassword(request.getParameter(TableParameters.EMPLOYEE_PASSWORD));
+        Employee employee = new EmployeeBuilder()
+                .setId(Integer.parseInt(request.getParameter(TableParameters.EMPLOYEE_ID)))
+                .setLogin(request.getParameter(TableParameters.EMPLOYEE_LOGIN))
+                .setPassword(hashedPassword)
+                .setName(request.getParameter(TableParameters.EMPLOYEE_NAME))
+                .setSurname(request.getParameter(TableParameters.EMPLOYEE_SURNAME))
+                .setPatronymic(request.getParameter(TableParameters.EMPLOYEE_PATRONYMIC))
+                .setEmail(request.getParameter(TableParameters.EMPLOYEE_EMAIL))
+                .setMobilePhone(request.getParameter(TableParameters.EMPLOYEE_MOBILE_PHONE))
+                .setComment(request.getParameter(TableParameters.EMPLOYEE_COMMENT))
+                .setAccountRole(request.getParameter(TableParameters.EMPLOYEE_ACCOUNT_ROLE))
+                .buildEmployee();
+        return employee;
+    }
+
     public void tryToPutRegistrationDataFromWebIntoDB(Employee employee, HttpServletRequest request)
             throws NotUniqueLoginException, BadRegistrationDataException {
         if (checkDataFromWebForCorrectness(employee, request)) {
@@ -146,6 +163,19 @@ public class EmployeeService {
         request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
     }
 
+    public void setFullEmployeeDataBackToForm(HttpServletRequest request, Employee employee){
+        request.setAttribute(TableParameters.EMPLOYEE_ID, employee.getId());
+        request.setAttribute(TableParameters.EMPLOYEE_LOGIN, employee.getLogin());
+        request.setAttribute(TableParameters.EMPLOYEE_PASSWORD, employee.getPassword());
+        request.setAttribute(TableParameters.EMPLOYEE_NAME, employee.getName());
+        request.setAttribute(TableParameters.EMPLOYEE_SURNAME, employee.getSurname());
+        request.setAttribute(TableParameters.EMPLOYEE_PATRONYMIC, employee.getPatronymic() == null ? "" : employee.getPatronymic());
+        request.setAttribute(TableParameters.EMPLOYEE_EMAIL, employee.getEmail());
+        request.setAttribute(TableParameters.EMPLOYEE_MOBILE_PHONE, employee.getMobilePhone());
+        request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
+        request.setAttribute(TableParameters.EMPLOYEE_ACCOUNT_ROLE, employee.getAccountRole());
+    }
+
     public boolean isEmployeeExist(String login, String password){
         EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.isEntryExist(login, password);
@@ -164,5 +194,25 @@ public class EmployeeService {
     public Employee findByLogin(String login){
         EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.findByLogin(login);
+    }
+
+    public Employee findById(Integer id){
+        EmployeeDao dao = daoFactory.createEmployeeDao();
+        return dao.findById(id);
+    }
+
+    public List<Employee> findAll(){
+        EmployeeDao dao = daoFactory.createEmployeeDao();
+        return dao.findAll();
+    }
+
+    public void setRoleById(Integer id, String role){
+        EmployeeDao dao = daoFactory.createEmployeeDao();
+        dao.setRoleById(id, role);
+    }
+
+    public void deleteById(Integer id){
+        EmployeeDao dao = daoFactory.createEmployeeDao();
+        dao.delete(id);
     }
 }
