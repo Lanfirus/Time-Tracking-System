@@ -1,5 +1,8 @@
 package ua.training.tts.model.util;
 
+import ua.training.tts.constant.model.Entity;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class RequestBuilder {
@@ -76,6 +79,22 @@ public class RequestBuilder {
     public RequestBuilder delete(String columnName) {
         request.append("DELETE FROM ")
                 .append(columnName)
+                .append(" ");
+        return this;
+    }
+
+    public RequestBuilder join(String tableName) {
+        request.append(" JOIN ")
+                .append(tableName)
+                .append(" ");
+        return this;
+    }
+
+    public RequestBuilder on(String columnName1, String columnName2) {
+        request.append(" ON ")
+                .append(columnName1)
+                .append(" = ")
+                .append(columnName2)
                 .append(" ");
         return this;
     }

@@ -96,6 +96,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_EMPLOYEE_INFORMATION, new EmployeeInformation(new EmployeeService()));
             commands.put(Servlet.ADMIN_EMPLOYEE_CHANGE_ROLE, new EmployeeChangeRole(new EmployeeService()));
             commands.put(Servlet.ADMIN_EMPLOYEE_DELETE, new EmployeeDelete(new EmployeeService()));
+            commands.put(Servlet.EMPLOYEE_MY_TASKS, new EmployeeDelete(new EmployeeService()));
         }
     }
 }

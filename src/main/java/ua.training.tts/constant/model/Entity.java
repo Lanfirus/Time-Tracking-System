@@ -34,12 +34,12 @@ public interface Entity {
     String PROJECT_TEAM_SIZE = "Team size";
     String PROJECT_TASK_QTY = "Task qty";
 
-    String TASK_ID = "Id";
-    String TASK_NAME = "Name";
-    String TASK_PROJECT_ID = "Project ID";
-    String TASK_STATUS = "Status";
-    String TASK_DEADLINE = "Deadline";
-    String TASK_SPENT_TIME = "Spent time";
+    String TASK_ID = "t_id";
+    String TASK_NAME = "t_name";
+    String TASK_PROJECT_ID = "t_p_id";
+    String TASK_STATUS = "t_status";
+    String TASK_DEADLINE = "t_deadline";
+    String TASK_SPENT_TIME = "t_spent_time";
 
     String ACCOUNT_ROLE_ADMIN = "admin";
     String ACCOUNT_ROLE_EMPLOYEE = "employee";

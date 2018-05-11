@@ -1,42 +1,66 @@
 package ua.training.tts.model.entity;
 
-import ua.training.tts.constant.model.Entity;
-
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Task {
 
-    private Map<String, String> taskData;
-
-    public Task(Map<String, String> taskData){
-        this.taskData = taskData;
+    public enum Status {
+        NOT_ASSIGNED, ASSIGNED, FINISHED, EXPIRED, CANCELLED
     }
 
-    public String getID(){
-        return taskData.get(Entity.TASK_ID);
+    private Integer id;
+    private String name;
+    private Integer projectId;
+    private Status status;
+    private LocalDate deadline;
+    private LocalTime spentTime;
+
+    public Integer getId() {
+        return id;
     }
 
-    public String getName(){
-        return taskData.get(Entity.TASK_NAME);
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getProjectID(){
-        return taskData.get(Entity.TASK_PROJECT_ID);
+    public String getName() {
+        return name;
     }
 
-    public String getStatus(){
-        return taskData.get(Entity.TASK_STATUS);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDeadline(){
-        return taskData.get(Entity.TASK_DEADLINE);
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public String getSpentTime(){
-        return taskData.get(Entity.TASK_SPENT_TIME);
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
-    public Map<String, String> getTaskData(){
-        return taskData;
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    public LocalTime getSpentTime() {
+        return spentTime;
+    }
+
+    public void setSpentTime(LocalTime spentTime) {
+        this.spentTime = spentTime;
     }
 }
