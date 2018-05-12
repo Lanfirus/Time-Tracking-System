@@ -21,4 +21,11 @@ public interface ReqSesParameters {
     String BAD_REGISTRATION_DATA = "bad_registration_data";
     String EMPLOYEE_LIST = "employees";
     String ACCOUNT_ROLE = "e_account_role";
+    String TASK_LIST = "myTasks";
+    String TASK_OLD_STATUS = "old_status";
+    String TASK_UPDATE_OK = "task_update_ok";
+    String BAD_TASK_UPDATE_DATA = "bad_task_update_data";
+    String TASK_STATUS_HAS_BEEN_CHANGED = "task_status_changed";
+    String TASK_ID = "task_id";
+    String TASK = "task";
 }

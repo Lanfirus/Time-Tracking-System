@@ -1,20 +1,25 @@
 package ua.training.tts.model.entity;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class Task {
 
     public enum Status {
-        NOT_ASSIGNED, ASSIGNED, FINISHED, EXPIRED, CANCELLED
+        ASSIGNED, FINISHED, EXPIRED, CANCELLED
+    }
+
+    public enum Approved {
+        YES, NO, NEW
     }
 
     private Integer id;
-    private String name;
     private Integer projectId;
+    private Integer employeeId;
+    private String name;
     private Status status;
     private LocalDate deadline;
-    private LocalTime spentTime;
+    private Integer spentTime;
+    private Approved approved;
 
     public Integer getId() {
         return id;
@@ -24,20 +29,28 @@ public class Task {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Integer getProjectId() {
         return projectId;
     }
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Status getStatus() {
@@ -56,11 +69,19 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public LocalTime getSpentTime() {
+    public Integer getSpentTime() {
         return spentTime;
     }
 
-    public void setSpentTime(LocalTime spentTime) {
+    public void setSpentTime(Integer spentTime) {
         this.spentTime = spentTime;
+    }
+
+    public Approved getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Approved approved) {
+        this.approved = approved;
     }
 }

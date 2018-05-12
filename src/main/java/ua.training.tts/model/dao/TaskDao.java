@@ -8,6 +8,8 @@ public interface TaskDao extends GeneralDao<Task, Integer, String, String> {
 
     void setStatusById(Integer id, String status);
 
-    public List<Task> findAllById(Integer id);
+    public List<Task> findAllByEmployeeId(Integer id);
+
+    public void updateTaskEmployee(Task task);
 
 }

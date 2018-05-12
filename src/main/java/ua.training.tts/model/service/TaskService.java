@@ -1,25 +1,22 @@
 package ua.training.tts.model.service;
 
-import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.constant.ReqSesParameters;
+import ua.training.tts.constant.controller.command.RegExp;
 import ua.training.tts.constant.model.Entity;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.dao.EmployeeDao;
+import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.factory.DaoFactory;
 import ua.training.tts.model.dao.factory.JDBCDaoFactoryImpl;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.entity.Task;
-import ua.training.tts.model.exception.BadRegistrationDataException;
-import ua.training.tts.model.exception.NotUniqueLoginException;
-import ua.training.tts.model.util.builder.EmployeeBuilder;
+import ua.training.tts.model.exception.BadTaskDataException;
 import ua.training.tts.model.util.builder.TaskBuilder;
-import ua.training.tts.util.PasswordHashing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -32,87 +29,101 @@ public class TaskService {
         this.daoFactory = new JDBCDaoFactoryImpl();
     }
 
-    public Task buildTask(HttpServletRequest request, LocalDate deadline, LocalTime time){
+    public Task buildTask(HttpServletRequest request){
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
+                                     .setId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
+                                     .setId(Integer.parseInt(request.getParameter(TableParameters.TASK_EMPLOYEE_ID)))
                                      .setName(request.getParameter(TableParameters.TASK_NAME))
-                                     .setProjectId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
-                                     .setDeadline(deadline)
-                                     .setSpentTime(time)
+                                     .setDeadline(LocalDate.parse(request.getParameter(TableParameters.TASK_DEADLINE)))
+                                     .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
+                                     .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_APPROVED)))
                                      .buildTask();
             return task;
     }
 
+    public Task buildTaskForUpdate(HttpServletRequest request){
+        Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
+                                     .setStatus(request.getParameter(TableParameters.TASK_STATUS))
+                                     .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
+                                     .buildTaskForUpdate();
+        return task;
+    }
 
-    public void tryToPutTaskDataFromWebIntoDB(Task task, HttpServletRequest request) {
+    public void tryToPutTaskDataFromWebIntoDB(Task task, HttpServletRequest request) throws BadTaskDataException{
         if (checkDataFromWebForCorrectness(task, request)) {
-            try {
-                sendReadyRegistrationDataToDB(employee);
-            } catch (RuntimeException e) {
-                if (e.getMessage().contains(ExceptionMessages.UNIQUE)) {
-                    throw new NotUniqueLoginException();
-                }
-            }
+                sendReadyRegistrationDataToDB(task);
+        }
+        else {
+            throw new BadTaskDataException();
         }
     }
 
-    public void tryToPutUpdateDataFromWebIntoDB(Employee employee, HttpServletRequest request)
-            throws NotUniqueLoginException, BadRegistrationDataException {
-        if (checkDataFromWebForCorrectness(employee, request)) {
-            try{
-                sendReadyUpdateDataToDB(employee);
-            }
-            catch(RuntimeException e){
-                if (e.getMessage().contains(ExceptionMessages.UNIQUE)) {
-                    throw new NotUniqueLoginException();
-                }
-                else {
-                    throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
-                }
-            }
+    public void tryToPutUpdateDataFromWebIntoDBEmployee(Task task, HttpServletRequest request)
+                throws BadTaskDataException {
+        if (checkDataFromWebForCorrectness(task, request)) {
+                sendReadyUpdateDataToDBEmployee(task);
         }
         else {
-            throw new BadRegistrationDataException();
+            throw new BadTaskDataException();
         }
     }
 
     /**
      * Matches data from web with regexps. For some types of data that is not String,
      * performs other checks.
-     * @param employee
+     * @param
      * @param request
      * @return boolean
      */
     private boolean checkDataFromWebForCorrectness(Task task, HttpServletRequest request) {
-        List<String> fieldNames = getFieldNames();
-        List<String> fieldValues = employee.getFieldValues();
-        boolean check = true;
         HttpSession session = request.getSession();
         String locale = session.getAttribute(ReqSesParameters.LANGUAGE) == null ?
                 Service.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
         bundleInitialization(new Locale(locale));
-        for (int field = 0; field < fieldValues.size(); field++){
-            check &= matchInputWithRegexp(fieldValues.get(field), regexpBundle.getString(fieldNames.get(field)));
-        }
+
+        boolean check = true;
+        check &= matchInputWithRegexp(String.valueOf(task.getId()), regexpBundle.getString(RegExp.TASK_ID));
+        check &= (task.getProjectId() == null ||  matchInputWithRegexp(String.valueOf(task.getProjectId()),
+                regexpBundle.getString(RegExp.TASK_PROJECT_ID)));
+        check &= (task.getEmployeeId() == null || matchInputWithRegexp(String.valueOf(task.getEmployeeId()),
+                regexpBundle.getString(RegExp.TASK_EMPLOYEE_ID)));
+        check &= (task.getName() == null || matchInputWithRegexp(task.getName(),
+                regexpBundle.getString(RegExp.TASK_NAME)));
+        check &= matchInputWithRegexp(task.getStatus().name(), regexpBundle.getString(RegExp.TASK_STATUS));
+        check &= (task.getDeadline() == null ||matchInputWithRegexp(String.valueOf(task.getDeadline()),
+                regexpBundle.getString(RegExp.TASK_DEADLINE)));
+        check &= matchInputWithRegexp(String.valueOf(task.getSpentTime()), regexpBundle.getString(RegExp.TASK_SPENT_TIME));
+        check &= (task.getApproved() == null || matchInputWithRegexp(String.valueOf(task.getApproved()),
+                regexpBundle.getString(RegExp.TASK_APPROVED)));
         return check;
     }
 
     /**
      * Sends checked data to user to be put into DB.
-     * @param employee
+     * @param
      */
-    private void sendReadyRegistrationDataToDB(Employee employee) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
-        dao.create(employee);
+    private void sendReadyRegistrationDataToDB(Task task) {
+        TaskDao dao = daoFactory.createTaskDao();
+        dao.create(task);
     }
 
     /**
      * Sends checked data to user to be put into DB.
-     * @param employee
+     * @param
      */
-    public void sendReadyUpdateDataToDB(Employee employee) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
-        dao.update(employee);
+    public void sendReadyUpdateDataToDB(Task task) {
+        TaskDao dao = daoFactory.createTaskDao();
+        dao.update(task);
+    }
+
+    /**
+     * Sends checked data to user to be put into DB.
+     * @param
+     */
+    public void sendReadyUpdateDataToDBEmployee(Task task) {
+        TaskDao dao = daoFactory.createTaskDao();
+        dao.updateTaskEmployee(task);
     }
 
     /**
@@ -135,27 +146,15 @@ public class TaskService {
         return Pattern.matches(regexp, input);
     }
 
-    public void setEmployeeEnteredDataBackToForm(HttpServletRequest request, Employee employee){
-        request.setAttribute(TableParameters.EMPLOYEE_LOGIN, employee.getLogin());
-        request.setAttribute(TableParameters.EMPLOYEE_NAME, employee.getName());
-        request.setAttribute(TableParameters.EMPLOYEE_SURNAME, employee.getSurname());
-        request.setAttribute(TableParameters.EMPLOYEE_PATRONYMIC, employee.getPatronymic() == null ? "" : employee.getPatronymic());
-        request.setAttribute(TableParameters.EMPLOYEE_EMAIL, employee.getEmail());
-        request.setAttribute(TableParameters.EMPLOYEE_MOBILE_PHONE, employee.getMobilePhone());
-        request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
-    }
-
-    public void setFullEmployeeDataBackToForm(HttpServletRequest request, Employee employee){
-        request.setAttribute(TableParameters.EMPLOYEE_ID, employee.getId());
-        request.setAttribute(TableParameters.EMPLOYEE_LOGIN, employee.getLogin());
-        request.setAttribute(TableParameters.EMPLOYEE_PASSWORD, employee.getPassword());
-        request.setAttribute(TableParameters.EMPLOYEE_NAME, employee.getName());
-        request.setAttribute(TableParameters.EMPLOYEE_SURNAME, employee.getSurname());
-        request.setAttribute(TableParameters.EMPLOYEE_PATRONYMIC, employee.getPatronymic() == null ? "" : employee.getPatronymic());
-        request.setAttribute(TableParameters.EMPLOYEE_EMAIL, employee.getEmail());
-        request.setAttribute(TableParameters.EMPLOYEE_MOBILE_PHONE, employee.getMobilePhone());
-        request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
-        request.setAttribute(TableParameters.EMPLOYEE_ACCOUNT_ROLE, employee.getAccountRole());
+    public void setTaskEnteredDataBackToForm(HttpServletRequest request, Task task){
+        request.setAttribute(TableParameters.TASK_ID, task.getId());
+        request.setAttribute(TableParameters.TASK_PROJECT_ID, task.getProjectId());
+        request.setAttribute(TableParameters.TASK_EMPLOYEE_ID, task.getEmployeeId());
+        request.setAttribute(TableParameters.TASK_NAME, task.getName());
+        request.setAttribute(TableParameters.TASK_STATUS, task.getStatus());
+        request.setAttribute(TableParameters.TASK_DEADLINE, task.getDeadline());
+        request.setAttribute(TableParameters.TASK_SPENT_TIME, task.getSpentTime());
+        request.setAttribute(TableParameters.TASK_APPROVED, task.getApproved());
     }
 
     public boolean isEmployeeExist(String login, String password){
@@ -168,9 +167,9 @@ public class TaskService {
         return dao.findIdByKeys(login, password);
     }
 
-    public String getRoleByLoginPassword(String login, String password) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
-        return dao.findParamByKeys(TableParameters.EMPLOYEE_ACCOUNT_ROLE, login, password);
+    public String getStatusByTaskId(Integer id) {
+        TaskDao dao = daoFactory.createTaskDao();
+        return dao.findById(id).getStatus().name().toLowerCase();
     }
 
     public Employee findByLogin(String login){
@@ -183,9 +182,14 @@ public class TaskService {
         return dao.findById(id);
     }
 
-    public List<Employee> findAll(){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
+    public List<Task> findAll(){
+        TaskDao dao = daoFactory.createTaskDao();
         return dao.findAll();
+    }
+
+    public List<Task> findAllById(Integer id){
+        TaskDao dao = daoFactory.createTaskDao();
+        return dao.findAllByEmployeeId(id);
     }
 
     public void setRoleById(Integer id, String role){
@@ -201,18 +205,5 @@ public class TaskService {
     public List<String> getFieldNames() {
         return Arrays.asList(Entity.TASK_ID, Entity.TASK_NAME, Entity.TASK_PROJECT_ID, Entity.TASK_STATUS,
                 Entity.TASK_DEADLINE, Entity.TASK_SPENT_TIME);
-    }
-
-    public List<String> getFieldValues() {
-        List<String> list = new ArrayList<>();
-        list.add(getLogin());
-        list.add(getPassword());
-        list.add(getName());
-        list.add(getSurname());
-        list.add(getPatronymic());
-        list.add(getEmail());
-        list.add(getMobilePhone());
-        list.add(getComment());
-        return list;
     }
 }

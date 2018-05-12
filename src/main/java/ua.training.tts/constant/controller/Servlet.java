@@ -22,4 +22,6 @@ public interface Servlet {
     String ADMIN_EMPLOYEE_CHANGE_ROLE = "admin/employee_change_role";
     String ADMIN_EMPLOYEE_DELETE = "admin/employee_delete";
     String EMPLOYEE_MY_TASKS = "task_show";
+    String EMPLOYEE_MY_TASKS_UPDATE = "employee_task_update";
+    String ADMIN_ALL_TASKS = "admin/task";
 }

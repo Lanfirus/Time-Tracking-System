@@ -76,6 +76,15 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder updateOne(String tableName, String fieldName) {
+        request.append("UPDATE ")
+                .append(tableName)
+                .append(" SET ")
+                .append(fieldName)
+                .append(" = ? ");
+        return this;
+    }
+
     public RequestBuilder delete(String columnName) {
         request.append("DELETE FROM ")
                 .append(columnName)

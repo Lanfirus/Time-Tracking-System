@@ -33,11 +33,13 @@ public class TaskDaoMySQLImpl implements TaskDao {
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setInt(1, task.getId());
-            statement.setString(2, task.getName());
-            statement.setInt(3, task.getProjectId());
-            statement.setString(4, task.getStatus().name().toLowerCase());
-            statement.setDate(5, Date.valueOf(task.getDeadline()));
-            statement.setTime(6, Time.valueOf(task.getSpentTime()));
+            statement.setInt(2, task.getProjectId());
+            statement.setInt(3, task.getEmployeeId());
+            statement.setString(4, task.getName());
+            statement.setString(5, task.getStatus().name().toLowerCase());
+            statement.setDate(6, Date.valueOf(task.getDeadline()));
+            statement.setInt(7, task.getSpentTime());
+            statement.setString(8, task.getApproved().name().toLowerCase());
             savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -71,12 +73,14 @@ public class TaskDaoMySQLImpl implements TaskDao {
         TaskBuilder builder = new TaskBuilder();
         //ToDO check whether Field == null is allowed here w/o Exception. Potential are ID, Patronymic and Comment
         Task task = builder.setId(set.getInt(TableParameters.TASK_ID))
-                                    .setName(set.getString(TableParameters.TASK_NAME))
-                                    .setProjectId(set.getInt(TableParameters.TASK_PROJECT_ID))
-                                    .setStatus(set.getString(TableParameters.TASK_STATUS))
-                                    .setDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
-                                    .setSpentTime(set.getTime(TableParameters.TASK_SPENT_TIME).toLocalTime())
-                                    .buildTask();
+                           .setProjectId(set.getInt(TableParameters.TASK_PROJECT_ID))
+                           .setEmployeeId(set.getInt(TableParameters.TASK_EMPLOYEE_ID))
+                           .setName(set.getString(TableParameters.TASK_NAME))
+                           .setStatus(set.getString(TableParameters.TASK_STATUS))
+                           .setDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
+                           .setSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
+                           .setApproved(set.getString(TableParameters.TASK_APPROVED))
+                           .buildTask();
         return task;
     }
 
@@ -102,11 +106,9 @@ public class TaskDaoMySQLImpl implements TaskDao {
     }
 
     @Override
-    public List<Task> findAllById(Integer id) {
+    public List<Task> findAllByEmployeeId(Integer id) {
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
-                                .join(TableParameters.TASK_TEAM_TABLE_NAME)
-                                .on(TableParameters.TASK_TEAM_TASK_ID, TableParameters.TASK_ID)
                                 .where(TableParameters.EMPLOYEE_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
@@ -135,17 +137,41 @@ public class TaskDaoMySQLImpl implements TaskDao {
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){
             statement.setInt(1, task.getId());
-            statement.setString(2, task.getName());
-            statement.setInt(3, task.getProjectId());
-            statement.setString(4, task.getStatus().name().toLowerCase());
-            statement.setDate(5, Date.valueOf(task.getDeadline()));
-            statement.setTime(6, Time.valueOf(task.getSpentTime()));
-            statement.setInt(7, task.getId());
+            statement.setInt(2, task.getProjectId());
+            statement.setInt(3, task.getEmployeeId());
+            statement.setString(4, task.getName());
+            statement.setString(5, task.getStatus().name().toLowerCase());
+            statement.setDate(6, Date.valueOf(task.getDeadline()));
+            statement.setInt(7, task.getSpentTime());
+            statement.setString(8, task.getApproved().name().toLowerCase());
+            statement.setInt(9, task.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.TASK_TABLE_NAME,
                                                                                             savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+    }
+
+    @Override
+    public void updateTaskEmployee(Task task) {
+        List<String> fieldNames = Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_STATUS,
+                TableParameters.TASK_SPENT_TIME);
+        String request = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
+                                .where(TableParameters.TASK_ID)
+                                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(request)){
+            statement.setInt(1, task.getId());
+            statement.setString(2, task.getStatus().name().toLowerCase());
+            statement.setInt(3, task.getSpentTime());
+            statement.setInt(4, task.getId());
+            savedStatement = statement.toString();
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.TASK_TABLE_NAME,
+                    savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -167,15 +193,13 @@ public class TaskDaoMySQLImpl implements TaskDao {
         }
     }
 
-
     @Override
     public void setStatusById(Integer id, String status) {
-        List<String> fieldNames = Arrays.asList(TableParameters.TASK_STATUS);
-        String request = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
+        String request = builder.updateOne(TableParameters.TASK_TABLE_NAME, TableParameters.TASK_STATUS)
                                 .where(TableParameters.TASK_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(request)){
+                PreparedStatement statement = connection.prepareStatement(request)){
             statement.setString(1, status);
             statement.setInt(2, id);
             savedStatement = statement.toString();
@@ -188,8 +212,9 @@ public class TaskDaoMySQLImpl implements TaskDao {
     }
 
     public List<String> getFieldNames() {
-        return Arrays.asList(Entity.TASK_ID, Entity.TASK_NAME, Entity.TASK_PROJECT_ID, Entity.TASK_STATUS,
-                Entity.TASK_DEADLINE, Entity.TASK_SPENT_TIME);
+        return Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
+                TableParameters.TASK_NAME, TableParameters.TASK_STATUS, TableParameters.TASK_DEADLINE,
+                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVED);
     }
 
     @Override

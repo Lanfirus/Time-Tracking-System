@@ -65,13 +65,7 @@ public class EmployeeBuilder {
     }
 
     public EmployeeBuilder setAccountRole(String accountRole) {
-        if (Employee.AccountRole.ADMIN.name().equalsIgnoreCase(accountRole)) {
-            this.accountRole = Employee.AccountRole.ADMIN;
-        } else if (Employee.AccountRole.EMPLOYEE.name().equalsIgnoreCase(accountRole)) {
-            this.accountRole = Employee.AccountRole.EMPLOYEE;
-        } else {
-            this.accountRole = Employee.AccountRole.UNKNOWN;
-        }
+        this.accountRole = Employee.AccountRole.valueOf(accountRole.toUpperCase());
         return this;
     }
 

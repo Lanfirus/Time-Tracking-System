@@ -3,13 +3,16 @@ package ua.training.tts.controller.servlet;
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.*;
+import ua.training.tts.controller.command.admin.AllTasks;
 import ua.training.tts.controller.command.admin.EmployeeChangeRole;
 import ua.training.tts.controller.command.admin.EmployeeDelete;
 import ua.training.tts.controller.command.admin.EmployeeInformation;
+import ua.training.tts.controller.command.employee.MyTasks;
 import ua.training.tts.controller.command.profile.Profile;
 import ua.training.tts.controller.command.profile.ProfileUpdate;
 import ua.training.tts.controller.command.redirect.*;
 import ua.training.tts.model.service.EmployeeService;
+import ua.training.tts.model.service.TaskService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,10 +57,8 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
-        System.out.println(path);
         Command command = commands.getOrDefault(path, x-> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
         String page = command.execute(request);
-        System.out.println(page);
         sendUserToPage(page, request, response);
     }
 
@@ -96,7 +97,8 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_EMPLOYEE_INFORMATION, new EmployeeInformation(new EmployeeService()));
             commands.put(Servlet.ADMIN_EMPLOYEE_CHANGE_ROLE, new EmployeeChangeRole(new EmployeeService()));
             commands.put(Servlet.ADMIN_EMPLOYEE_DELETE, new EmployeeDelete(new EmployeeService()));
-            commands.put(Servlet.EMPLOYEE_MY_TASKS, new EmployeeDelete(new EmployeeService()));
+            commands.put(Servlet.EMPLOYEE_MY_TASKS, new MyTasks(new TaskService()));
+            commands.put(Servlet.ADMIN_ALL_TASKS, new AllTasks(new TaskService()));
         }
     }
 }

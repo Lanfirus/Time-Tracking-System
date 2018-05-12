@@ -1,6 +1,6 @@
 package ua.training.tts.model.entity;
 
-import ua.training.tts.constant.model.Entity;
+import ua.training.tts.constant.model.dao.TableParameters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,15 +104,15 @@ public class Employee {
     }
 
     public List<String> getFieldNames() {
-        return Arrays.asList(Entity.EMPLOYEE_LOGIN, Entity.EMPLOYEE_PASSWORD, Entity.EMPLOYEE_NAME,
-                Entity.EMPLOYEE_SURNAME, Entity.EMPLOYEE_PATRONYMIC, Entity.EMPLOYEE_EMAIL,
-                Entity.EMPLOYEE_MOBILE_PHONE, Entity.EMPLOYEE_COMMENT);
+        return Arrays.asList(TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD, TableParameters.EMPLOYEE_NAME,
+                TableParameters.EMPLOYEE_SURNAME, TableParameters.EMPLOYEE_PATRONYMIC, TableParameters.EMPLOYEE_EMAIL,
+                TableParameters.EMPLOYEE_MOBILE_PHONE, TableParameters.EMPLOYEE_COMMENT);
     }
 
     public List<String> getFieldNamesFull() {
-        return Arrays.asList(Entity.EMPLOYEE_LOGIN, Entity.EMPLOYEE_PASSWORD, Entity.EMPLOYEE_NAME,
-                Entity.EMPLOYEE_SURNAME, Entity.EMPLOYEE_PATRONYMIC, Entity.EMPLOYEE_EMAIL,
-                Entity.EMPLOYEE_MOBILE_PHONE, Entity.EMPLOYEE_COMMENT, Entity.EMPLOYEE_ACCOUNT_ROLE);
+        return Arrays.asList(TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD, TableParameters.EMPLOYEE_NAME,
+                TableParameters.EMPLOYEE_SURNAME, TableParameters.EMPLOYEE_PATRONYMIC, TableParameters.EMPLOYEE_EMAIL,
+                TableParameters.EMPLOYEE_MOBILE_PHONE, TableParameters.EMPLOYEE_COMMENT, TableParameters.EMPLOYEE_ACCOUNT_ROLE);
     }
 
     /**

@@ -14,18 +14,16 @@ public interface Entity {
     String EMPLOYEE_ACCOUNT_ROLE_COLUMN_NAME = "Account role";
     String EMPLOYEE_OLD_LOGIN_COLUMN_NAME = "Old login";
 
-    String EMPLOYEE_ID = "e_id";
-    String EMPLOYEE_LOGIN = "e_login";
-    String EMPLOYEE_PASSWORD = "e_password";
-    String EMPLOYEE_NAME = "e_name";
-    String EMPLOYEE_SURNAME = "e_surname";
-    String EMPLOYEE_PATRONYMIC = "e_patronymic";
-    String EMPLOYEE_EMAIL = "e_email";
-    String EMPLOYEE_MOBILE_PHONE = "e_mobile_phone";
-    String EMPLOYEE_COMMENT = "e_comment";
-    String EMPLOYEE_ACCOUNT_ROLE = "e_account_role";
-    String EMPLOYEE_OLD_LOGIN = "e_old_login";
-    String EMPLOYEE_OLD_PASSWORD = "e_old_password";
+    String EMPLOYEE_ID = "employee_id";
+    String EMPLOYEE_LOGIN = "login";
+    String EMPLOYEE_PASSWORD = "password";
+    String EMPLOYEE_NAME = "name";
+    String EMPLOYEE_SURNAME = "surname";
+    String EMPLOYEE_PATRONYMIC = "patronymic";
+    String EMPLOYEE_EMAIL = "email";
+    String EMPLOYEE_MOBILE_PHONE = "mobile_phone";
+    String EMPLOYEE_COMMENT = "comment";
+    String EMPLOYEE_ACCOUNT_ROLE = "account_role";
 
     String PROJECT_ID = "Id";
     String PROJECT_NAME = "Name";

@@ -1,17 +1,8 @@
 package ua.training.tts.model.util.builder;
 
-import ua.training.tts.constant.ReqSesParameters;
-import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.entity.Task;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * Builder class for Employee entity
@@ -19,19 +10,16 @@ import java.util.ResourceBundle;
 public class TaskBuilder {
 
     private Integer id;
-    private String name;
     private Integer projectId;
+    private Integer employeeId;
+    private String name;
     private Task.Status status;
     private LocalDate deadline;
-    private LocalTime spentTime;
+    private Integer spentTime;
+    private Task.Approved approved;
 
     public TaskBuilder setId(Integer id) {
         this.id = id;
-        return this;
-    }
-
-    public TaskBuilder setName(String name) {
-        this.name = name;
         return this;
     }
 
@@ -40,18 +28,18 @@ public class TaskBuilder {
         return this;
     }
 
+    public TaskBuilder setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+        return this;
+    }
+
+    public TaskBuilder setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public TaskBuilder setStatus(String status) {
-        if (Task.Status.NOT_ASSIGNED.name().equalsIgnoreCase(status)) {
-            this.status = Task.Status.NOT_ASSIGNED;
-        } else if (Task.Status.ASSIGNED.name().equalsIgnoreCase(status)) {
-            this.status = Task.Status.ASSIGNED;
-        } else if (Task.Status.FINISHED.name().equalsIgnoreCase(status)) {
-            this.status = Task.Status.FINISHED;
-        } else if (Task.Status.EXPIRED.name().equalsIgnoreCase(status)) {
-            this.status = Task.Status.EXPIRED;
-        } else if (Task.Status.CANCELLED.name().equalsIgnoreCase(status)) {
-            this.status = Task.Status.CANCELLED;
-        }
+        this.status = Task.Status.valueOf(status.toUpperCase());
         return this;
     }
 
@@ -60,18 +48,33 @@ public class TaskBuilder {
         return this;
     }
 
-    public TaskBuilder setSpentTime(LocalTime spentTime) {
+    public TaskBuilder setSpentTime(Integer spentTime) {
         this.spentTime = spentTime;
+        return this;
+    }
+
+    public TaskBuilder setApproved(String approved) {
+        this.approved = Task.Approved.valueOf(approved.toUpperCase());
         return this;
     }
 
     public Task buildTask(){
         Task task = new Task();
         task.setId(id);
-        task.setName(name);
         task.setProjectId(projectId);
+        task.setEmployeeId(employeeId);
+        task.setName(name);
         task.setStatus(status);
         task.setDeadline(deadline);
+        task.setSpentTime(spentTime);
+        task.setApproved(approved);
+        return task;
+    }
+
+    public Task buildTaskForUpdate(){
+        Task task = new Task();
+        task.setId(id);
+        task.setStatus(status);
         task.setSpentTime(spentTime);
         return task;
     }
