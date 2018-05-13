@@ -39,7 +39,7 @@
                         value=<fmt:message key="employeeInformation.table.button.changeRole"/>
                         onClick='this.form.action="employee_change_role";'>
                 </display:column>
-                <display:column >
+                <display:column titleKey="admin.alltasks.delete">
                     <input type="submit" name="delete"
                         value=<fmt:message key="employeeInformation.table.button.delete"/>
                         onClick='this.form.action="employee_delete";' >

@@ -1,7 +1,7 @@
 package ua.training.tts.model.service;
 
 import ua.training.tts.constant.ReqSesParameters;
-import ua.training.tts.constant.controller.command.RegExp;
+import ua.training.tts.constant.RegExp;
 import ua.training.tts.constant.model.Entity;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.constant.model.service.Service;

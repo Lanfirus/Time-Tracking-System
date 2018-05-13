@@ -108,6 +108,13 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder using(String columnName) {
+        request.append(" USING (")
+                .append(columnName)
+                .append(") ");
+        return this;
+    }
+
     public String build(){
         return request.toString();
     }

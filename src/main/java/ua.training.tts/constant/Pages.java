@@ -15,4 +15,5 @@ public interface Pages {
     String ADMIN_EMLOYEE_EDIT_PAGE = "/WEB-INF/jsp/admin/employee-edit.jsp";
     String ADMIN_ALL_TASKS_PAGE = "/WEB-INF/jsp/admin/all-tasks-admin.jsp";
     String EMPLOYEE_MY_TASKS_PAGE = "/WEB-INF/jsp/employee/my-tasks-employee.jsp";
+    String EMPLOYEE_REQUEST_NEW_TASK_PAGE = "/WEB-INF/jsp/employee/new-task-employee.jsp";
 }

@@ -1,6 +1,7 @@
 package ua.training.tts.model.dao.impl;
 
 import ua.training.tts.constant.ExceptionMessages;
+import ua.training.tts.constant.model.Entity;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.connectionpool.ConnectionPool;
@@ -14,34 +15,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TaskDaoMySQLImpl implements TaskDao {
+public class MySQLImpl implements TaskDao {
 
     private RequestBuilder builder;
     private String savedStatement;
 
-    public TaskDaoMySQLImpl(RequestBuilder builder){
+    public MySQLImpl(RequestBuilder builder){
         this.builder = builder;
     }
 
     @Override
     public void create(Task task) {
+        List<String> fieldNames = getFieldNames();
         String request = builder.insertIntoTable(TableParameters.TASK_TABLE_NAME)
-                                .insertValues(getFieldNames())
+                                .insertValues(fieldNames)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(request)) {
-            statement.setInt(1, task.getProjectId());
-            statement.setInt(2, task.getEmployeeId());
-            statement.setString(3, task.getName());
-            statement.setString(4, task.getStatus().name().toLowerCase());
-            statement.setDate(5, Date.valueOf(task.getDeadline()));
-            statement.setInt(6, task.getSpentTime());
-            statement.setString(7, task.getApproved().name().toLowerCase());
+                PreparedStatement statement = connection.prepareStatement(request)) {
+            statement.setInt(1, task.getId());
+            statement.setInt(2, task.getProjectId());
+            statement.setInt(3, task.getEmployeeId());
+            statement.setString(4, task.getName());
+            statement.setString(5, task.getStatus().name().toLowerCase());
+            statement.setDate(6, Date.valueOf(task.getDeadline()));
+            statement.setInt(7, task.getSpentTime());
+            statement.setString(8, task.getApproved().name().toLowerCase());
             savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.TASK_TABLE_NAME,
-                    savedStatement), e);
+                                                                                            savedStatement), e);
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -52,7 +55,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
                                 .where(TableParameters.TASK_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(request)) {
+                PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setInt(1,id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
@@ -61,13 +64,14 @@ public class TaskDaoMySQLImpl implements TaskDao {
         }
         catch (SQLException e) {
             log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.TASK_TABLE_NAME,
-                    savedStatement), e);
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
 
     private Task extractDataFromResultSet(ResultSet set) throws SQLException{
         TaskBuilder builder = new TaskBuilder();
+        //ToDO check whether Field == null is allowed here w/o Exception. Potential are ID, Patronymic and Comment
         Task task = builder.setId(set.getInt(TableParameters.TASK_ID))
                            .setProjectId(set.getInt(TableParameters.TASK_PROJECT_ID))
                            .setEmployeeId(set.getInt(TableParameters.TASK_EMPLOYEE_ID))
@@ -95,7 +99,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
             }
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.TASK_TABLE_NAME,
-                    savedStatement), e);
+                                                                                        savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
         return resultList;
@@ -126,39 +130,43 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public void update(Task task) {
-        String request = builder.update(TableParameters.TASK_TABLE_NAME, getFieldNames())
+        List<String> fieldNames = getFieldNames();
+        String request = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
                                 .where(TableParameters.TASK_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){
-            statement.setInt(1, task.getProjectId());
-            statement.setInt(2, task.getEmployeeId());
-            statement.setString(3, task.getName());
-            statement.setString(4, task.getStatus().name().toLowerCase());
-            statement.setDate(5, Date.valueOf(task.getDeadline()));
-            statement.setInt(6, task.getSpentTime());
-            statement.setString(7, task.getApproved().name().toLowerCase());
-            statement.setInt(8, task.getId());
+            statement.setInt(1, task.getId());
+            statement.setInt(2, task.getProjectId());
+            statement.setInt(3, task.getEmployeeId());
+            statement.setString(4, task.getName());
+            statement.setString(5, task.getStatus().name().toLowerCase());
+            statement.setDate(6, Date.valueOf(task.getDeadline()));
+            statement.setInt(7, task.getSpentTime());
+            statement.setString(8, task.getApproved().name().toLowerCase());
+            statement.setInt(9, task.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.TASK_TABLE_NAME,
-                    savedStatement), e);
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
 
     @Override
     public void updateTaskEmployee(Task task) {
-        List<String> fieldNames = Arrays.asList(TableParameters.TASK_STATUS, TableParameters.TASK_SPENT_TIME);
+        List<String> fieldNames = Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_STATUS,
+                TableParameters.TASK_SPENT_TIME);
         String request = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
                                 .where(TableParameters.TASK_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(request)){
-            statement.setString(1, task.getStatus().name().toLowerCase());
-            statement.setInt(2, task.getSpentTime());
-            statement.setInt(3, task.getId());
+             PreparedStatement statement = connection.prepareStatement(request)){
+            statement.setInt(1, task.getId());
+            statement.setString(2, task.getStatus().name().toLowerCase());
+            statement.setInt(3, task.getSpentTime());
+            statement.setInt(4, task.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -180,7 +188,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.TASK_TABLE_NAME,
-                    savedStatement), e);
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -204,7 +212,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
     }
 
     public List<String> getFieldNames() {
-        return Arrays.asList(TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
+        return Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
                 TableParameters.TASK_NAME, TableParameters.TASK_STATUS, TableParameters.TASK_DEADLINE,
                 TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVED);
     }

@@ -1,4 +1,4 @@
-package ua.training.tts.constant.controller.command;
+package ua.training.tts.constant;
 
 public interface RegExp {
 
@@ -10,4 +10,9 @@ public interface RegExp {
     String TASK_DEADLINE = "task_deadline";
     String TASK_SPENT_TIME = "spent_time";
     String TASK_APPROVED = "approved";
+
+    String PROJECT_ID = "project_id";
+    String PROJECT_NAME = "project_name";
+    String PROJECT_DEADLINE = "project_deadline";
+    String PROJECT_STATUS = "project_status";
 }

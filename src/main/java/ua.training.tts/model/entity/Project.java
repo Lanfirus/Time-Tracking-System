@@ -1,42 +1,61 @@
 package ua.training.tts.model.entity;
 
-import ua.training.tts.constant.model.Entity;
 
-import java.util.Map;
+import java.time.LocalDate;
 
 public class Project {
 
-    private Map<String, String> projectData;
-
-    public Project(Map<String, String> projectData){
-        this.projectData = projectData;
+    public enum Status {
+        NEW, ASSIGNED, FINISHED, EXPIRED, CANCELLED
     }
 
-    public String getID(){
-        return projectData.get(Entity.PROJECT_ID);
+    private Integer id;
+    private String name;
+    private LocalDate deadline;
+    private Status status;
+
+    public Integer getId() {
+        return id;
     }
 
-    public String getName(){
-        return projectData.get(Entity.PROJECT_NAME);
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getDeadline(){
-        return projectData.get(Entity.PROJECT_DEADLINE);
+    public String getName() {
+        return name;
     }
 
-    public String getCostCenter(){
-        return projectData.get(Entity.PROJECT_COSTCENTER);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTeamSize(){
-        return projectData.get(Entity.PROJECT_TEAM_SIZE);
+    public LocalDate getDeadline() {
+        return deadline;
     }
 
-    public String getTaskQty(){
-        return projectData.get(Entity.PROJECT_TASK_QTY);
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
     }
 
-    public Map<String, String> getProjectData(){
-        return projectData;
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Project(Integer id, String name, LocalDate deadline, Status status) {
+        this.id = id;
+        this.name = name;
+        this.deadline = deadline;
+        this.status = status;
+    }
+
+    public Project(String name, LocalDate deadline, Status status) {
+        this.name = name;
+        this.deadline = deadline;
+        this.status = status;
     }
 }

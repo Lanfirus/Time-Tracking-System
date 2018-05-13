@@ -8,6 +8,7 @@ import ua.training.tts.controller.command.admin.EmployeeChangeRole;
 import ua.training.tts.controller.command.admin.EmployeeDelete;
 import ua.training.tts.controller.command.admin.EmployeeInformation;
 import ua.training.tts.controller.command.employee.MyTasks;
+import ua.training.tts.controller.command.employee.NewTask;
 import ua.training.tts.controller.command.profile.Profile;
 import ua.training.tts.controller.command.profile.ProfileUpdate;
 import ua.training.tts.controller.command.redirect.*;
@@ -99,6 +100,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_EMPLOYEE_DELETE, new EmployeeDelete(new EmployeeService()));
             commands.put(Servlet.EMPLOYEE_MY_TASKS, new MyTasks(new TaskService()));
             commands.put(Servlet.ADMIN_ALL_TASKS, new AllTasks(new TaskService()));
+            commands.put(Servlet.EMPLOYEE_NEW_TASK_FORM, new NewTask(new TaskService()));
         }
     }
 }

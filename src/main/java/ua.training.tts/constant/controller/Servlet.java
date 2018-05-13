@@ -24,4 +24,6 @@ public interface Servlet {
     String EMPLOYEE_MY_TASKS = "task_show";
     String EMPLOYEE_MY_TASKS_UPDATE = "employee_task_update";
     String ADMIN_ALL_TASKS = "admin/task";
+    String EMPLOYEE_NEW_TASK_FORM = "new_task_form";
+    String EMPLOYEE_REQUEST_NEW_TASK = "request_new_task";
 }

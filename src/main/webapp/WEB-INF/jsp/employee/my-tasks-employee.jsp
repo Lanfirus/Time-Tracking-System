@@ -95,6 +95,11 @@
         </c:forEach>
     </table>
 
+    <br>
+    <a href="${pageContext.request.contextPath}/tts/new_task_form" class="button">
+        <fmt:message key="employee.mytasks.button.requestNew" />
+    </a>
+
 </div>
 
 <jsp:include page="../jspParts/footer.jsp"/>
