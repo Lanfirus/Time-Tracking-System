@@ -4,7 +4,7 @@ import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.controller.command.Command;
-import ua.training.tts.controller.listener.EmployeeDTO;
+import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Task;
 import ua.training.tts.model.exception.BadTaskDataException;
 import ua.training.tts.model.service.TaskService;

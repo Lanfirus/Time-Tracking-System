@@ -77,7 +77,7 @@ public class MySQLImpl implements TaskDao {
                            .setEmployeeId(set.getInt(TableParameters.TASK_EMPLOYEE_ID))
                            .setName(set.getString(TableParameters.TASK_NAME))
                            .setStatus(set.getString(TableParameters.TASK_STATUS))
-                           .setDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
+                           .setDeadline(set.getString(TableParameters.TASK_DEADLINE))
                            .setSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
                            .setApproved(set.getString(TableParameters.TASK_APPROVED))
                            .buildTask();

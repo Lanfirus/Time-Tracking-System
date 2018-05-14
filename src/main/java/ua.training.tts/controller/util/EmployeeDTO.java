@@ -1,4 +1,4 @@
-package ua.training.tts.controller.listener;
+package ua.training.tts.controller.util;
 
 import ua.training.tts.constant.controller.Listener;
 
@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Data transfer object class to implement multi-login management and to ease CRUD operations on Employee entities.

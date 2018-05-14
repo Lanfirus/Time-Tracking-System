@@ -1,43 +1,48 @@
 package ua.training.tts.model.service;
 
-import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.RegExp;
+import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.model.Entity;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.dao.EmployeeDao;
+import ua.training.tts.model.dao.FullTaskDao;
 import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.factory.DaoFactory;
 import ua.training.tts.model.dao.factory.JDBCDaoFactoryImpl;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.entity.Task;
+import ua.training.tts.model.entity.full.FullTask;
 import ua.training.tts.model.exception.BadTaskDataException;
 import ua.training.tts.model.util.builder.TaskBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class TaskService {
+public class FullTaskService {
 
     private ResourceBundle regexpBundle;
     private DaoFactory daoFactory;
 
-    public TaskService() {
+    public FullTaskService() {
         this.daoFactory = new JDBCDaoFactoryImpl();
     }
-//ToDo check correctness
+
     public Task buildTask(HttpServletRequest request){
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
-                                     .setProjectId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
-                                     .setEmployeeId(Integer.parseInt(request.getParameter(TableParameters.TASK_EMPLOYEE_ID)))
+                                     .setId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
+                                     .setId(Integer.parseInt(request.getParameter(TableParameters.TASK_EMPLOYEE_ID)))
                                      .setName(request.getParameter(TableParameters.TASK_NAME))
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(Task.Approved.NEW.name().toLowerCase())
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED).toLowerCase())
                                      .buildTask();
             return task;
     }
@@ -47,18 +52,6 @@ public class TaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
                                      .buildTaskForUpdate();
-        return task;
-    }
-
-    public Task buildNewTaskRequestEmployee(HttpServletRequest request, Integer id){
-        Task task = new TaskBuilder().setProjectId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
-                                     .setEmployeeId(id)
-                                     .setName(request.getParameter(TableParameters.TASK_NAME))
-                                     .setStatus(Task.Status.ASSIGNED.name().toLowerCase())
-                                     .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
-                                     .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(Task.Approved.NEW.name().toLowerCase())
-                                     .buildTask();
         return task;
     }
 
@@ -95,8 +88,7 @@ public class TaskService {
         bundleInitialization(new Locale(locale));
 
         boolean check = true;
-        check &= (task.getId() == null || matchInputWithRegexp(String.valueOf(task.getId()),
-                regexpBundle.getString(RegExp.TASK_ID)));
+        check &= matchInputWithRegexp(String.valueOf(task.getId()), regexpBundle.getString(RegExp.TASK_ID));
         check &= (task.getProjectId() == null ||  matchInputWithRegexp(String.valueOf(task.getProjectId()),
                 regexpBundle.getString(RegExp.TASK_PROJECT_ID)));
         check &= (task.getEmployeeId() == null || matchInputWithRegexp(String.valueOf(task.getEmployeeId()),
@@ -104,10 +96,9 @@ public class TaskService {
         check &= (task.getName() == null || matchInputWithRegexp(task.getName(),
                 regexpBundle.getString(RegExp.TASK_NAME)));
         check &= matchInputWithRegexp(task.getStatus().name(), regexpBundle.getString(RegExp.TASK_STATUS));
-        check &= (task.getDeadline() == null || matchInputWithRegexp(String.valueOf(task.getDeadline()),
+        check &= (task.getDeadline() == null ||matchInputWithRegexp(String.valueOf(task.getDeadline()),
                 regexpBundle.getString(RegExp.TASK_DEADLINE)));
-        check &= (task.getSpentTime() == null || matchInputWithRegexp(String.valueOf(task.getSpentTime()),
-                regexpBundle.getString(RegExp.TASK_SPENT_TIME)));
+        check &= matchInputWithRegexp(String.valueOf(task.getSpentTime()), regexpBundle.getString(RegExp.TASK_SPENT_TIME));
         check &= (task.getApproved() == null || matchInputWithRegexp(String.valueOf(task.getApproved()),
                 regexpBundle.getString(RegExp.TASK_APPROVED)));
         return check;
@@ -201,9 +192,9 @@ public class TaskService {
         return dao.findAll();
     }
 
-    public List<Task> findAllById(Integer id){
-        TaskDao dao = daoFactory.createTaskDao();
-        return dao.findAllByEmployeeId(id);
+    public List<FullTask> findAllProjectsByEmployeeId(Integer id){
+        FullTaskDao dao = daoFactory.createFullTaskDao();
+        return dao.findAllProjectsByEmployeeId(id);
     }
 
     public void setRoleById(Integer id, String role){

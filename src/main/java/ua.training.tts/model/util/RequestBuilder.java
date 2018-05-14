@@ -47,6 +47,32 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder selectSomeFromTable(String tableName, List<String> columnNames) {
+        request.append("SELECT ");
+        for (int columnNumber = 0; columnNumber < columnNames.size(); columnNumber++) {
+            request.append(columnNames.get(columnNumber));
+            if (columnNumber != columnNames.size() - 1) {
+                request.append(",");
+            }
+        }
+        request.append(" FROM ")
+                .append(tableName);
+        return this;
+    }
+
+    public RequestBuilder selectSomeFromTableDistinct(String tableName, List<String> columnNames) {
+        request.append("SELECT DISTINCT ");
+        for (int columnNumber = 0; columnNumber < columnNames.size(); columnNumber++) {
+            request.append(columnNames.get(columnNumber));
+            if (columnNumber != columnNames.size() - 1) {
+                request.append(",");
+            }
+        }
+        request.append(" FROM ")
+                .append(tableName);
+        return this;
+    }
+
     public RequestBuilder where(String columnName) {
         request.append(" WHERE ")
                .append(columnName)

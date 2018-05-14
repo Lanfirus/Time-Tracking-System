@@ -43,8 +43,8 @@ public class TaskBuilder {
         return this;
     }
 
-    public TaskBuilder setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
+    public TaskBuilder setDeadline(String deadline) {
+        this.deadline = ("".equals(deadline) ) ? null : LocalDate.parse(deadline);
         return this;
     }
 

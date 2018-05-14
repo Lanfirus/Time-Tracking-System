@@ -73,7 +73,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
                            .setEmployeeId(set.getInt(TableParameters.TASK_EMPLOYEE_ID))
                            .setName(set.getString(TableParameters.TASK_NAME))
                            .setStatus(set.getString(TableParameters.TASK_STATUS))
-                           .setDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
+                           .setDeadline(set.getString(TableParameters.TASK_DEADLINE))
                            .setSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
                            .setApproved(set.getString(TableParameters.TASK_APPROVED))
                            .buildTask();
@@ -105,7 +105,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
     public List<Task> findAllByEmployeeId(Integer id) {
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
-                                .where(TableParameters.EMPLOYEE_ID)
+                                .where(TableParameters.TASK_EMPLOYEE_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){

@@ -26,13 +26,13 @@
 
         <li>
             <label for="login"><fmt:message key="registration.login" />:</label>
-            <input type="text" name="login" placeholder="<fmt:message key="registration.loginPlaceholder" />" required
+            <input type="text" name="employee_login" placeholder="<fmt:message key="registration.loginPlaceholder" />" required
                 pattern="^(?!
                     <c:if test = "${not empty requestScope.not_unique_login}">
-                        ${requestScope.login}
+                        ${requestScope.employee_login}
                     </c:if>
                     .+"
-                    value="${requestScope.login}"
+                    value="${requestScope.employee_login}"
             />
             <c:if test = "${not empty requestScope.not_unique_login}">
                 <br>
@@ -48,7 +48,7 @@
 
         <li>
             <label for="password"><fmt:message key="registration.password" />:</label>
-            <input type="password" name="password" placeholder="<fmt:message key="registration.passwordPlaceholder" />"
+            <input type="password" name="employee_password" placeholder="<fmt:message key="registration.passwordPlaceholder" />"
                 required pattern=".+"
             />
             <span class="form_hint"><fmt:message key="registration.passwordRegexp" /></span>
@@ -56,18 +56,18 @@
 
         <li>
             <label for="name"><fmt:message key="registration.name" />:</label>
-            <input type="text" name="name" placeholder="<fmt:message key="registration.namePlaceholder" />"
+            <input type="text" name="employee_name" placeholder="<fmt:message key="registration.namePlaceholder" />"
                 required pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+$"
-                value="${requestScope.name}"
+                value="${requestScope.employee_name}"
             />
             <span class="form_hint"><fmt:message key="registration.nameRegexp" /></span>
         </li>
 
         <li>
             <label for="surname"><fmt:message key="registration.surname" />:</label>
-            <input type="text" name="surname" placeholder="<fmt:message key="registration.surnamePlaceholder" />"
+            <input type="text" name="employee_surname" placeholder="<fmt:message key="registration.surnamePlaceholder" />"
                 required pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+$"
-                value="${requestScope.surname}"
+                value="${requestScope.employee_surname}"
 
             />
             <span class="form_hint"><fmt:message key="registration.surnameRegexp" /></span>
@@ -75,10 +75,10 @@
 
         <li>
             <label for="patronymic"><fmt:message key="registration.patronymic" />:</label>
-            <input type="text" name="patronymic" placeholder="<fmt:message key="registration.patronymicPlaceholder" />"
+            <input type="text" name="employee_patronymic" placeholder="<fmt:message key="registration.patronymicPlaceholder" />"
                 pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+|$"
-                <c:if test = "${not empty requestScope.patronymic}">
-                        value="${requestScope.patronymic}"
+                <c:if test = "${not empty requestScope.employee_patronymic}">
+                        value="${requestScope.employee_patronymic}"
                 </c:if>
             />
             <span class="form_hint"><fmt:message key="registration.patronymicRegexp" /></span>
@@ -86,28 +86,28 @@
 
         <li>
             <label for="email"><fmt:message key="registration.email" />:</label>
-            <input type="text" name="email" placeholder="email@email.com" required
+            <input type="text" name="employee_email" placeholder="email@email.com" required
                 pattern="^(?!.*?[._\-]{2,})[a-zA-Z0-9]{1}[a-zA-Z0-9._\-]{0,62}[a-zA-Z0-9]?@{1}(?!.{256,})([a-zA-Z0-9]{1}[a-zA-Z0-9._\-]{1,254}[a-zA-Z0-9]{1}|\[{1}\d{1,3}\.{1}\d{1,3}\.{1}\d{1,3}\.{1}\d{1,3}\]{1})$"
-                value="${requestScope.email}"
+                value="${requestScope.employee_email}"
             />
             <span class="form_hint"><fmt:message key="registration.emailRegexp" /></span>
         </li>
 
         <li>
             <label for="mobilephonenumber"><fmt:message key="registration.mobilePhoneNumber" />:</label>
-            <input type="text" name="mobile_phone" placeholder="380501234567"
+            <input type="text" name="employee_mobile_phone" placeholder="380501234567"
                 required pattern="^(?:380\d{9}|\d{10,12})$"
-                value="${requestScope.mobile_phone}"
+                value="${requestScope.employee_mobile_phone}"
             />
             <span class="form_hint"><fmt:message key="registration.mobilePhoneNumberRegexp" /></span>
         </li>
 
         <li>
             <label for="comment"><fmt:message key="registration.comment" />:</label>
-            <input type="text" name="comment" placeholder="<fmt:message key="registration.commentPlaceholder" />"
+            <input type="text" name="employee_comment" placeholder="<fmt:message key="registration.commentPlaceholder" />"
                 pattern=".*"
-                <c:if test = "${not empty requestScope.comment}">
-                        value="${requestScope.comment}"
+                <c:if test = "${not empty requestScope.employee_comment}">
+                        value="${requestScope.employee_comment}"
                 </c:if>
             />
             <span class="form_hint"><fmt:message key="registration.commentRegexp" /></span>

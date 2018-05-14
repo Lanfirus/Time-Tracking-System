@@ -28,4 +28,8 @@ public interface ReqSesParameters {
     String TASK_STATUS_HAS_BEEN_CHANGED = "task_status_changed";
     String TASK_ID = "task_id";
     String TASK = "task";
+    String MY_PROJECTS = "myProjects";
+    String TASK_REQUEST_OK = "task_request_ok";
+    String BAD_TASK_REQUEST_DATA = "bad_task_request_data";
+    String TODAY = "today";
 }

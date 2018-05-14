@@ -54,13 +54,13 @@
 
                         <form method="post" action="" name="my_tasks_form">
                         <td>
-                            <input type="number"  min="0" style="width: 5em" name="spent_time" required
+                            <input type="number"  min="0" style="width: 5em" name="task_spent_time" required
                                 value="${task.spentTime}"/>
                         </td>
 
                         <td>
 
-                            <select name="status">
+                            <select name="task_status">
                                 <option value="assigned" ${task.status == 'ASSIGNED' ? 'selected' : ''}>
                                     <fmt:message key="employee.mytasks.status.assigned" />
                                 </option>
@@ -83,7 +83,7 @@
                             <input type="hidden" name="old_status" value="${task.status}">
                             <input type="submit" name="changeStatus"
                                  value=<fmt:message key="employee.mytasks.changeStatus"/>
-                                 onClick='this.form.action="employee_task_update";'>
+                                 onClick='this.form.action="task_show";'>
                         </td>
                         </form>
 

@@ -176,6 +176,25 @@ public class FullTaskBuilder {
         return fullTask;
     }
 
+    public FullTask buildProjectEmployee(){
+        FullTask fullTask = new FullTask();
+        fullTask.setProjectId(projectId);
+        fullTask.setProjectName(projectName);
+        fullTask.setProjectDeadline(projectDeadline);
+        fullTask.setProjectStatus(projectStatus);
+        fullTask.setEmployeeId(employeeId);
+        fullTask.setEmployeeLogin(employeeLogin);
+        fullTask.setEmployeePassword(employeePassword);
+        fullTask.setEmployeeName(employeeName);
+        fullTask.setEmployeeSurname(employeeSurname);
+        fullTask.setEmployeePatronymic(employeePatronymic);
+        fullTask.setEmployeeEmail(employeeEmail);
+        fullTask.setEmployeeMobilePhone(employeeMobilePhone);
+        fullTask.setEmployeeComment(employeeComment);
+        fullTask.setEmployeeAccountRole(employeeAccountRole);
+        return fullTask;
+    }
+
     public FullTask buildFullTask(){
         FullTask fullTask = new FullTask();
         fullTask.setTaskId(taskId);
@@ -194,6 +213,15 @@ public class FullTaskBuilder {
         fullTask.setEmployeeMobilePhone(employeeMobilePhone);
         fullTask.setEmployeeComment(employeeComment);
         fullTask.setEmployeeAccountRole(employeeAccountRole);
+        fullTask.setProjectId(projectId);
+        fullTask.setProjectName(projectName);
+        fullTask.setProjectDeadline(projectDeadline);
+        fullTask.setProjectStatus(projectStatus);
+        return fullTask;
+    }
+
+    public FullTask buildProject(){
+        FullTask fullTask = new FullTask();
         fullTask.setProjectId(projectId);
         fullTask.setProjectName(projectName);
         fullTask.setProjectDeadline(projectDeadline);

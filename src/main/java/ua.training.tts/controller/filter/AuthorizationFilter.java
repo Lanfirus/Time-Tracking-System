@@ -2,7 +2,7 @@ package ua.training.tts.controller.filter;
 
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.FilterParameters;
-import ua.training.tts.controller.listener.EmployeeDTO;
+import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.*;

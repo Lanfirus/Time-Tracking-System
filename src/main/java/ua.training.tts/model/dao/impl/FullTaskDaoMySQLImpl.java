@@ -4,6 +4,7 @@ import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.FullTaskDao;
 import ua.training.tts.model.dao.connectionpool.ConnectionPool;
+import ua.training.tts.model.entity.Project;
 import ua.training.tts.model.entity.full.FullTask;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.FullTaskBuilder;
@@ -11,6 +12,7 @@ import ua.training.tts.util.LogMessageHolder;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FullTaskDaoMySQLImpl implements FullTaskDao {
@@ -57,6 +59,35 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
         return resultList;
     }
 
+    @Override
+    public List<FullTask> findAllProjectsByEmployeeId(Integer id) {
+        List<FullTask> resultList = new ArrayList<>();
+        List<String> columnNames = Arrays.asList(TableParameters.PROJECT_ID, TableParameters.PROJECT_NAME,
+                TableParameters.PROJECT_DEADLINE, TableParameters.PROJECT_STATUS);
+        String request = builder.selectSomeFromTableDistinct(TableParameters.TASK_TABLE_NAME, columnNames)
+                                .join(TableParameters.PROJECT_TABLE_NAME)
+                                .using(TableParameters.PROJECT_ID)
+                                .where(TableParameters.EMPLOYEE_ID)
+                                .and(TableParameters.PROJECT_STATUS)
+                                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(request)){
+            statement.setInt(1, id);
+            statement.setString(2, Project.Status.ASSIGNED.name().toLowerCase());
+            savedStatement = statement.toString();
+            ResultSet set = statement.executeQuery();
+            while (set.next()){
+                FullTask result = extractProjectDataFromResultSet(set);
+                resultList.add(result);
+            }
+        } catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
+                    savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+        return resultList;
+    }
+
     private FullTask extractDataFromResultSet(ResultSet set) throws SQLException {
         FullTaskBuilder builder = new FullTaskBuilder();
         FullTask fullTask = builder.setTaskId(set.getInt(TableParameters.TASK_ID))
@@ -83,6 +114,16 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                 .setProjectStatus(set.getString(TableParameters.PROJECT_STATUS))
 
                 .buildFullTask();
+        return fullTask;
+    }
+
+    private FullTask extractProjectDataFromResultSet(ResultSet set) throws SQLException {
+        FullTaskBuilder builder = new FullTaskBuilder();
+        FullTask fullTask = builder.setProjectId(set.getInt(TableParameters.PROJECT_ID))
+                                    .setProjectName(set.getString(TableParameters.PROJECT_NAME))
+                                    .setProjectDeadline(set.getDate(TableParameters.PROJECT_DEADLINE).toLocalDate())
+                                    .setProjectStatus(set.getString(TableParameters.PROJECT_STATUS))
+                                    .buildProject();
         return fullTask;
     }
 

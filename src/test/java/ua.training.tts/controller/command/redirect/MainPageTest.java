@@ -8,7 +8,7 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.constant.model.Entity;
-import ua.training.tts.controller.listener.EmployeeDTO;
+import ua.training.tts.controller.util.EmployeeDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
