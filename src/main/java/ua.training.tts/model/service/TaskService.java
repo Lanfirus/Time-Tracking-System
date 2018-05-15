@@ -234,7 +234,7 @@ public class TaskService {
     }
 
     public void deleteById(Integer id){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
+        TaskDao dao = daoFactory.createTaskDao();
         dao.delete(id);
     }
 

@@ -58,6 +58,7 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
+        System.out.println(path);
         Command command = commands.getOrDefault(path, x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
         String page = command.execute(request);
         sendUserToPage(page, request, response);
@@ -105,6 +106,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_ALL_PROJECTS, new AllProjects(new ProjectService()));
             commands.put(Servlet.ADMIN_TASK_EDIT_FORM, new TaskEditFormAdmin(new TaskService()));
             commands.put(Servlet.ADMIN_TASK_EDIT, new TaskEdit(new TaskService()));
+            commands.put(Servlet.ADMIN_TASK_DELETE, new TaskDelete(new TaskService()));
             commands.put(Servlet.ADMIN_NEW_TASK_FORM, new NewTaskFormAdmin());
             commands.put(Servlet.ADMIN_NEW_TASK, new NewTaskAdmin(new TaskService()));
         }

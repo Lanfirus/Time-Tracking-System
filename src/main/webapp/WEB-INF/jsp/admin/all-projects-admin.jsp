@@ -16,8 +16,8 @@
     <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
     </c:if>
 
-            <display:table name="myProjects"
-                           sort="list" uid="one" requestURI = "" pagesize="5">
+            <display:table name="myProjects" id="project"
+                           sort="list" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.allprojects.id"
                                 sortable="true" headerClass="sortable" />
                 <display:column property="name" titleKey="admin.allprojects.name"
@@ -27,6 +27,7 @@
                 <display:column property="deadline" titleKey="admin.allprojects.deadline"
                                 sortable="true" headerClass="sortable" />
                 <display:column titleKey="admin.allprojects.edit" >
+                <input type="hidden" name="project_id" value="${project.id}">
                     <input type="submit" name="changeRole"
                         value=<fmt:message key="admin.allprojects.button.edit"/>
                         onClick='this.form.action="project_edit";'>
@@ -37,6 +38,11 @@
                         onClick='this.form.action="project_delete";' >
                 </display:column>
             </display:table>
+
+    <br>
+    <a href="${pageContext.request.contextPath}/tts/admin/new_project_form" class="button">
+        <fmt:message key="admin.allprojects.button.newProject" />
+    </a>
 
 </div>
 

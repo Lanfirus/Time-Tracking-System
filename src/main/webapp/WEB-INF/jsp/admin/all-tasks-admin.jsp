@@ -18,10 +18,9 @@
 
     <form method="post" action="" name="my_tasks_form">
 
-            <display:table name="myTasks" id="task"
-                           sort="list" requestURI = "" pagesize="5">
+            <display:table name="myTasks" id="task" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.alltasks.id"
-                                sortable="true" headerClass="sortable" />
+                                sortable="true" headerClass="sortable" ></display:column>
                 <display:column property="projectId" titleKey="admin.alltasks.projectId"
                                 sortable="true" headerClass="sortable" />
                 <display:column property="employeeId" titleKey="admin.alltasks.employeeId"
@@ -37,18 +36,18 @@
                 <display:column property="approved" titleKey="admin.alltasks.approved"
                                 sortable="true" headerClass="sortable" />
                 <display:column titleKey="admin.alltasks.edit" >
-                <input type="hidden" name="task_id" value="${task.id}">
-                    <input type="submit" name="edit"
-                        value=<fmt:message key="admin.alltasks.button.edit"/>
-                        onClick='this.form.action="task_edit_form";'>
-                </display:column>
-                <display:column titleKey="admin.alltasks.delete">
-                    <input type="submit" name="delete"
-                        value=<fmt:message key="admin.alltasks.button.delete"/>
-                        onClick='this.form.action="task_delete";' >
+                <input type="radio" name="task_id" value="${task.id}" checked>
                 </display:column>
 
             </display:table>
+
+            <button class="submit" type="submit" onClick='this.form.action="task_edit_form";'>
+                <fmt:message key="admin.alltasks.button.edit" />
+            </button>
+            <br>
+            <button class="submit" type="submit" onClick='this.form.action="task_delete";'>
+                <fmt:message key="admin.alltasks.button.delete" />
+            </button>
 
     </form>
 

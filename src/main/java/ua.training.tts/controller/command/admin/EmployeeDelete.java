@@ -19,7 +19,6 @@ public class EmployeeDelete implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        System.out.println("here");
         Integer id = Integer.parseInt(request.getParameter(ReqSesParameters.ID));
         service.deleteById(id);
         return Servlet.REDIRECT + CommandParameters.EMPLOYEES;
