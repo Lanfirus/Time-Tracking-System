@@ -12,6 +12,7 @@ public interface CommandParameters {
     String MAIN = "main";
     String PROFILE = "profile";
     String EMPLOYEES = "employees";
+    String ADMIN_ALL_TASKS = "admin/task";
 
     String EMPTY = "";
     Integer ZERO = 0;

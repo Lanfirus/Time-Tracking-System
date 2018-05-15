@@ -81,7 +81,14 @@ public class RequestBuilder {
     }
 
     public RequestBuilder and(String columnName) {
-        request.append(" and ")
+        request.append(" AND ")
+                .append(columnName)
+                .append(" = ?");
+        return this;
+    }
+
+    public RequestBuilder or(String columnName) {
+        request.append(" OR ")
                 .append(columnName)
                 .append(" = ?");
         return this;

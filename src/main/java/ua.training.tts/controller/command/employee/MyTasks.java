@@ -27,7 +27,7 @@ public class MyTasks implements Command {
         Task task = null;
 
         if (request.getParameter(TableParameters.TASK_ID) != null) {
-            task = service.buildTaskForUpdate(request);
+            task = service.buildTaskForUpdateByEmployee(request);
         }
         if (task != null && detectStatusChange(request)) {
                 request.setAttribute(ReqSesParameters.TASK_STATUS_HAS_BEEN_CHANGED, true);

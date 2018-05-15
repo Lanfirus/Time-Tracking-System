@@ -6,6 +6,7 @@ import ua.training.tts.controller.exception.DoubleLoginException;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
+import ua.training.tts.model.util.Annotation;
 import ua.training.tts.util.LogMessageHolder;
 import ua.training.tts.util.PasswordHashing;
 

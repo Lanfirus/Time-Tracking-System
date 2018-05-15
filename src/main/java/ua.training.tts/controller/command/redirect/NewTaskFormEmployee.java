@@ -1,4 +1,4 @@
-package ua.training.tts.controller.command.employee;
+package ua.training.tts.controller.command.redirect;
 
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;

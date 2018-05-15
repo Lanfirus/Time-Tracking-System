@@ -14,6 +14,10 @@ public interface Pages {
     String ADMIN_EMLOYEE_INFORMATION_PAGE = "/WEB-INF/jsp/admin/employee-information.jsp";
     String ADMIN_EMLOYEE_EDIT_PAGE = "/WEB-INF/jsp/admin/employee-edit.jsp";
     String ADMIN_ALL_TASKS_PAGE = "/WEB-INF/jsp/admin/all-tasks-admin.jsp";
+    String ADMIN_ALL_PROJECTS_PAGE = "/WEB-INF/jsp/admin/all-projects-admin.jsp";
     String EMPLOYEE_MY_TASKS_PAGE = "/WEB-INF/jsp/employee/my-tasks-employee.jsp";
+    String EMPLOYEE_MY_PROJECTS_PAGE = "/WEB-INF/jsp/employee/my-projects-employee.jsp";
     String EMPLOYEE_REQUEST_NEW_TASK_PAGE = "/WEB-INF/jsp/employee/new-task-employee.jsp";
+    String ADMIN_TASK_EDIT_PAGE = "/WEB-INF/jsp/admin/task-edit-admin.jsp";
+    String ADMIN_NEW_TASK = "/WEB-INF/jsp/admin/new-task-admin.jsp";
 }

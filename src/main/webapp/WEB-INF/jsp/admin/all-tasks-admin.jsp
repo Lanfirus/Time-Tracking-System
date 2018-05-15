@@ -16,8 +16,10 @@
     <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
     </c:if>
 
-            <display:table name="myTasks"
-                           sort="list" uid="one" requestURI = "" pagesize="5">
+    <form method="post" action="" name="my_tasks_form">
+
+            <display:table name="myTasks" id="task"
+                           sort="list" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.alltasks.id"
                                 sortable="true" headerClass="sortable" />
                 <display:column property="projectId" titleKey="admin.alltasks.projectId"
@@ -34,17 +36,26 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="approved" titleKey="admin.alltasks.approved"
                                 sortable="true" headerClass="sortable" />
-                <display:column titleKey="admin.alltasks.changeStatus" >
-                    <input type="submit" name="changeRole"
-                        value=<fmt:message key="employeeInformation.table.button.changeRole"/>
-                        onClick='this.form.action="employee_change_role";'>
+                <display:column titleKey="admin.alltasks.edit" >
+                <input type="hidden" name="task_id" value="${task.id}">
+                    <input type="submit" name="edit"
+                        value=<fmt:message key="admin.alltasks.button.edit"/>
+                        onClick='this.form.action="task_edit_form";'>
                 </display:column>
                 <display:column titleKey="admin.alltasks.delete">
                     <input type="submit" name="delete"
-                        value=<fmt:message key="employeeInformation.table.button.delete"/>
-                        onClick='this.form.action="employee_delete";' >
+                        value=<fmt:message key="admin.alltasks.button.delete"/>
+                        onClick='this.form.action="task_delete";' >
                 </display:column>
+
             </display:table>
+
+    </form>
+
+    <br>
+        <a href="${pageContext.request.contextPath}/tts/admin/new_task_form" class="button">
+            <fmt:message key="admin.taskedit.button.newTask" />
+        </a>
 
 </div>
 

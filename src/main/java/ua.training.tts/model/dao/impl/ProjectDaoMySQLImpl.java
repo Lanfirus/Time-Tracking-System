@@ -93,6 +93,31 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
     }
 
     @Override
+    public List<Project> findAllActive() {
+        List<Project> resultList = new ArrayList<>();
+        String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
+                                .where(TableParameters.PROJECT_STATUS)
+                                .or(TableParameters.PROJECT_STATUS)
+                                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(request)){
+            statement.setString(1, Project.Status.ASSIGNED.name().toLowerCase());
+            statement.setString(2, Project.Status.NEW.name().toLowerCase());
+            savedStatement = statement.toString();
+            ResultSet set = statement.executeQuery();
+            while (set.next()){
+                Project result = extractDataFromResultSet(set);
+                resultList.add(result);
+            }
+        } catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
+                                                                                        savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+        return resultList;
+    }
+
+    @Override
     public List<Project> findAllByEmployeeId(Integer id) {
         List<Project> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)

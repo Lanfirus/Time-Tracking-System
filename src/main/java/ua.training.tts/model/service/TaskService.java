@@ -29,7 +29,8 @@ public class TaskService {
         this.daoFactory = new JDBCDaoFactoryImpl();
     }
 //ToDo check correctness
-    public Task buildTask(HttpServletRequest request){
+
+    public Task buildNewTaskForEditByAdmin(HttpServletRequest request){
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
                                      .setProjectId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
                                      .setEmployeeId(Integer.parseInt(request.getParameter(TableParameters.TASK_EMPLOYEE_ID)))
@@ -37,12 +38,24 @@ public class TaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(Task.Approved.NEW.name().toLowerCase())
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
+                                     .buildTask();
+        return task;
+    }
+
+    public Task buildNewTaskForAdmin(HttpServletRequest request){
+        Task task = new TaskBuilder().setProjectId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
+                                     .setEmployeeId(Integer.parseInt(request.getParameter(TableParameters.TASK_EMPLOYEE_ID)))
+                                     .setName(request.getParameter(TableParameters.TASK_NAME))
+                                     .setStatus(request.getParameter(TableParameters.TASK_STATUS))
+                                     .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
+                                     .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
                                      .buildTask();
             return task;
     }
 
-    public Task buildTaskForUpdate(HttpServletRequest request){
+    public Task buildTaskForUpdateByEmployee(HttpServletRequest request){
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
@@ -50,7 +63,7 @@ public class TaskService {
         return task;
     }
 
-    public Task buildNewTaskRequestEmployee(HttpServletRequest request, Integer id){
+    public Task buildNewTaskByEmployee(HttpServletRequest request, Integer id){
         Task task = new TaskBuilder().setProjectId(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
                                      .setEmployeeId(id)
                                      .setName(request.getParameter(TableParameters.TASK_NAME))
@@ -65,6 +78,15 @@ public class TaskService {
     public void tryToPutTaskDataFromWebIntoDB(Task task, HttpServletRequest request) throws BadTaskDataException{
         if (checkDataFromWebForCorrectness(task, request)) {
                 sendReadyRegistrationDataToDB(task);
+        }
+        else {
+            throw new BadTaskDataException();
+        }
+    }
+
+    public void tryToPutUpdateTaskDataFromWebIntoDB(Task task, HttpServletRequest request) throws BadTaskDataException{
+        if (checkDataFromWebForCorrectness(task, request)) {
+            sendReadyUpdateDataToDB(task);
         }
         else {
             throw new BadTaskDataException();
@@ -191,8 +213,8 @@ public class TaskService {
         return dao.findByLogin(login);
     }
 
-    public Employee findById(Integer id){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
+    public Task findById(Integer id){
+        TaskDao dao = daoFactory.createTaskDao();
         return dao.findById(id);
     }
 

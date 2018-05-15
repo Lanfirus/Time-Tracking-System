@@ -10,7 +10,6 @@ public class TodayTag extends TagSupport{
     public int doStartTag(){
 
         LocalDate localDate = LocalDate.now();
-        System.out.println(localDate);
         pageContext.setAttribute(ReqSesParameters.TODAY, localDate);
 
         return SKIP_BODY;

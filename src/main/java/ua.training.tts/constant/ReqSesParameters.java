@@ -32,4 +32,9 @@ public interface ReqSesParameters {
     String TASK_REQUEST_OK = "task_request_ok";
     String BAD_TASK_REQUEST_DATA = "bad_task_request_data";
     String TODAY = "today";
+    String PROJECT_LIST = "myProjects";
+    String ACTIVE_PROJECTS = "active_projects";
+    String TASK_EDIT_OK = "task_edit_ok";
+    String BAD_TASK_EDIT_DATA = "bad_task_edit_data";
+    String ALL_DATA = "all_data";
 }

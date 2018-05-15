@@ -28,7 +28,7 @@
                     <option value="0" selected>Select project</option>
                     <c:forEach var="project" items="${myProjects}">
 
-                        <option value="${project.projectId}" onClick = "getDeadline()">
+                        <option value="${project.projectId}" >
                         ${project.projectName} <fmt:message key="employee.newtask.deadline" />: ${project.projectDeadline}
                         </option>
 

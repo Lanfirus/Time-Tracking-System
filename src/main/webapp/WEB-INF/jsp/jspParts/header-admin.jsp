@@ -28,12 +28,6 @@
                             <ul class="sub-menu">
 
                                 <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/task_show_not_assigned">
-                                        <fmt:message key="header.task.show.notAssigned" />
-                                    </a>
-                                </li>
-
-                                <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/task_show_assigned">
                                         <fmt:message key="header.task.show.assigned" />
                                     </a>
@@ -42,12 +36,6 @@
                                 <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/task_show_finished">
                                         <fmt:message key="header.task.show.finished" />
-                                    </a>
-                                </li>
-
-                                <li class="sub-menu-li">
-                                    <a class="sub-menu__link" href="${pageContext.request.contextPath}/tts/admin/task_show_expired">
-                                        <fmt:message key="header.task.show.expired" />
                                     </a>
                                 </li>
 
@@ -70,12 +58,6 @@
                                 <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_active">
                                         <fmt:message key="header.project.show.active" />
-                                    </a>
-                                </li>
-
-                                <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_empty">
-                                        <fmt:message key="header.project.show.empty" />
                                     </a>
                                 </li>
 

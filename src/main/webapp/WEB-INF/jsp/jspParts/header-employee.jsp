@@ -34,7 +34,7 @@
                                 </li>
 
                                 <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/task_request">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/new_task_form">
                                         <fmt:message key="header.task.request" />
                                     </a>
                                 </li>

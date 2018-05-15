@@ -187,8 +187,8 @@ public class FullTaskService {
         return dao.findById(id);
     }
 
-    public List<Task> findAll(){
-        TaskDao dao = daoFactory.createTaskDao();
+    public List<FullTask> findAll(){
+        FullTaskDao dao = daoFactory.createFullTaskDao();
         return dao.findAll();
     }
 

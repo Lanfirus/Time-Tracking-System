@@ -5,10 +5,12 @@ import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.connectionpool.ConnectionPool;
 import ua.training.tts.model.entity.Task;
+import ua.training.tts.model.util.Annotation;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.TaskBuilder;
 import ua.training.tts.util.LogMessageHolder;
 
+import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,7 +111,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){
-            statement.setInt(1,id);
+            statement.setInt(1, id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
             while (set.next()){

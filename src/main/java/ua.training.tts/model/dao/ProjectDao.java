@@ -9,4 +9,6 @@ public interface ProjectDao extends GeneralDao<Project, Integer, String, String>
 
     public List<Project> findAllByEmployeeId(Integer id);
 
+    public List<Project> findAllActive();
+
 }
