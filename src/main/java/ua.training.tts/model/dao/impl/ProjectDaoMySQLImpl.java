@@ -179,7 +179,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
 
     public List<String> getFieldNames() {
         return Arrays.asList(TableParameters.PROJECT_NAME, TableParameters.PROJECT_DEADLINE,
-                TableParameters.TASK_STATUS);
+                TableParameters.PROJECT_STATUS);
     }
 
     @Override

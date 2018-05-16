@@ -38,9 +38,17 @@ public class ProjectService {
         Integer id = Integer.parseInt(request.getParameter(TableParameters.PROJECT_ID));
         String name = request.getParameter(TableParameters.PROJECT_NAME);
         LocalDate deadline = LocalDate.parse(request.getParameter(TableParameters.PROJECT_DEADLINE));
-        Project.Status status = Project.Status.valueOf(request.getParameter(TableParameters.TASK_STATUS).toUpperCase());
+        Project.Status status = Project.Status.valueOf(request.getParameter(TableParameters.PROJECT_STATUS).toUpperCase());
 
         return new Project(id, name, deadline, status);
+    }
+
+    public Project buildNewProject(HttpServletRequest request){
+        String name = request.getParameter(TableParameters.PROJECT_NAME);
+        LocalDate deadline = LocalDate.parse(request.getParameter(TableParameters.PROJECT_DEADLINE));
+        Project.Status status = Project.Status.valueOf(request.getParameter(TableParameters.PROJECT_STATUS).toUpperCase());
+
+        return new Project(name, deadline, status);
     }
 
     public void tryToPutProjectDataFromWebIntoDB(Project project, HttpServletRequest request) throws BadProjectDataException {
@@ -76,7 +84,7 @@ public class ProjectService {
         bundleInitialization(new Locale(locale));
 
         boolean check = true;
-        check &= matchInputWithRegexp(String.valueOf(project.getId()), regexpBundle.getString(RegExp.PROJECT_ID));
+        check &= (project.getId() == null || matchInputWithRegexp(String.valueOf(project.getId()), regexpBundle.getString(RegExp.PROJECT_ID)));
         check &= matchInputWithRegexp(project.getName(), regexpBundle.getString(RegExp.PROJECT_NAME));
         check &= matchInputWithRegexp(String.valueOf(project.getDeadline()), regexpBundle.getString(RegExp.PROJECT_DEADLINE));
         check &= matchInputWithRegexp(project.getStatus().name(), regexpBundle.getString(RegExp.PROJECT_STATUS));

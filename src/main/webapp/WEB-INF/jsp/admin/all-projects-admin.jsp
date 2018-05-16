@@ -16,6 +16,8 @@
     <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
     </c:if>
 
+    <form method="post" action="" name="all_projects_form">
+
             <display:table name="myProjects" id="project"
                            sort="list" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.allprojects.id"
@@ -26,18 +28,20 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="deadline" titleKey="admin.allprojects.deadline"
                                 sortable="true" headerClass="sortable" />
-                <display:column titleKey="admin.allprojects.edit" >
-                <input type="hidden" name="project_id" value="${project.id}">
-                    <input type="submit" name="changeRole"
-                        value=<fmt:message key="admin.allprojects.button.edit"/>
-                        onClick='this.form.action="project_edit";'>
-                </display:column>
-                <display:column titleKey="admin.allprojects.delete">
-                    <input type="submit" name="delete"
-                        value=<fmt:message key="admin.allprojects.button.delete"/>
-                        onClick='this.form.action="project_delete";' >
+                <display:column titleKey="admin.allprojects.select" >
+                <input type="radio" name="project_id" value="${project.id}" checked>
                 </display:column>
             </display:table>
+
+            <button class="submit" type="submit" onClick='this.form.action="project_edit_form";'>
+                <fmt:message key="admin.allprojects.button.edit" />
+            </button>
+            <br>
+            <button class="submit" type="submit" onClick='this.form.action="project_delete";'>
+                <fmt:message key="admin.allprojects.button.delete" />
+            </button>
+
+    </form>
 
     <br>
     <a href="${pageContext.request.contextPath}/tts/admin/new_project_form" class="button">

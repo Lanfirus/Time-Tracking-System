@@ -27,7 +27,9 @@ public interface ReqSesParameters {
     String BAD_TASK_UPDATE_DATA = "bad_task_update_data";
     String TASK_STATUS_HAS_BEEN_CHANGED = "task_status_changed";
     String TASK_ID = "task_id";
+    String PROJECT_ID = "project_id";
     String TASK = "task";
+    String PROJECT = "project";
     String MY_PROJECTS = "myProjects";
     String TASK_REQUEST_OK = "task_request_ok";
     String BAD_TASK_REQUEST_DATA = "bad_task_request_data";

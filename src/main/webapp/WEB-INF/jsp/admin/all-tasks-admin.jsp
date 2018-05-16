@@ -18,7 +18,7 @@
 
     <form method="post" action="" name="my_tasks_form">
 
-            <display:table name="myTasks" id="task" requestURI = "" pagesize="5">
+            <display:table name="myTasks" sort="list" id="task" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.alltasks.id"
                                 sortable="true" headerClass="sortable" ></display:column>
                 <display:column property="projectId" titleKey="admin.alltasks.projectId"
@@ -35,7 +35,7 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="approved" titleKey="admin.alltasks.approved"
                                 sortable="true" headerClass="sortable" />
-                <display:column titleKey="admin.alltasks.edit" >
+                <display:column titleKey="admin.alltasks.select" >
                 <input type="radio" name="task_id" value="${task.id}" checked>
                 </display:column>
 

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class Project {
 
     public enum Status {
-        NEW, ASSIGNED, FINISHED, EXPIRED, CANCELLED
+        NEW, ASSIGNED, FINISHED, CANCELLED
     }
 
     private Integer id;

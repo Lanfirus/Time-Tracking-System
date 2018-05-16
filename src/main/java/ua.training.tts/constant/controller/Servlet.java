@@ -33,5 +33,9 @@ public interface Servlet {
     String ADMIN_TASK_DELETE = "admin/task_delete";
     String ADMIN_NEW_TASK_FORM = "admin/new_task_form";
     String ADMIN_NEW_TASK = "admin/new_task";
+    String ADMIN_NEW_PROJECT = "admin/new_project";
     String ADMIN_NEW_PROJECT_FORM = "admin/new_project_form";
+    String ADMIN_PROJECT_EDIT_FORM = "admin/project_edit_form";
+    String ADMIN_PROJECT_EDIT = "admin/project_edit";
+    String ADMIN_PROJECT_DELETE = "admin/project_delete";
 }

@@ -28,7 +28,6 @@ public class TaskEditFormAdmin implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         Task task = service.findById(Integer.parseInt(request.getParameter(ReqSesParameters.TASK_ID)));
-        System.out.println(request.getParameter(ReqSesParameters.TASK_ID));
         if(task != null) {
             request.setAttribute(ReqSesParameters.TASK, task);
             ProjectService projectService = new ProjectService();
