@@ -41,4 +41,7 @@ public interface ReqSesParameters {
     String ALL_DATA = "all_data";
     String SORT_FIELD = "sort_field";
     String SORT_ORDER = "sort_order";
+    String CURRENT_PAGE = "current_page";
+    String NUMBER_OF_PAGES = "number_of_pages";
+    String FIRST_INDEX = "first_index";
 }

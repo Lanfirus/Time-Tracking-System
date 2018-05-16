@@ -64,6 +64,22 @@
 
     </table>
 
+    <nav>
+        <ul class="pagination" >
+
+            <c:forEach begin="1" end="${number_of_pages}">
+
+                <c:set var="page_counter" value="${page_counter + 1}" scope="page"/>
+                <form action="projects" method="post">
+                    <input type="hidden" value="${page_counter}" name="current_page">
+                    <input style="margin: 2px" type="submit" class="page-link" value="${page_counter}">
+                </form>
+
+            </c:forEach>
+        </ul>
+    </nav>
+
+
 </div>
 
 <jsp:include page="../jspParts/footer.jsp"/>

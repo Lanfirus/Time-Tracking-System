@@ -19,4 +19,5 @@ public interface CommandParameters {
 
     String EMPTY = "";
     Integer ZERO = 0;
+    Integer RECORDS_PER_PAGE = 3;
 }
