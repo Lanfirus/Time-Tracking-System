@@ -28,6 +28,7 @@ public interface Servlet {
     String EMPLOYEE_NEW_TASK_FORM = "new_task_form";
     String EMPLOYEE_REQUEST_NEW_TASK = "request_new_task";
     String EMPLOYEE_MY_PROJECTS = "projects";
+    String EMPLOYEE_MY_PROJECTS_SORT = "project_sort";
     String ADMIN_TASK_EDIT_FORM = "admin/task_edit_form";
     String ADMIN_TASK_EDIT = "admin/task_edit";
     String ADMIN_TASK_DELETE = "admin/task_delete";

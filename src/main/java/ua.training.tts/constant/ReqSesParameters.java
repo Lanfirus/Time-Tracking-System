@@ -39,4 +39,6 @@ public interface ReqSesParameters {
     String TASK_EDIT_OK = "task_edit_ok";
     String BAD_TASK_EDIT_DATA = "bad_task_edit_data";
     String ALL_DATA = "all_data";
+    String SORT_FIELD = "sort_field";
+    String SORT_ORDER = "sort_order";
 }

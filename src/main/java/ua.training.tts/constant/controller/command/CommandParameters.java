@@ -14,6 +14,8 @@ public interface CommandParameters {
     String EMPLOYEES = "employees";
     String ADMIN_ALL_TASKS = "admin/task";
     String ADMIN_ALL_PROJECTS = "admin/project";
+    String ASC = "asc";
+    String DSC = "dsc";
 
     String EMPTY = "";
     Integer ZERO = 0;

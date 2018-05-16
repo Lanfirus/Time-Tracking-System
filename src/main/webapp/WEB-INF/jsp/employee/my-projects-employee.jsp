@@ -4,6 +4,47 @@
 <div class="main">
     <h2><fmt:message key="employee.myprojects.title" /></h2>
 
+    <br>
+
+    <form method="post" action="project_sort" name="project_sort_form">
+        <p><fmt:message key="employee.myprojects.sort.fieldName" />
+        <select name="sort_field">
+            <option value="project_id" selected >
+                <fmt:message key="employee.myprojects.id" />
+            </option>
+
+            <option value="project_name" >
+                <fmt:message key="employee.myprojects.name" />
+            </option>
+
+            <option value="project_deadline" >
+                <fmt:message key="employee.myprojects.deadline" />
+            </option>
+
+            <option value="project_status" >
+                <fmt:message key="employee.myprojects.status" />
+            </option>
+        </select>
+        <p>
+
+        <p><fmt:message key="employee.myprojects.sort.fieldName" />
+            <select name="sort_order">
+            <option value="asc" selected >
+                <fmt:message key="employee.myprojects.sort.asc" />
+            </option>
+
+            <option value="dsc" >
+                <fmt:message key="employee.myprojects.sort.dsc" />
+            </option>
+        </select>
+        <p>
+        <button class="submit" type="submit" >
+            <fmt:message key="employee.myprojects.sort.button.sort" />
+        </button>
+
+    </form>
+
+    <br>
     <table>
         <tr>
             <th><fmt:message key="employee.myprojects.id"/></th>
