@@ -39,4 +39,5 @@ public interface Servlet {
     String ADMIN_PROJECT_EDIT_FORM = "admin/project_edit_form";
     String ADMIN_PROJECT_EDIT = "admin/project_edit";
     String ADMIN_PROJECT_DELETE = "admin/project_delete";
+    String ADMIN_PROJECT_ARCHIVE = "admin/project_archive";
 }

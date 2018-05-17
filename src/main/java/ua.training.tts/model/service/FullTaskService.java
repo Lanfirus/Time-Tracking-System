@@ -18,6 +18,7 @@ import ua.training.tts.model.util.builder.TaskBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -205,6 +206,15 @@ public class FullTaskService {
     public void deleteById(Integer id){
         EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.delete(id);
+    }
+
+    public void archiveProject(Integer id){
+        FullTaskDao dao = daoFactory.createFullTaskDao();
+        try {
+            dao.archiveProjectAndTasks(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<String> getFieldNames() {

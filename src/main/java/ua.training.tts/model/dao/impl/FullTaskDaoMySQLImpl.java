@@ -9,6 +9,7 @@ import ua.training.tts.model.entity.full.FullTask;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.FullTaskBuilder;
 import ua.training.tts.util.LogMessageHolder;
+import ua.training.tts.util.RollbackGuarantee;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -127,6 +128,25 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
         return fullTask;
     }
 
+    private FullTask extractProjectTaskDataFromResultSet(ResultSet set) throws SQLException {
+        FullTaskBuilder builder = new FullTaskBuilder();
+        FullTask fullTask = builder.setTaskId(set.getInt(TableParameters.TASK_ID))
+                                   .setTaskName(set.getString(TableParameters.TASK_NAME))
+                                   .setTaskDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
+                                   .setTaskSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
+                                   .setTaskStatus(set.getString(TableParameters.TASK_STATUS))
+                                   .setTaskState(set.getString(TableParameters.TASK_APPROVED))
+                                   .setEmployeeId(set.getInt(TableParameters.EMPLOYEE_ID))
+
+                                   .setProjectId(set.getInt(TableParameters.PROJECT_ID))
+                                   .setProjectName(set.getString(TableParameters.PROJECT_NAME))
+                                   .setProjectDeadline(set.getDate(TableParameters.PROJECT_DEADLINE).toLocalDate())
+                                   .setProjectStatus(set.getString(TableParameters.PROJECT_STATUS))
+
+                                   .buildFullTask();
+        return fullTask;
+    }
+
     @Override
     public void update(FullTask fullTask) {
 
@@ -145,5 +165,100 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
     @Override
     public String findParamByKeys(String s, String... strings) {
         return null;
+    }
+
+    @Override
+    public void archiveProjectAndTasks(Integer id) {
+
+        try (Connection connection = ConnectionPool.getConnection();
+                RollbackGuarantee guarantee = new RollbackGuarantee(connection) ){
+            connection.setAutoCommit(false);
+            String requestGetProjectTaskData = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
+                                    .join(TableParameters.PROJECT_TABLE_NAME)
+                                    .using(TableParameters.PROJECT_ID)
+                                    .where(TableParameters.PROJECT_ID)
+                                    .build();
+            PreparedStatement statementGetProjectData = connection.prepareStatement(requestGetProjectTaskData);
+            statementGetProjectData.setInt(1,id);
+            savedStatement = statementGetProjectData.toString();
+            ResultSet set = statementGetProjectData.executeQuery();
+            List<FullTask> projectTaskData = new ArrayList<>();
+            while (set.next()){
+                FullTask result = extractProjectTaskDataFromResultSet(set);
+                projectTaskData.add(result);
+            }
+            set.close();
+            builder.clear();
+
+
+            String requestPutProjectDataToArchive = builder.insertIntoTable(TableParameters.PROJECT_ARCHIVE_TABLE_NAME)
+                                                    .insertValues(getProjectFieldNames())
+                                                    .build();
+            PreparedStatement statementPutProjectDataToArchive = connection.prepareStatement(requestPutProjectDataToArchive);
+            statementPutProjectDataToArchive.setInt(1, id);
+            statementPutProjectDataToArchive.setString(2, projectTaskData.get(0).getProjectName());
+            statementPutProjectDataToArchive.setDate(3, Date.valueOf(projectTaskData.get(0).getProjectDeadline()));
+            statementPutProjectDataToArchive.setString(4, projectTaskData.get(0).getProjectStatus().name().toLowerCase());
+            savedStatement += statementPutProjectDataToArchive.toString();
+            statementPutProjectDataToArchive.executeUpdate();
+            builder.clear();
+
+            for (int i = 0; i < projectTaskData.size(); i++) {
+                String requestPutTaskDataToArchive = builder.insertIntoTable(TableParameters.TASK_ARCHIVE_TABLE_NAME)
+                                        .insertValues(getTaskFieldNames())
+                                        .build();
+                PreparedStatement statementPutTaskDataToArchive = connection.prepareStatement(requestPutTaskDataToArchive);
+                statementPutTaskDataToArchive.setInt(1, projectTaskData.get(i).getTaskId());
+                statementPutTaskDataToArchive.setInt(2, projectTaskData.get(i).getProjectId());
+                statementPutTaskDataToArchive.setInt(3, projectTaskData.get(i).getEmployeeId());
+                statementPutTaskDataToArchive.setString(4, projectTaskData.get(i).getTaskName());
+                statementPutTaskDataToArchive.setString(5, projectTaskData.get(i).getTaskStatus().name().toLowerCase());
+                statementPutTaskDataToArchive.setDate(6, Date.valueOf(projectTaskData.get(i).getTaskDeadline()));
+                statementPutTaskDataToArchive.setInt(7, projectTaskData.get(i).getTaskSpentTime());
+                statementPutTaskDataToArchive.setString(8, projectTaskData.get(i).getTaskState().name().toLowerCase());
+                savedStatement += statementPutTaskDataToArchive.toString();
+                statementPutTaskDataToArchive.executeUpdate();
+                builder.clear();
+            }
+
+            String requestDeleteProject = builder.delete(TableParameters.PROJECT_TABLE_NAME)
+                                                 .where(TableParameters.PROJECT_ID)
+                                                 .build();
+            PreparedStatement statementDeleteProject = connection.prepareStatement(requestDeleteProject);
+            statementDeleteProject.setInt(1, id);
+            savedStatement += statementDeleteProject.toString();
+            statementDeleteProject.executeUpdate();
+            builder.clear();
+
+            for (int i = 0; i < projectTaskData.size(); i++) {
+                String requestDeleteTask = builder.delete(TableParameters.TASK_TABLE_NAME)
+                                                  .where(TableParameters.TASK_ID)
+                                                  .build();
+                PreparedStatement statementDeleteTask = connection.prepareStatement(requestDeleteTask);
+                statementDeleteTask.setInt(1, projectTaskData.get(i).getTaskId());
+                savedStatement += statementDeleteTask.toString();
+                statementDeleteTask.executeUpdate();
+                builder.clear();
+            }
+
+            guarantee.commit();
+            connection.setAutoCommit(true);
+        }
+        catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
+                    savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+    }
+
+    private List<String> getProjectFieldNames() {
+        return Arrays.asList(TableParameters.PROJECT_ID, TableParameters.PROJECT_NAME, TableParameters.PROJECT_DEADLINE,
+                TableParameters.PROJECT_STATUS);
+    }
+
+    private List<String> getTaskFieldNames() {
+        return Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
+                TableParameters.TASK_NAME, TableParameters.TASK_STATUS, TableParameters.TASK_DEADLINE,
+                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVED);
     }
 }

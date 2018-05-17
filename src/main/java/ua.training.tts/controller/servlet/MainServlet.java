@@ -58,7 +58,6 @@ public class MainServlet extends HttpServlet {
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println(request.getAttribute("salary"));
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
         Command command = commands.getOrDefault(path, x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
         String page = command.execute(request);
@@ -116,6 +115,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_PROJECT_DELETE, new ProjectDelete(new ProjectService()));
             commands.put(Servlet.ADMIN_PROJECT_EDIT, new ProjectEdit(new ProjectService()));
             commands.put(Servlet.ADMIN_PROJECT_EDIT_FORM, new ProjectEditFormAdmin(new ProjectService()));
+            commands.put(Servlet.ADMIN_PROJECT_ARCHIVE, new ProjectTaskArchive(new FullTaskService()));
         }
     }
 }

@@ -1,5 +1,6 @@
 package ua.training.tts.model.dao.connectionpool;
 
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import java.sql.Connection;
  * Provides Connection pool functionality.
  * Uses HikariCP.
  */
+
 public class ConnectionPool {
 
     private final static HikariConfig CONFIG = new HikariConfig();
@@ -25,10 +27,6 @@ public class ConnectionPool {
         CONFIG.setPassword(DBParameters.PASSWORD);
         CONFIG.addDataSourceProperty( DBParameters.CACHE_PREPARED_STATEMENT,
                 DBParameters.CACHE_PREPARED_STATEMENT_VALUE);
-        CONFIG.addDataSourceProperty( DBParameters.CACHE_SIZE_PREPARED_STATEMENT,
-                DBParameters.CACHE_SIZE_PREPARED_STATEMENT_VALUE);
-        CONFIG.addDataSourceProperty( DBParameters.CACHE_SQL_LIMIT_PREPARED_STATEMENT ,
-                DBParameters.CACHE_SQL_LIMIT_PREPARED_STATEMENT_VALUE);
         DATA_SOURCE = new HikariDataSource(CONFIG);
     }
 

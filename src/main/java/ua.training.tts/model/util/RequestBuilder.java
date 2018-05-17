@@ -148,7 +148,17 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder semicolon() {
+        request.append(";");
+        return this;
+    }
+
+
     public String build(){
         return request.toString();
+    }
+
+    public void clear(){
+        request.setLength(0);
     }
 }

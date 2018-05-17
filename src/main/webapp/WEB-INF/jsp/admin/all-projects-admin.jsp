@@ -33,6 +33,7 @@
                 </display:column>
             </display:table>
 
+<div class="but">
             <button class="submit" type="submit" onClick='this.form.action="project_edit_form";'>
                 <fmt:message key="admin.allprojects.button.edit" />
             </button>
@@ -40,6 +41,11 @@
             <button class="submit" type="submit" onClick='this.form.action="project_delete";'>
                 <fmt:message key="admin.allprojects.button.delete" />
             </button>
+            <br>
+            <button class="submit" type="submit" onClick='this.form.action="project_archive";'>
+                <fmt:message key="admin.allprojects.button.archive" />
+            </button>
+</div>
 
     </form>
 

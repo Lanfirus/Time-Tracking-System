@@ -5,6 +5,8 @@ public interface TableParameters {
     String EMPLOYEE_TABLE_NAME = "employee";
     String PROJECT_TABLE_NAME = "project";
     String TASK_TABLE_NAME = "task";
+    String PROJECT_ARCHIVE_TABLE_NAME = "project_archive";
+    String TASK_ARCHIVE_TABLE_NAME = "task_archive";
 
     String EMPLOYEE_ID = "employee_id";
     String EMPLOYEE_LOGIN = "employee_login";
@@ -27,6 +29,7 @@ public interface TableParameters {
     String TASK_APPROVED = "task_approved";
 
     String PROJECT_ID = "project_id";
+    String PROJECT_ID_ARCHIVE = "project_id_archive";
     String PROJECT_NAME = "project_name";
     String PROJECT_DEADLINE = "project_deadline";
     String PROJECT_STATUS = "project_status";
