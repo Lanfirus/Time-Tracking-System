@@ -37,7 +37,7 @@ public class TaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE))
                                      .buildTask();
         return task;
     }
@@ -49,7 +49,7 @@ public class TaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE))
                                      .buildTask();
             return task;
     }
@@ -58,7 +58,7 @@ public class TaskService {
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE))
                                      .buildTaskForUpdate();
         return task;
     }
@@ -190,7 +190,7 @@ public class TaskService {
         request.setAttribute(TableParameters.TASK_STATUS, task.getStatus());
         request.setAttribute(TableParameters.TASK_DEADLINE, task.getDeadline());
         request.setAttribute(TableParameters.TASK_SPENT_TIME, task.getSpentTime());
-        request.setAttribute(TableParameters.TASK_APPROVED, task.getApprovalState());
+        request.setAttribute(TableParameters.TASK_APPROVAL_STATE, task.getApprovalState());
     }
 
     public boolean isEmployeeExist(String login, String password){

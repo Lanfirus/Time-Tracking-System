@@ -96,7 +96,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                 .setTaskDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
                 .setTaskSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
                 .setTaskStatus(set.getString(TableParameters.TASK_STATUS))
-                .setTaskState(set.getString(TableParameters.TASK_APPROVED))
+                .setTaskState(set.getString(TableParameters.TASK_APPROVAL_STATE))
 
                 .setEmployeeId(set.getInt(TableParameters.EMPLOYEE_ID))
                 .setEmployeeLogin(set.getString(TableParameters.EMPLOYEE_LOGIN))
@@ -135,7 +135,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                                    .setTaskDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
                                    .setTaskSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
                                    .setTaskStatus(set.getString(TableParameters.TASK_STATUS))
-                                   .setTaskState(set.getString(TableParameters.TASK_APPROVED))
+                                   .setTaskState(set.getString(TableParameters.TASK_APPROVAL_STATE))
                                    .setEmployeeId(set.getInt(TableParameters.EMPLOYEE_ID))
 
                                    .setProjectId(set.getInt(TableParameters.PROJECT_ID))
@@ -250,6 +250,6 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
     private List<String> getTaskFieldNames() {
         return Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
                 TableParameters.TASK_NAME, TableParameters.TASK_STATUS, TableParameters.TASK_DEADLINE,
-                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVED);
+                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVAL_STATE);
     }
 }

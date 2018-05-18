@@ -44,7 +44,12 @@ public class TaskDaoMySQLImpl implements TaskDao {
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.TASK_TABLE_NAME,
                     savedStatement), e);
-            throw new RuntimeException(e.getMessage());
+            if (e.getMessage().contains(ExceptionMessages.CANNOT_ADD_UPDATE_CHILD_ROW)){
+                throw new DataChangeDetectedException();
+            }
+            else {
+                throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+            }
         }
     }
 
@@ -77,7 +82,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
                            .setStatus(set.getString(TableParameters.TASK_STATUS))
                            .setDeadline(set.getString(TableParameters.TASK_DEADLINE))
                            .setSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
-                           .setApproved(set.getString(TableParameters.TASK_APPROVED))
+                           .setApproved(set.getString(TableParameters.TASK_APPROVAL_STATE))
                            .buildTask();
         return task;
     }
@@ -156,6 +161,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
                 RollbackGuarantee guarantee = new RollbackGuarantee(connection) ){
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
             String requestGetTaskData = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                                .where(TableParameters.TASK_ID)
                                                .build();
@@ -167,10 +173,9 @@ public class TaskDaoMySQLImpl implements TaskDao {
             Task taskFromDB = extractDataFromResultSet(set);
             set.close();
             builder.clear();
-            
             if (taskFromDB.getApprovalState().equals(Task.ApprovalState.APPROVED)
-                    &&(taskFromDB.getStatus().equals(Task.Status.CANCELLED)
-                        || taskFromDB.getStatus().equals(Task.Status.FINISHED) )) {
+                        && (taskFromDB.getStatus().equals(Task.Status.CANCELLED)
+                        || taskFromDB.getStatus().equals(Task.Status.FINISHED))) {
                 //Todo logger
                 throw new DataChangeDetectedException();
             }
@@ -190,10 +195,17 @@ public class TaskDaoMySQLImpl implements TaskDao {
                 guarantee.commit();
                 connection.setAutoCommit(true);
             }
-        } catch (SQLException e) {
+
+        }
+        catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.TASK_TABLE_NAME,
                     savedStatement), e);
-            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+            if (e.getMessage().contains(ExceptionMessages.EMPTY_RESULT_SET)){
+                throw new DataChangeDetectedException();
+            }
+            else {
+                throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+            }
         }
     }
 
@@ -235,7 +247,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
     public List<String> getFieldNames() {
         return Arrays.asList(TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
                 TableParameters.TASK_NAME, TableParameters.TASK_STATUS, TableParameters.TASK_DEADLINE,
-                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVED);
+                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVAL_STATE);
     }
 
     @Override
