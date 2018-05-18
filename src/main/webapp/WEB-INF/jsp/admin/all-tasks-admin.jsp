@@ -33,7 +33,7 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="spentTime" titleKey="admin.alltasks.spentTime"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="approved" titleKey="admin.alltasks.approved"
+                <display:column property="approvalState" titleKey="admin.alltasks.approvalState"
                                 sortable="true" headerClass="sortable" />
                 <display:column titleKey="admin.alltasks.select" >
                 <input type="radio" name="task_id" value="${task.id}" checked>

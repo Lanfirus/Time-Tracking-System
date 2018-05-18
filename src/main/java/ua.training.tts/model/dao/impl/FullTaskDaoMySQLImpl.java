@@ -215,7 +215,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                 statementPutTaskDataToArchive.setString(5, projectTaskData.get(i).getTaskStatus().name().toLowerCase());
                 statementPutTaskDataToArchive.setDate(6, Date.valueOf(projectTaskData.get(i).getTaskDeadline()));
                 statementPutTaskDataToArchive.setInt(7, projectTaskData.get(i).getTaskSpentTime());
-                statementPutTaskDataToArchive.setString(8, projectTaskData.get(i).getTaskState().name().toLowerCase());
+                statementPutTaskDataToArchive.setString(8, projectTaskData.get(i).getTaskApprovalState().name().toLowerCase());
                 savedStatement += statementPutTaskDataToArchive.toString();
                 statementPutTaskDataToArchive.executeUpdate();
                 builder.clear();

@@ -63,7 +63,7 @@
                 </select>
 
             <input type="hidden" name="task_status" value="assigned"/>
-            <input type="hidden" name="task_approved" value="yes"/>
+            <input type="hidden" name="task_approval_state" value="approved"/>
             <input type="hidden" name="task_spent_time" value="0"/>
         </li>
     <br>

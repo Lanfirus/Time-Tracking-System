@@ -30,7 +30,7 @@
             <th><fmt:message key="employee.mytasks.deadline"/></th>
             <th><fmt:message key="employee.mytasks.spentTime"/></th>
             <th><fmt:message key="employee.mytasks.status"/></th>
-            <th><fmt:message key="employee.mytasks.approved"/></th>
+            <th><fmt:message key="employee.mytasks.approvalState"/></th>
             <th><fmt:message key="employee.mytasks.changeStatus"/></th>
         </tr>
 
@@ -44,10 +44,10 @@
                 <c:choose>
 
                     <c:when test = "${( (task.status == 'FINISHED') || (task.status == 'CANCELLED') ) &&
-                        (task.approved == 'YES' )}">
+                        (task.approvalState == 'APPROVED' )}">
                         <td><c:out value="${task.spentTime}"/></td>
                         <td><c:out value="${fn:toLowerCase(task.status)}"/></td>
-                        <td><c:out value="${fn:toLowerCase(task.approved)}"/></td>
+                        <td><c:out value="${fn:toLowerCase(task.approvalState)}"/></td>
                     </c:when>
 
                     <c:otherwise>
@@ -76,7 +76,7 @@
 
                         </td>
 
-                        <td><c:out value="${fn:toLowerCase(task.approved)}"/></td>
+                        <td><c:out value="${fn:toLowerCase(task.approvalState)}"/></td>
 
                         <td>
                             <input type="hidden" name="task_id" value="${task.id}">

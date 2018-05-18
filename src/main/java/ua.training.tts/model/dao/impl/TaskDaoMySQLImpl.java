@@ -5,12 +5,10 @@ import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.connectionpool.ConnectionPool;
 import ua.training.tts.model.entity.Task;
-import ua.training.tts.model.util.Annotation;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.TaskBuilder;
 import ua.training.tts.util.LogMessageHolder;
 
-import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +36,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setString(4, task.getStatus().name().toLowerCase());
             statement.setDate(5, Date.valueOf(task.getDeadline()));
             statement.setInt(6, task.getSpentTime());
-            statement.setString(7, task.getApproved().name().toLowerCase());
+            statement.setString(7, task.getApprovalState().name().toLowerCase());
             savedStatement = statement.toString();
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -139,7 +137,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setString(4, task.getStatus().name().toLowerCase());
             statement.setDate(5, Date.valueOf(task.getDeadline()));
             statement.setInt(6, task.getSpentTime());
-            statement.setString(7, task.getApproved().name().toLowerCase());
+            statement.setString(7, task.getApprovalState().name().toLowerCase());
             statement.setInt(8, task.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
