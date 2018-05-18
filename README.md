@@ -5,20 +5,26 @@ Employee could have one or several Tasks.
 Employee sets spent time amount for each Task.
 Employee can send request to add or remove particular Task.
 
-# Developer:
+## Developer:
 Dudchenko Andrei
-# Mentor:
+## Mentor:
 Maxim Lyashenko
+
+# Prerequisites to run project:
+1. To have installed Java JDK
+2. To have installed MySQL
 
 # How to run project:
 ## Manual deployment:
-1. Istall maven http://www.apache-maven.ru/install.html
-2. In project directory open PowerShell
-3. Enter command "mvn tomcat7:run"
-4. Open browser and follow the link http://localhost:8888/company/tts/main
+1. Create "time_tracking" scheme in MySQL using "db_creation.sql" file in root folder or using DBInitializer utility program (see Additional information section below). 
+2. Istall maven http://www.apache-maven.ru/install.html
+3. In project directory open PowerShell
+4. Enter command "mvn verify"
+5a. Maven will lanuch test.bat file with commands to start Google Chrome browser in Incognito mode. Browser opens on main page of the project.
+5b. Open browser and follow the link http://localhost:8888/company/tts/main
 
-## Automatic deployment:
-1. Open project in Intelliji IDEA IDE
+##Deployment using Intelliji Idea IDE:
+1. Open project in Intelliji Idea IDE
 2. Create new Maven Run/Debug configuration with Command line "verify" and Maven Goal "clean"
 3. Check browser path in test.bat file
 4. Run this configuration
