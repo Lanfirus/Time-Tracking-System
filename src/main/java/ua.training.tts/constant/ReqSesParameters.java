@@ -44,4 +44,5 @@ public interface ReqSesParameters {
     String CURRENT_PAGE = "current_page";
     String NUMBER_OF_PAGES = "number_of_pages";
     String FIRST_INDEX = "first_index";
+    String PROJECT_STATUS = "project_status";
 }

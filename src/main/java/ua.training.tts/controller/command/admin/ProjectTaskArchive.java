@@ -4,7 +4,9 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.Command;
+import ua.training.tts.model.entity.Project;
 import ua.training.tts.model.service.FullTaskService;
+import ua.training.tts.model.service.ProjectService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
@@ -19,10 +21,16 @@ public class ProjectTaskArchive implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        if (Objects.nonNull(request.getParameter(ReqSesParameters.PROJECT_ID))) {
+        if (Objects.nonNull(request.getParameter(ReqSesParameters.PROJECT_ID))){
             Integer id = Integer.parseInt(request.getParameter(ReqSesParameters.PROJECT_ID));
-            service.archiveProject(id);
+            ProjectService projectService = new ProjectService();
+            Project project = projectService.findById(id);
+            if (project.getStatus() == (Project.Status.CANCELLED)
+                    || project.getStatus() == (Project.Status.FINISHED)) {
+                service.archiveProject(id);
+            }
         }
+
         return Servlet.REDIRECT + CommandParameters.MAIN;
     }
 }

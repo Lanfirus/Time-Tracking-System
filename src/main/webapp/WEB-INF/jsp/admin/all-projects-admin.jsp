@@ -29,7 +29,7 @@
                 <display:column property="deadline" titleKey="admin.allprojects.deadline"
                                 sortable="true" headerClass="sortable" />
                 <display:column titleKey="admin.allprojects.select" >
-                <input type="radio" name="project_id" value="${project.id}" checked>
+                    <input type="radio" name="project_id" value="${project.id}" checked>
                 </display:column>
             </display:table>
 
@@ -43,14 +43,14 @@
             </button>
             <br>
             <button class="submit" type="submit" onClick='this.form.action="project_archive";'>
-                <fmt:message key="admin.allprojects.button.archive" />
+                            <fmt:message key="admin.allprojects.button.archive" />
             </button>
 </div>
 
     </form>
 
     <br>
-    <a href="${pageContext.request.contextPath}/tts/admin/new_project_form" class="button">
+    <a href="${pageContext.request.contextPath}/tts/admin/new_project_form" class="button"">
         <fmt:message key="admin.allprojects.button.newProject" />
     </a>
 

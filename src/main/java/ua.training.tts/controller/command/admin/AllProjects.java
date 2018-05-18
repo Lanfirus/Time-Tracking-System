@@ -24,7 +24,6 @@ public class AllProjects implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         List<Project> list = service.findAll();
-        System.out.println(list);
         request.setAttribute(ReqSesParameters.PROJECT_LIST, list);
         return Pages.ADMIN_ALL_PROJECTS_PAGE;
     }
