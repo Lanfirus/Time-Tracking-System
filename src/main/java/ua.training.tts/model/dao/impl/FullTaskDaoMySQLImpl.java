@@ -230,17 +230,6 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
             statementDeleteProject.executeUpdate();
             builder.clear();
 
-            for (int i = 0; i < projectTaskData.size(); i++) {
-                String requestDeleteTask = builder.delete(TableParameters.TASK_TABLE_NAME)
-                                                  .where(TableParameters.TASK_ID)
-                                                  .build();
-                PreparedStatement statementDeleteTask = connection.prepareStatement(requestDeleteTask);
-                statementDeleteTask.setInt(1, projectTaskData.get(i).getTaskId());
-                savedStatement += statementDeleteTask.toString();
-                statementDeleteTask.executeUpdate();
-                builder.clear();
-            }
-
             guarantee.commit();
             connection.setAutoCommit(true);
         }
