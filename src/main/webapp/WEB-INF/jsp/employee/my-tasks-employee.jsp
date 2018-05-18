@@ -15,7 +15,7 @@
     <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
     </c:if>
 
-    <c:if test = "${not empty requestScope.task_status_changed}">
+    <c:if test = "${not empty requestScope.task_data_changed}">
     <br>
     <h5 style="color:red;">Warning: Task data has been changed before your update.
         Check new data and repeat update if needed.
@@ -80,7 +80,7 @@
 
                         <td>
                             <input type="hidden" name="task_id" value="${task.id}">
-                            <input type="hidden" name="old_status" value="${task.status}">
+                            <input type="hidden" name="task_approval_state" value="${task.approvalState}">
                             <input type="submit" name="changeStatus"
                                  value=<fmt:message key="employee.mytasks.changeStatus"/>
                                  onClick='this.form.action="task_show";'>

@@ -173,6 +173,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
         try (Connection connection = ConnectionPool.getConnection();
                 RollbackGuarantee guarantee = new RollbackGuarantee(connection) ){
             connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String requestGetProjectTaskData = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                     .join(TableParameters.PROJECT_TABLE_NAME)
                                     .using(TableParameters.PROJECT_ID)
@@ -229,6 +230,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
             savedStatement += statementDeleteProject.toString();
             statementDeleteProject.executeUpdate();
             builder.clear();
+            statementDeleteProject.close();
 
             guarantee.commit();
             connection.setAutoCommit(true);

@@ -76,6 +76,7 @@ public class TaskBuilder {
         task.setId(id);
         task.setStatus(status);
         task.setSpentTime(spentTime);
+        task.setApprovalState(approved);
         return task;
     }
 }

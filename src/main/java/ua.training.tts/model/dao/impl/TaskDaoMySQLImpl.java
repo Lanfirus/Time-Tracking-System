@@ -5,9 +5,11 @@ import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.connectionpool.ConnectionPool;
 import ua.training.tts.model.entity.Task;
+import ua.training.tts.model.exception.DataChangeDetectedException;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.TaskBuilder;
 import ua.training.tts.util.LogMessageHolder;
+import ua.training.tts.util.RollbackGuarantee;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -149,18 +151,45 @@ public class TaskDaoMySQLImpl implements TaskDao {
     }
 
     @Override
-    public void updateTaskEmployee(Task task) {
-        List<String> fieldNames = Arrays.asList(TableParameters.TASK_STATUS, TableParameters.TASK_SPENT_TIME);
-        String request = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
-                                .where(TableParameters.TASK_ID)
-                                .build();
+    public void updateTaskEmployee(Task task) throws DataChangeDetectedException{
         try (Connection connection = ConnectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(request)){
-            statement.setString(1, task.getStatus().name().toLowerCase());
-            statement.setInt(2, task.getSpentTime());
-            statement.setInt(3, task.getId());
-            savedStatement = statement.toString();
-            statement.executeUpdate();
+                RollbackGuarantee guarantee = new RollbackGuarantee(connection) ){
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String requestGetTaskData = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
+                                               .where(TableParameters.TASK_ID)
+                                               .build();
+            PreparedStatement statementGetTaskData = connection.prepareStatement(requestGetTaskData);
+            statementGetTaskData.setInt(1, task.getId());
+            savedStatement = statementGetTaskData.toString();
+            ResultSet set = statementGetTaskData.executeQuery();
+            set.next();
+            Task taskFromDB = extractDataFromResultSet(set);
+            set.close();
+            builder.clear();
+            
+            if (taskFromDB.getApprovalState().equals(Task.ApprovalState.APPROVED)
+                    &&(taskFromDB.getStatus().equals(Task.Status.CANCELLED)
+                        || taskFromDB.getStatus().equals(Task.Status.FINISHED) )) {
+                //Todo logger
+                throw new DataChangeDetectedException();
+            }
+            else {
+                List<String> fieldNames = Arrays.asList(TableParameters.TASK_STATUS, TableParameters.TASK_SPENT_TIME);
+                String requestUpdateTaskData = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
+                        .where(TableParameters.TASK_ID)
+                        .build();
+                PreparedStatement statementUpdateTaskData = connection.prepareStatement(requestUpdateTaskData);
+                statementUpdateTaskData.setString(1, task.getStatus().name().toLowerCase());
+                statementUpdateTaskData.setInt(2, task.getSpentTime());
+                statementUpdateTaskData.setInt(3, task.getId());
+                savedStatement = statementUpdateTaskData.toString();
+                statementUpdateTaskData.executeUpdate();
+
+                statementUpdateTaskData.close();
+                guarantee.commit();
+                connection.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.TASK_TABLE_NAME,
                     savedStatement), e);
