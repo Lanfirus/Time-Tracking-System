@@ -42,5 +42,8 @@ public interface Servlet {
     String ADMIN_PROJECT_DELETE = "admin/project_delete";
     String ADMIN_PROJECT_ARCHIVE = "admin/project_archive";
     String ADMIN_ASSIGNED_TASKS = "admin/task_show_assigned";
-
+    String ADMIN_FINISHED_TASKS = "admin/task_show_finished";
+    String ADMIN_CANCELLED_TASKS = "admin/task_show_cancelled";
+    String ADMIN_NEW_REQUEST_TASKS = "admin/task_show_new_requests";
+    String ADMIN_NOT_APPROVED_TASKS = "admin/task_show_not_approved";
 }

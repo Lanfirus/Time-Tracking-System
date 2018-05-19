@@ -51,6 +51,12 @@
                                     </a>
                                 </li>
 
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/task_show_not_approved">
+                                        <fmt:message key="header.task.show.notApproved" />
+                                    </a>
+                                </li>
+
 
                             </ul>
                         </li>

@@ -12,6 +12,8 @@ public interface TaskDao extends GeneralDao<Task, Integer, String, String> {
 
     public List<Task> findAllByStatus(String status);
 
+    public List<Task> findAllByApprovalState(String approvalState);
+
     public void updateTaskEmployee(Task task);
 
 }

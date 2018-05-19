@@ -5,7 +5,7 @@
 
 <div class="main">
 
-    <form method="post" action="" name="assigned_tasks_form">
+    <form method="post" action="" name="cancelled_tasks_form">
 
             <display:table name="myTasks" sort="list" id="task" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.alltasks.id"
@@ -25,16 +25,17 @@
                 <display:column property="approvalState" titleKey="admin.alltasks.approvalState"
                                 sortable="true" headerClass="sortable" />
                 <display:column titleKey="admin.alltasks.select" >
-                <input type="radio" name="task_id" value="${task.id}" checked>
+                <input type="radio" name="task_id" value="${task.id}" id="task_id" checked>
+                <c:out value="${task_rowNum}" />
                 </display:column>
 
             </display:table>
 
-            <button class="submit" type="submit" onClick="return check(this);" name="edit" >
+            <button class="submit" type="submit" onClick="return check(this);" name="edit">
                 <fmt:message key="admin.alltasks.button.edit" />
             </button>
             <br>
-            <button class="submit" type="submit" onClick="return check(this);" name="delete" >
+            <button class="submit" type="submit" onClick="return check(this);" name="delete">
                 <fmt:message key="admin.alltasks.button.delete" />
             </button>
 

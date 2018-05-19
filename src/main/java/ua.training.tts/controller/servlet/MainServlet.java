@@ -118,6 +118,10 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_PROJECT_EDIT_FORM, new ProjectEditFormAdmin(new ProjectService()));
             commands.put(Servlet.ADMIN_PROJECT_ARCHIVE, new ProjectTaskArchive(new FullTaskService()));
             commands.put(Servlet.ADMIN_ASSIGNED_TASKS, new AssignedTasks(new TaskService()));
+            commands.put(Servlet.ADMIN_FINISHED_TASKS, new FinishedTasks(new TaskService()));
+            commands.put(Servlet.ADMIN_CANCELLED_TASKS, new CancelledTasks(new TaskService()));
+            commands.put(Servlet.ADMIN_NEW_REQUEST_TASKS, new NewRequestTasks(new TaskService()));
+            commands.put(Servlet.ADMIN_NOT_APPROVED_TASKS, new NotApprovedTasks(new TaskService()));
         }
     }
 }

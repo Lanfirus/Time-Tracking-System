@@ -24,4 +24,8 @@ public interface Pages {
     String ADMIN_NEW_TASK = "/WEB-INF/jsp/admin/new-task-admin.jsp";
     String ADMIN_NEW_PROJECT = "/WEB-INF/jsp/admin/new-project-admin.jsp";
     String ADMIN_ASSIGNED_TASKS_PAGE = "/WEB-INF/jsp/admin/assigned-tasks-admin.jsp";
+    String ADMIN_FINISHED_TASKS_PAGE = "/WEB-INF/jsp/admin/finished-tasks-admin.jsp";
+    String ADMIN_CANCELLED_TASKS_PAGE = "/WEB-INF/jsp/admin/cancelled-tasks-admin.jsp";
+    String ADMIN_NEW_REQUEST_TASKS_PAGE = "/WEB-INF/jsp/admin/new-request-tasks-admin.jsp";
+    String ADMIN_NOT_APPROVED_TASKS_PAGE = "/WEB-INF/jsp/admin/not-approved-tasks-admin.jsp";
 }

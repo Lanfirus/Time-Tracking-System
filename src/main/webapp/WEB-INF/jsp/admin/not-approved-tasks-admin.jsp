@@ -5,7 +5,7 @@
 
 <div class="main">
 
-    <form method="post" action="" name="assigned_tasks_form">
+    <form method="post" action="" name="not_approved_tasks_form">
 
             <display:table name="myTasks" sort="list" id="task" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.alltasks.id"
