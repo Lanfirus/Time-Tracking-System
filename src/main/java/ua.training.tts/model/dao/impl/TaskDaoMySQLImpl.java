@@ -180,14 +180,16 @@ public class TaskDaoMySQLImpl implements TaskDao {
                 throw new DataChangeDetectedException();
             }
             else {
-                List<String> fieldNames = Arrays.asList(TableParameters.TASK_STATUS, TableParameters.TASK_SPENT_TIME);
+                List<String> fieldNames = Arrays.asList(TableParameters.TASK_STATUS, TableParameters.TASK_SPENT_TIME,
+                        TableParameters.TASK_APPROVAL_STATE);
                 String requestUpdateTaskData = builder.update(TableParameters.TASK_TABLE_NAME, fieldNames)
                         .where(TableParameters.TASK_ID)
                         .build();
                 PreparedStatement statementUpdateTaskData = connection.prepareStatement(requestUpdateTaskData);
                 statementUpdateTaskData.setString(1, task.getStatus().name().toLowerCase());
                 statementUpdateTaskData.setInt(2, task.getSpentTime());
-                statementUpdateTaskData.setInt(3, task.getId());
+                statementUpdateTaskData.setString(3, task.getApprovalState().name().toLowerCase());
+                statementUpdateTaskData.setInt(4, task.getId());
                 savedStatement = statementUpdateTaskData.toString();
                 statementUpdateTaskData.executeUpdate();
 

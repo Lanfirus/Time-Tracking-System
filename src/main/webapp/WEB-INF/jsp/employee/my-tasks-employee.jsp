@@ -80,7 +80,6 @@
 
                         <td>
                             <input type="hidden" name="task_id" value="${task.id}">
-                            <input type="hidden" name="task_approval_state" value="${task.approvalState}">
                             <input type="submit" name="changeStatus"
                                  value=<fmt:message key="employee.mytasks.changeStatus"/>
                                  onClick='this.form.action="task_show";'>

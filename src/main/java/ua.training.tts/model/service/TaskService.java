@@ -58,7 +58,7 @@ public class TaskService {
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE))
+                                     .setApproved(Task.ApprovalState.NEW_REQUEST.name())
                                      .buildTaskForUpdate();
         return task;
     }
