@@ -57,13 +57,13 @@
 
         <li>
                 <label for="ApprovalState"><fmt:message key="admin.taskedit.approvalState" />:</label>
-                <select name="task_approved">
-                    <option value="yes" ${task.approved == 'YES' ? 'selected' : ''}>
-                        <fmt:message key="admin.taskedit.approvalState.yes" />
+                <select name="task_approval_state">
+                    <option value="approved" ${task.approvalState == 'APPROVED' ? 'selected' : ''}>
+                        <fmt:message key="admin.taskedit.approvalState.approved" />
                     </option>
 
-                    <option value="no" ${task.approved == 'NO' ? 'selected' : ''}>
-                        <fmt:message key="admin.taskedit.approvalState.no" />
+                    <option value="not_approved" ${task.approvalState == 'NOT_APPROVED' ? 'selected' : ''}>
+                        <fmt:message key="admin.taskedit.approvalState.notApproved" />
                     </option>
                 </select>
                 </li>

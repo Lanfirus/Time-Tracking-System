@@ -29,6 +29,7 @@ public interface Servlet {
     String EMPLOYEE_REQUEST_NEW_TASK = "request_new_task";
     String EMPLOYEE_MY_PROJECTS = "projects";
     String EMPLOYEE_MY_PROJECTS_SORT = "project_sort";
+    String EMPLOYEE_CONTACTS = "contacts";
     String ADMIN_TASK_EDIT_FORM = "admin/task_edit_form";
     String ADMIN_TASK_EDIT = "admin/task_edit";
     String ADMIN_TASK_DELETE = "admin/task_delete";
@@ -40,4 +41,6 @@ public interface Servlet {
     String ADMIN_PROJECT_EDIT = "admin/project_edit";
     String ADMIN_PROJECT_DELETE = "admin/project_delete";
     String ADMIN_PROJECT_ARCHIVE = "admin/project_archive";
+    String ADMIN_ASSIGNED_TASKS = "admin/task_show_assigned";
+
 }

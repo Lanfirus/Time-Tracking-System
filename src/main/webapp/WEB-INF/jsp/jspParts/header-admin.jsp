@@ -40,8 +40,14 @@
                                 </li>
 
                                 <li class="sub-menu-li">
-                                    <a class="sub-menu__link" href="${pageContext.request.contextPath}/tts/admin/task_show_cancelled">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/task_show_cancelled">
                                         <fmt:message key="header.task.show.cancelled" />
+                                    </a>
+                                </li>
+
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/task_show_new_requests">
+                                        <fmt:message key="header.task.show.newRequest" />
                                     </a>
                                 </li>
 
@@ -60,6 +66,19 @@
                                         <fmt:message key="header.project.show.active" />
                                     </a>
                                 </li>
+
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_closed">
+                                        <fmt:message key="header.project.show.closed" />
+                                    </a>
+                                </li>
+
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_new">
+                                        <fmt:message key="header.project.show.new" />
+                                    </a>
+                                </li>
+
 
                             </ul>
                         </li>
@@ -85,12 +104,6 @@
                                 <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/archive_projects">
                                         <fmt:message key="header.archive.show.projects" />
-                                    </a>
-                                </li>
-
-                                <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/archive_employees">
-                                        <fmt:message key="header.archive.show.employees" />
                                     </a>
                                 </li>
 

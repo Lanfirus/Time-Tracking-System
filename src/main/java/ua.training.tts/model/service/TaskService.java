@@ -16,7 +16,6 @@ import ua.training.tts.model.util.builder.TaskBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -38,7 +37,7 @@ public class TaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE))
                                      .buildTask();
         return task;
     }
@@ -50,7 +49,7 @@ public class TaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED))
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE))
                                      .buildTask();
             return task;
     }
@@ -59,6 +58,7 @@ public class TaskService {
         Task task = new TaskBuilder().setId(Integer.parseInt(request.getParameter(TableParameters.TASK_ID)))
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
+                                     .setApproved(Task.ApprovalState.NEW_REQUEST.name())
                                      .buildTaskForUpdate();
         return task;
     }
@@ -70,7 +70,7 @@ public class TaskService {
                                      .setStatus(Task.Status.ASSIGNED.name().toLowerCase())
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(Task.Approved.NEW.name().toLowerCase())
+                                     .setApproved(Task.ApprovalState.NEW_REQUEST.name().toLowerCase())
                                      .buildTask();
         return task;
     }
@@ -130,7 +130,7 @@ public class TaskService {
                 regexpBundle.getString(RegExp.TASK_DEADLINE)));
         check &= (task.getSpentTime() == null || matchInputWithRegexp(String.valueOf(task.getSpentTime()),
                 regexpBundle.getString(RegExp.TASK_SPENT_TIME)));
-        check &= (task.getApproved() == null || matchInputWithRegexp(String.valueOf(task.getApproved()),
+        check &= (task.getApprovalState() == null || matchInputWithRegexp(String.valueOf(task.getApprovalState()),
                 regexpBundle.getString(RegExp.TASK_APPROVED)));
         return check;
     }
@@ -190,7 +190,7 @@ public class TaskService {
         request.setAttribute(TableParameters.TASK_STATUS, task.getStatus());
         request.setAttribute(TableParameters.TASK_DEADLINE, task.getDeadline());
         request.setAttribute(TableParameters.TASK_SPENT_TIME, task.getSpentTime());
-        request.setAttribute(TableParameters.TASK_APPROVED, task.getApproved());
+        request.setAttribute(TableParameters.TASK_APPROVAL_STATE, task.getApprovalState());
     }
 
     public boolean isEmployeeExist(String login, String password){
@@ -226,6 +226,11 @@ public class TaskService {
     public List<Task> findAllById(Integer id){
         TaskDao dao = daoFactory.createTaskDao();
         return dao.findAllByEmployeeId(id);
+    }
+
+    public List<Task> findAllByStatus(String status){
+        TaskDao dao = daoFactory.createTaskDao();
+        return dao.findAllByStatus(status);
     }
 
     public void setRoleById(Integer id, String role){

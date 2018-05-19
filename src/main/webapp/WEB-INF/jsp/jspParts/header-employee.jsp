@@ -28,12 +28,6 @@
                             <ul class="sub-menu">
 
                                 <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/task_show">
-                                        <fmt:message key="header.task.show" />
-                                    </a>
-                                </li>
-
-                                <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/new_task_form">
                                         <fmt:message key="header.task.request" />
                                     </a>

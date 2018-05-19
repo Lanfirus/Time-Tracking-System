@@ -5,11 +5,11 @@ import java.time.LocalDate;
 public class Task {
 
     public enum Status {
-        ASSIGNED, FINISHED, EXPIRED, CANCELLED
+        ASSIGNED, FINISHED, CANCELLED
     }
 
-    public enum Approved {
-        YES, NO, NEW
+    public enum ApprovalState {
+        APPROVED, NOT_APPROVED, NEW_REQUEST
     }
 
     private Integer id;
@@ -19,7 +19,7 @@ public class Task {
     private Status status;
     private LocalDate deadline;
     private Integer spentTime;
-    private Approved approved;
+    private ApprovalState approvalState;
 
     public Integer getId() {
         return id;
@@ -77,11 +77,11 @@ public class Task {
         this.spentTime = spentTime;
     }
 
-    public Approved getApproved() {
-        return approved;
+    public ApprovalState getApprovalState() {
+        return approvalState;
     }
 
-    public void setApproved(Approved approved) {
-        this.approved = approved;
+    public void setApprovalState(ApprovalState approvalState) {
+        this.approvalState = approvalState;
     }
 }

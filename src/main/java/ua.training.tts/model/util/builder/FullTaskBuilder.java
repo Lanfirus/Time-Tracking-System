@@ -22,7 +22,7 @@ public class FullTaskBuilder {
     private LocalDate taskDeadline;
     private Integer taskSpentTime;
     private Task.Status taskStatus;
-    private Task.Approved taskState;
+    private Task.ApprovalState taskState;
 
     private Integer employeeId;
     private String employeeLogin;
@@ -81,7 +81,7 @@ public class FullTaskBuilder {
     }
 
     public FullTaskBuilder setTaskState(String taskState) {
-        this.taskState = Task.Approved.valueOf(taskState.toUpperCase());
+        this.taskState = Task.ApprovalState.valueOf(taskState.toUpperCase());
         return this;
     }
 
@@ -147,7 +147,7 @@ public class FullTaskBuilder {
         fullTask.setTaskDeadline(taskDeadline);
         fullTask.setTaskSpentTime(taskSpentTime);
         fullTask.setTaskStatus(taskStatus);
-        fullTask.setTaskState(taskState);
+        fullTask.setTaskApprovalState(taskState);
         fullTask.setProjectId(projectId);
         fullTask.setProjectName(projectName);
         fullTask.setProjectDeadline(projectDeadline);
@@ -162,7 +162,7 @@ public class FullTaskBuilder {
         fullTask.setTaskDeadline(taskDeadline);
         fullTask.setTaskSpentTime(taskSpentTime);
         fullTask.setTaskStatus(taskStatus);
-        fullTask.setTaskState(taskState);
+        fullTask.setTaskApprovalState(taskState);
         fullTask.setEmployeeId(employeeId);
         fullTask.setEmployeeLogin(employeeLogin);
         fullTask.setEmployeePassword(employeePassword);
@@ -202,7 +202,7 @@ public class FullTaskBuilder {
         fullTask.setTaskDeadline(taskDeadline);
         fullTask.setTaskSpentTime(taskSpentTime);
         fullTask.setTaskStatus(taskStatus);
-        fullTask.setTaskState(taskState);
+        fullTask.setTaskApprovalState(taskState);
         fullTask.setEmployeeId(employeeId);
         fullTask.setEmployeeLogin(employeeLogin);
         fullTask.setEmployeePassword(employeePassword);

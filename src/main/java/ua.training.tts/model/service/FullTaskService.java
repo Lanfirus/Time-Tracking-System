@@ -19,7 +19,6 @@ import ua.training.tts.model.util.builder.TaskBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -43,7 +42,7 @@ public class FullTaskService {
                                      .setStatus(request.getParameter(TableParameters.TASK_STATUS))
                                      .setDeadline(request.getParameter(TableParameters.TASK_DEADLINE))
                                      .setSpentTime(Integer.parseInt(request.getParameter(TableParameters.TASK_SPENT_TIME)))
-                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVED).toLowerCase())
+                                     .setApproved(request.getParameter(TableParameters.TASK_APPROVAL_STATE).toLowerCase())
                                      .buildTask();
             return task;
     }
@@ -100,7 +99,7 @@ public class FullTaskService {
         check &= (task.getDeadline() == null ||matchInputWithRegexp(String.valueOf(task.getDeadline()),
                 regexpBundle.getString(RegExp.TASK_DEADLINE)));
         check &= matchInputWithRegexp(String.valueOf(task.getSpentTime()), regexpBundle.getString(RegExp.TASK_SPENT_TIME));
-        check &= (task.getApproved() == null || matchInputWithRegexp(String.valueOf(task.getApproved()),
+        check &= (task.getApprovalState() == null || matchInputWithRegexp(String.valueOf(task.getApprovalState()),
                 regexpBundle.getString(RegExp.TASK_APPROVED)));
         return check;
     }
@@ -160,7 +159,7 @@ public class FullTaskService {
         request.setAttribute(TableParameters.TASK_STATUS, task.getStatus());
         request.setAttribute(TableParameters.TASK_DEADLINE, task.getDeadline());
         request.setAttribute(TableParameters.TASK_SPENT_TIME, task.getSpentTime());
-        request.setAttribute(TableParameters.TASK_APPROVED, task.getApproved());
+        request.setAttribute(TableParameters.TASK_APPROVAL_STATE, task.getApprovalState());
     }
 
     public boolean isEmployeeExist(String login, String password){

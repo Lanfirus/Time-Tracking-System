@@ -8,6 +8,7 @@ import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Task;
 import ua.training.tts.model.entity.full.FullTask;
 import ua.training.tts.model.exception.BadTaskDataException;
+import ua.training.tts.model.exception.DataChangeDetectedException;
 import ua.training.tts.model.service.FullTaskService;
 import ua.training.tts.model.service.ProjectService;
 import ua.training.tts.model.service.TaskService;
@@ -40,6 +41,9 @@ public class NewTaskEmployee implements Command {
         catch (BadTaskDataException e) {
             service.setTaskEnteredDataBackToForm(request, task);
             request.setAttribute(ReqSesParameters.BAD_TASK_REQUEST_DATA, true);
+        }
+        catch (DataChangeDetectedException e) {
+            request.setAttribute(ReqSesParameters.TASK_DATA_HAS_BEEN_CHANGED, true);
         }
         FullTaskService fullTaskService = new FullTaskService();
         List<FullTask> myProjects = fullTaskService.findAllProjectsByEmployeeId(dto.getId());

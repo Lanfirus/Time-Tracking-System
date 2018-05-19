@@ -18,7 +18,7 @@ public class FullTask {
     private LocalDate taskDeadline;
     private Integer taskSpentTime;
     private Task.Status taskStatus;
-    private Task.Approved taskState;
+    private Task.ApprovalState taskApprovalState;
 
     private Integer employeeId;
     private String employeeLogin;
@@ -103,12 +103,12 @@ public class FullTask {
         this.taskStatus = taskStatus;
     }
 
-    public Task.Approved getTaskState() {
-        return taskState;
+    public Task.ApprovalState getTaskApprovalState() {
+        return taskApprovalState;
     }
 
-    public void setTaskState(Task.Approved taskState) {
-        this.taskState = taskState;
+    public void setTaskApprovalState(Task.ApprovalState taskApprovalState) {
+        this.taskApprovalState = taskApprovalState;
     }
 
     public Integer getEmployeeId() {

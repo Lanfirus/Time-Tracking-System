@@ -4,19 +4,8 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
 <div class="main">
-    <h2><fmt:message key="admin.alltasks.title" /></h2>
 
-    <c:if test = "${not empty requestScope.task_update_ok}">
-    <br>
-    <h5>You have updated your task.</h5>
-    </c:if>
-
-    <c:if test = "${not empty requestScope.bad_task_update_data}">
-    <br>
-    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
-    </c:if>
-
-    <form method="post" action="" name="my_tasks_form">
+    <form method="post" action="" name="assigned_tasks_form">
 
             <display:table name="myTasks" sort="list" id="task" requestURI = "" pagesize="5">
                 <display:column property="id" titleKey="admin.alltasks.id"
@@ -50,11 +39,6 @@
             </button>
 
     </form>
-
-    <br>
-        <a href="${pageContext.request.contextPath}/tts/admin/new_task_form" class="button">
-            <fmt:message key="admin.taskedit.button.newTask" />
-        </a>
 
 </div>
 

@@ -96,7 +96,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                 .setTaskDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
                 .setTaskSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
                 .setTaskStatus(set.getString(TableParameters.TASK_STATUS))
-                .setTaskState(set.getString(TableParameters.TASK_APPROVED))
+                .setTaskState(set.getString(TableParameters.TASK_APPROVAL_STATE))
 
                 .setEmployeeId(set.getInt(TableParameters.EMPLOYEE_ID))
                 .setEmployeeLogin(set.getString(TableParameters.EMPLOYEE_LOGIN))
@@ -135,7 +135,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                                    .setTaskDeadline(set.getDate(TableParameters.TASK_DEADLINE).toLocalDate())
                                    .setTaskSpentTime(set.getInt(TableParameters.TASK_SPENT_TIME))
                                    .setTaskStatus(set.getString(TableParameters.TASK_STATUS))
-                                   .setTaskState(set.getString(TableParameters.TASK_APPROVED))
+                                   .setTaskState(set.getString(TableParameters.TASK_APPROVAL_STATE))
                                    .setEmployeeId(set.getInt(TableParameters.EMPLOYEE_ID))
 
                                    .setProjectId(set.getInt(TableParameters.PROJECT_ID))
@@ -173,6 +173,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
         try (Connection connection = ConnectionPool.getConnection();
                 RollbackGuarantee guarantee = new RollbackGuarantee(connection) ){
             connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String requestGetProjectTaskData = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                     .join(TableParameters.PROJECT_TABLE_NAME)
                                     .using(TableParameters.PROJECT_ID)
@@ -215,7 +216,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                 statementPutTaskDataToArchive.setString(5, projectTaskData.get(i).getTaskStatus().name().toLowerCase());
                 statementPutTaskDataToArchive.setDate(6, Date.valueOf(projectTaskData.get(i).getTaskDeadline()));
                 statementPutTaskDataToArchive.setInt(7, projectTaskData.get(i).getTaskSpentTime());
-                statementPutTaskDataToArchive.setString(8, projectTaskData.get(i).getTaskState().name().toLowerCase());
+                statementPutTaskDataToArchive.setString(8, projectTaskData.get(i).getTaskApprovalState().name().toLowerCase());
                 savedStatement += statementPutTaskDataToArchive.toString();
                 statementPutTaskDataToArchive.executeUpdate();
                 builder.clear();
@@ -229,17 +230,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
             savedStatement += statementDeleteProject.toString();
             statementDeleteProject.executeUpdate();
             builder.clear();
-
-            for (int i = 0; i < projectTaskData.size(); i++) {
-                String requestDeleteTask = builder.delete(TableParameters.TASK_TABLE_NAME)
-                                                  .where(TableParameters.TASK_ID)
-                                                  .build();
-                PreparedStatement statementDeleteTask = connection.prepareStatement(requestDeleteTask);
-                statementDeleteTask.setInt(1, projectTaskData.get(i).getTaskId());
-                savedStatement += statementDeleteTask.toString();
-                statementDeleteTask.executeUpdate();
-                builder.clear();
-            }
+            statementDeleteProject.close();
 
             guarantee.commit();
             connection.setAutoCommit(true);
@@ -259,6 +250,6 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
     private List<String> getTaskFieldNames() {
         return Arrays.asList(TableParameters.TASK_ID, TableParameters.TASK_PROJECT_ID, TableParameters.TASK_EMPLOYEE_ID,
                 TableParameters.TASK_NAME, TableParameters.TASK_STATUS, TableParameters.TASK_DEADLINE,
-                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVED);
+                TableParameters.TASK_SPENT_TIME, TableParameters.TASK_APPROVAL_STATE);
     }
 }
