@@ -117,6 +117,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_PROJECT_EDIT, new ProjectEdit(new ProjectService()));
             commands.put(Servlet.ADMIN_PROJECT_EDIT_FORM, new ProjectEditFormAdmin(new ProjectService()));
             commands.put(Servlet.ADMIN_PROJECT_ARCHIVE, new ProjectTaskArchive(new FullTaskService()));
+            commands.put(Servlet.ADMIN_ASSIGNED_TASKS, new AssignedTasks(new TaskService()));
         }
     }
 }

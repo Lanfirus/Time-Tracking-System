@@ -228,6 +228,11 @@ public class TaskService {
         return dao.findAllByEmployeeId(id);
     }
 
+    public List<Task> findAllByStatus(String status){
+        TaskDao dao = daoFactory.createTaskDao();
+        return dao.findAllByStatus(status);
+    }
+
     public void setRoleById(Integer id, String role){
         EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.setRoleById(id, role);

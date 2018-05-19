@@ -23,4 +23,5 @@ public interface Pages {
     String ADMIN_PROJECT_EDIT_PAGE = "/WEB-INF/jsp/admin/project-edit-admin.jsp";
     String ADMIN_NEW_TASK = "/WEB-INF/jsp/admin/new-task-admin.jsp";
     String ADMIN_NEW_PROJECT = "/WEB-INF/jsp/admin/new-project-admin.jsp";
+    String ADMIN_ASSIGNED_TASKS_PAGE = "/WEB-INF/jsp/admin/assigned-tasks-admin.jsp";
 }
