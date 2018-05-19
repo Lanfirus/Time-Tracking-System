@@ -104,6 +104,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.EMPLOYEE_REQUEST_NEW_TASK, new NewTaskEmployee(new TaskService()));
             commands.put(Servlet.EMPLOYEE_MY_PROJECTS, new MyProjects(new FullTaskService()));
             commands.put(Servlet.EMPLOYEE_MY_PROJECTS_SORT, new MyProjectsSort(new FullTaskService()));
+            commands.put(Servlet.EMPLOYEE_CONTACTS, new ContactsPage());
             commands.put(Servlet.ADMIN_ALL_PROJECTS, new AllProjects(new ProjectService()));
             commands.put(Servlet.ADMIN_TASK_EDIT_FORM, new TaskEditFormAdmin(new TaskService()));
             commands.put(Servlet.ADMIN_TASK_EDIT, new TaskEdit(new TaskService()));

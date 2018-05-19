@@ -40,4 +40,5 @@ public interface Servlet {
     String ADMIN_PROJECT_EDIT = "admin/project_edit";
     String ADMIN_PROJECT_DELETE = "admin/project_delete";
     String ADMIN_PROJECT_ARCHIVE = "admin/project_archive";
+    String EMPLOYEE_CONTACTS = "contacts";
 }
