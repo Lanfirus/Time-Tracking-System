@@ -31,10 +31,6 @@
             <button class="submit" type="submit" onClick="return check(this);" name="delete" >
                 <fmt:message key="admin.allprojects.button.delete" />
             </button>
-            <br>
-            <button class="submit" type="submit" onClick="return check(this);" name="archive" >
-                            <fmt:message key="admin.allprojects.button.archive" />
-            </button>
 </div>
 
     </form>
@@ -55,11 +51,8 @@ function check(button) {
     if(button.name == "edit") {
         form.action = "project_edit_form";
     }
-    else if(button.name == "delete") {
-        form.action = "project_delete";
-    }
     else {
-        form.action = "project_archive";
+        form.action = "project_delete";
     }
     return true;
 }
