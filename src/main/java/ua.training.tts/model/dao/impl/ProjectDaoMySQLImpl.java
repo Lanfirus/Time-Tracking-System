@@ -141,6 +141,29 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
     }
 
     @Override
+    public List<Project> findAllByStatus(String status) {
+        List<Project> resultList = new ArrayList<>();
+        String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
+                                .where(TableParameters.PROJECT_STATUS)
+                                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(request)){
+            statement.setString(1, status);
+            savedStatement = statement.toString();
+            ResultSet set = statement.executeQuery();
+            while (set.next()){
+                Project result = extractDataFromResultSet(set);
+                resultList.add(result);
+            }
+        } catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
+                    savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+        return resultList;
+    }
+
+    @Override
     public void update(Project project) {
         String request = builder.update(TableParameters.PROJECT_TABLE_NAME, getFieldNames())
                                 .where(TableParameters.PROJECT_ID)

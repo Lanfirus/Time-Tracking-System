@@ -68,16 +68,23 @@
                             <ul class="sub-menu">
 
                                 <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_active">
-                                        <fmt:message key="header.project.show.active" />
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_assigned">
+                                        <fmt:message key="header.project.show.assigned" />
                                     </a>
                                 </li>
 
                                 <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_closed">
-                                        <fmt:message key="header.project.show.closed" />
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_cancelled">
+                                        <fmt:message key="header.project.show.cancelled" />
                                     </a>
                                 </li>
+
+                                <li class="sub-menu-li">
+                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_finished">
+                                        <fmt:message key="header.project.show.finished" />
+                                    </a>
+                                </li>
+
 
                                 <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/project_show_new">

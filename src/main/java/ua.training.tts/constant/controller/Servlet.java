@@ -46,4 +46,8 @@ public interface Servlet {
     String ADMIN_CANCELLED_TASKS = "admin/task_show_cancelled";
     String ADMIN_NEW_REQUEST_TASKS = "admin/task_show_new_requests";
     String ADMIN_NOT_APPROVED_TASKS = "admin/task_show_not_approved";
+    String ADMIN_CANCELLED_PROJECTS = "admin/project_show_cancelled";
+    String ADMIN_ASSIGNED_PROJECTS = "admin/project_show_assigned";
+    String ADMIN_FINISHED_PROJECTS = "admin/project_show_finished";
+    String ADMIN_NEW_PROJECTS = "admin/project_show_new";
 }

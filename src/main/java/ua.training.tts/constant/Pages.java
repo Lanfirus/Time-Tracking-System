@@ -28,4 +28,8 @@ public interface Pages {
     String ADMIN_CANCELLED_TASKS_PAGE = "/WEB-INF/jsp/admin/cancelled-tasks-admin.jsp";
     String ADMIN_NEW_REQUEST_TASKS_PAGE = "/WEB-INF/jsp/admin/new-request-tasks-admin.jsp";
     String ADMIN_NOT_APPROVED_TASKS_PAGE = "/WEB-INF/jsp/admin/not-approved-tasks-admin.jsp";
+    String ADMIN_CANCELLED_PROJECTS_PAGE = "/WEB-INF/jsp/admin/cancelled-projects-admin.jsp";
+    String ADMIN_ASSIGNED_PROJECTS_PAGE = "/WEB-INF/jsp/admin/assigned-projects-admin.jsp";
+    String ADMIN_FINISHED_PROJECTS_PAGE = "/WEB-INF/jsp/admin/finished-projects-admin.jsp";
+    String ADMIN_NEW_PROJECTS_PAGE = "/WEB-INF/jsp/admin/new-projects-admin.jsp";
 }

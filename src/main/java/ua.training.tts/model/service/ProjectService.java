@@ -156,6 +156,11 @@ public class ProjectService {
         return dao.findAllByEmployeeId(id);
     }
 
+    public List<Project> findAllByStatus(String status){
+        ProjectDao dao = daoFactory.createProjectDao();
+        return dao.findAllByStatus(status);
+    }
+
     public void deleteById(Integer id){
         ProjectDao dao = daoFactory.createProjectDao();
         dao.delete(id);
