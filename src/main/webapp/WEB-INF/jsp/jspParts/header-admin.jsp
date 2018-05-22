@@ -103,7 +103,7 @@
                         </li>
 
                         <li class="main-menu-item  main-menu-item-parent ">
-                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/admin/archive">
+                            <a class="main-menu-link" href="${pageContext.request.contextPath}/tts/admin/archive_projects">
                                 <fmt:message key="header.archive.show.all" />
                             </a>
                             <ul class="sub-menu">
@@ -111,12 +111,6 @@
                                 <li class="sub-menu-li">
                                     <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/archive_tasks">
                                         <fmt:message key="header.archive.show.tasks" />
-                                    </a>
-                                </li>
-
-                                <li class="sub-menu-li">
-                                    <a class="sub-menu-link" href="${pageContext.request.contextPath}/tts/admin/archive_projects">
-                                        <fmt:message key="header.archive.show.projects" />
                                     </a>
                                 </li>
 

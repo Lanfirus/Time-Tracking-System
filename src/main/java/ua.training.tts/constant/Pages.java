@@ -32,4 +32,6 @@ public interface Pages {
     String ADMIN_ASSIGNED_PROJECTS_PAGE = "/WEB-INF/jsp/admin/assigned-projects-admin.jsp";
     String ADMIN_FINISHED_PROJECTS_PAGE = "/WEB-INF/jsp/admin/finished-projects-admin.jsp";
     String ADMIN_NEW_PROJECTS_PAGE = "/WEB-INF/jsp/admin/new-projects-admin.jsp";
+    String ADMIN_ARCHIVED_PROJECTS_PAGE = "/WEB-INF/jsp/admin/archived-projects-admin.jsp";
+    String ADMIN_ARCHIVED_TASKS_PAGE = "/WEB-INF/jsp/admin/archived-tasks-admin.jsp";
 }

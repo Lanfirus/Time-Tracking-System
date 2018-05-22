@@ -151,6 +151,11 @@ public class ProjectService {
         return dao.findAllActive();
     }
 
+    public List<Project> findAllArchived(){
+        ProjectDao dao = daoFactory.createProjectDao();
+        return dao.findAllArchived();
+    }
+
     public List<Project> findAllById(Integer id){
         ProjectDao dao = daoFactory.createProjectDao();
         return dao.findAllByEmployeeId(id);

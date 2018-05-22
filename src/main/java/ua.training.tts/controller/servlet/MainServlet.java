@@ -126,6 +126,8 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_CANCELLED_PROJECTS, new CancelledProjects(new ProjectService()));
             commands.put(Servlet.ADMIN_FINISHED_PROJECTS, new FinishedProjects(new ProjectService()));
             commands.put(Servlet.ADMIN_NEW_PROJECTS, new NewProjects(new ProjectService()));
+            commands.put(Servlet.ADMIN_ARCHIVED_PROJECTS, new ArchivedProjects(new ProjectService()));
+            commands.put(Servlet.ADMIN_ARCHIVED_TASKS, new ArchivedTasks(new TaskService()));
         }
     }
 }

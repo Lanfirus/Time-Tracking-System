@@ -50,4 +50,6 @@ public interface Servlet {
     String ADMIN_ASSIGNED_PROJECTS = "admin/project_show_assigned";
     String ADMIN_FINISHED_PROJECTS = "admin/project_show_finished";
     String ADMIN_NEW_PROJECTS = "admin/project_show_new";
+    String ADMIN_ARCHIVED_PROJECTS = "admin/archive_projects";
+    String ADMIN_ARCHIVED_TASKS = "admin/archive_tasks";
 }

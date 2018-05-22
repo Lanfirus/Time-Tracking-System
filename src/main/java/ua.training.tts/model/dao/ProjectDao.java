@@ -13,4 +13,6 @@ public interface ProjectDao extends GeneralDao<Project, Integer, String, String>
 
     public List<Project> findAllByStatus(String status);
 
+    public List<Project> findAllArchived();
+
 }

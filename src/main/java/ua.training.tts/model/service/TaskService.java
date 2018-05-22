@@ -223,6 +223,11 @@ public class TaskService {
         return dao.findAll();
     }
 
+    public List<Task> findAllArchived(){
+        TaskDao dao = daoFactory.createTaskDao();
+        return dao.findAllArchived();
+    }
+
     public List<Task> findAllById(Integer id){
         TaskDao dao = daoFactory.createTaskDao();
         return dao.findAllByEmployeeId(id);

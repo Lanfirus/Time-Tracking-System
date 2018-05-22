@@ -109,6 +109,27 @@ public class TaskDaoMySQLImpl implements TaskDao {
     }
 
     @Override
+    public List<Task> findAllArchived() {
+        List<Task> resultList = new ArrayList<>();
+        String request = builder.selectAllFromTable(TableParameters.TASK_ARCHIVE_TABLE_NAME)
+                                .build();
+        try (Connection connection = ConnectionPool.getConnection();
+                PreparedStatement statement = connection.prepareStatement(request)){
+            savedStatement = statement.toString();
+            ResultSet set = statement.executeQuery();
+            while (set.next()){
+                Task result = extractDataFromResultSet(set);
+                resultList.add(result);
+            }
+        } catch (SQLException e) {
+            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.TASK_TABLE_NAME,
+                    savedStatement), e);
+            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+        }
+        return resultList;
+    }
+
+    @Override
     public List<Task> findAllByEmployeeId(Integer id) {
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
