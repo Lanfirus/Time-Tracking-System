@@ -39,6 +39,7 @@ public class LanguageFilter implements Filter {
                 && session.getAttribute(ReqSesParameters.LANGUAGE) != request.getParameter(ReqSesParameters.LANGUAGE)) {
             session.setAttribute(ReqSesParameters.LANGUAGE, request.getParameter(ReqSesParameters.LANGUAGE));
             response.sendRedirect(request.getHeader(FilterParameters.REFERER));
+            return;
         }
             chain.doFilter(servletRequest, servletResponse);
     }
