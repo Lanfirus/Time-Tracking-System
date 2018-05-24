@@ -20,8 +20,8 @@ Lyashenko Maxim
 2. Istall maven http://www.apache-maven.ru/install.html
 3. In project directory open PowerShell or WinCmd
 4. Enter command "mvn verify"
-5.a. Maven will lanuch test.bat file with commands to start Google Chrome browser in Incognito mode. Browser opens on main page of the project.
-5.b. Open browser and follow the link http://localhost:8888/company/tts/main
+5. (Automatic launch) Maven will lanuch test.bat file with commands to start Google Chrome browser in Incognito mode. Browser opens on main page of the project.
+6. (Manual launch) Open browser and follow the link http://localhost:8888/company/tts/main
 
 # Additional information:
 There is a DBInitializer utility for this project. With it you can easily create/drop required scheme with some mock data.
