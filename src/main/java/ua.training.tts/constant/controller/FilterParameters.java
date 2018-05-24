@@ -8,7 +8,7 @@ public interface FilterParameters {
     String REFERER = "Referer";
     String LOGIN = "login";
     String REGISTRATION = "registration";
-    String MAIN = "main";
+    String MAIN = "tts/main";
     String ADMIN_PATH = "/admin/*";
     String INCORRECT_URL = "incorrect_url";
 }

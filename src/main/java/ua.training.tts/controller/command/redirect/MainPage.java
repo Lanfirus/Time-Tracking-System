@@ -3,6 +3,7 @@ package ua.training.tts.controller.command.redirect;
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.controller.command.Command;
+import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 
@@ -19,22 +20,24 @@ import javax.servlet.http.HttpServletRequest;
  * - Unknown means that user used incorrect login and/or password during Login stage.
  * - Null covering cases before login and after logout.
  */
+@AccessRights(acceptedRoles = {Employee.AccountRole.ADMIN, Employee.AccountRole.EMPLOYEE, Employee.AccountRole.UNKNOWN},
+        isAvailableForGuests = true)
 public class MainPage implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         EmployeeDTO dto = (EmployeeDTO) request.getSession().getAttribute(ReqSesParameters.DTO);
-        String role = null;
+        Employee.AccountRole role = null;
         if (dto != null) {
             role = dto.getRole();
         }
 
-        if (Employee.AccountRole.ADMIN.name().equalsIgnoreCase(role)) {
+        if (Employee.AccountRole.ADMIN == role) {
             return Pages.ADMIN_INDEX_PAGE;
         }
-        if (Employee.AccountRole.EMPLOYEE.name().equalsIgnoreCase(role)) {
+        if (Employee.AccountRole.EMPLOYEE == role) {
             return Pages.EMPLOYEE_INDEX_PAGE;
         }
-        if (Employee.AccountRole.UNKNOWN.name().equalsIgnoreCase(role)) {
+        if (Employee.AccountRole.UNKNOWN == role) {
             request.setAttribute(ReqSesParameters.BAD_LOGIN_PASSWORD, true);
             request.getSession().removeAttribute(ReqSesParameters.DTO);
             return Pages.INDEX_PAGE;

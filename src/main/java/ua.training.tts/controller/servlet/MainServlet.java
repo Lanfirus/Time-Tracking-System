@@ -1,17 +1,17 @@
 package ua.training.tts.controller.servlet;
 
+import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.*;
 import ua.training.tts.controller.command.admin.*;
-import ua.training.tts.controller.command.employee.MyProjects;
-import ua.training.tts.controller.command.employee.MyProjectsSort;
-import ua.training.tts.controller.command.employee.MyTasks;
-import ua.training.tts.controller.command.employee.NewTaskEmployee;
+import ua.training.tts.controller.command.employee.*;
 import ua.training.tts.controller.command.redirect.NewTaskFormEmployee;
 import ua.training.tts.controller.command.profile.Profile;
 import ua.training.tts.controller.command.profile.ProfileUpdate;
 import ua.training.tts.controller.command.redirect.*;
+import ua.training.tts.controller.util.AccessRights;
+import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.service.EmployeeService;
 import ua.training.tts.model.service.FullTaskService;
 import ua.training.tts.model.service.ProjectService;
@@ -23,8 +23,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -58,8 +60,7 @@ public class MainServlet extends HttpServlet {
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
-        Command command = commands.getOrDefault(path, x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN);
+        Command command = getCommand(request);
         String page = command.execute(request);
         sendUserToPage(page, request, response);
     }
@@ -84,6 +85,25 @@ public class MainServlet extends HttpServlet {
         }
     }
 
+    private Command getCommand(HttpServletRequest request) {
+        String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
+        Command command = commands.get(path);
+        return Objects.nonNull(command) && isAccessGranted(command, request) ?
+                command : x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN;
+    }
+
+    private boolean isAccessGranted(Command command, HttpServletRequest request) {
+        Class<?> commandClass = command.getClass();
+        AccessRights rights = commandClass.getAnnotation(AccessRights.class);
+        EmployeeDTO dto = (EmployeeDTO) request.getSession().getAttribute(ReqSesParameters.DTO);
+        if (Objects.nonNull(dto)){
+            return Objects.nonNull(rights) && Arrays.asList(rights.acceptedRoles()).contains(dto.getRole());
+        }
+        else {
+            return Objects.nonNull(rights) && rights.isAvailableForGuests();
+        }
+    }
+
     public void init() {
         {
             commands.put(Servlet.MAIN, new MainPage());
@@ -104,7 +124,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.EMPLOYEE_REQUEST_NEW_TASK, new NewTaskEmployee(new TaskService()));
             commands.put(Servlet.EMPLOYEE_MY_PROJECTS, new MyProjects(new FullTaskService()));
             commands.put(Servlet.EMPLOYEE_MY_PROJECTS_SORT, new MyProjectsSort(new FullTaskService()));
-            commands.put(Servlet.EMPLOYEE_CONTACTS, new ContactsPage());
+            commands.put(Servlet.EMPLOYEE_CONTACTS, new Contacts());
             commands.put(Servlet.ADMIN_ALL_PROJECTS, new AllProjects(new ProjectService()));
             commands.put(Servlet.ADMIN_TASK_EDIT_FORM, new TaskEditFormAdmin(new TaskService()));
             commands.put(Servlet.ADMIN_TASK_EDIT, new TaskEdit(new TaskService()));

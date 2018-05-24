@@ -1,6 +1,7 @@
 package ua.training.tts.controller.util;
 
 import ua.training.tts.constant.controller.Listener;
+import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -17,7 +18,7 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
     private Integer id;
     private String login;
     private String password;
-    private String role;
+    private Employee.AccountRole role;
     private boolean alreadyLoggedIn;
 
     /**
@@ -62,8 +63,8 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
         if (this == other) {return true;}
         if (other == null || !(other instanceof EmployeeDTO)) {return false;}
         EmployeeDTO test = (EmployeeDTO) other;
-        return (this.login.equals(test.login) && this.password.equals(test.password) && this.role.equals(test.role) &&
-                this.alreadyLoggedIn == test.alreadyLoggedIn);
+        return (this.login.equals(test.login) && this.password.equals(test.password)
+                && this.role.name().equals(test.role.name()) && this.alreadyLoggedIn == test.alreadyLoggedIn);
     }
 
     /**
@@ -78,7 +79,7 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
 
         result += base * (login == null ? 0 : login.hashCode());
         result += base * (password == null ? 0 : password.hashCode());
-        result += base * (role == null ? 0 : role.hashCode());
+        result += base * (role.name() == null ? 0 : role.hashCode());
         result += base * (alreadyLoggedIn ? 1 : 0);
 
         return result;
@@ -108,11 +109,11 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
         this.password = password;
     }
 
-    public String getRole() {
+    public Employee.AccountRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Employee.AccountRole role) {
         this.role = role;
     }
 
@@ -124,7 +125,7 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
         this.alreadyLoggedIn = alreadyLoggedIn;
     }
 
-    public EmployeeDTO(Integer id, String login, String password, String role) {
+    public EmployeeDTO(Integer id, String login, String password, Employee.AccountRole role) {
         this.id = id;
         this.login = login;
         this.password = password;

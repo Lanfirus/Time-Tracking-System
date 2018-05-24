@@ -3,6 +3,7 @@ package ua.training.tts.controller.command;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.exception.DoubleLoginException;
+import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
@@ -13,6 +14,7 @@ import ua.training.tts.util.PasswordHashing;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+@AccessRights(acceptedRoles = {Employee.AccountRole.UNKNOWN}, isAvailableForGuests = true)
 public class Login implements Command {
 
     private EmployeeDTO dto;
@@ -39,17 +41,17 @@ public class Login implements Command {
 
         if (session.getAttribute(ReqSesParameters.DTO) != null) {
             dto = (EmployeeDTO) session.getAttribute(ReqSesParameters.DTO);
-            log.info(LogMessageHolder.userReenter(login, password, dto.getRole()));
+            log.info(LogMessageHolder.userReenter(login, password, dto.getRole().name()));
         }
         else if (service.isEmployeeExist(login, password)) {
             Employee employee = service.findByLogin(login);
-            dto = new EmployeeDTO(employee.getId(), login, password, employee.getAccountRole().name().toLowerCase());
+            dto = new EmployeeDTO(employee.getId(), login, password, employee.getAccountRole());
             session.setAttribute(ReqSesParameters.DTO, dto);
             checkDoubleLogin();
         }
         else {
             dto = new EmployeeDTO(CommandParameters.ZERO, CommandParameters.EMPTY, CommandParameters.EMPTY,
-                    Employee.AccountRole.UNKNOWN.name().toLowerCase());
+                    Employee.AccountRole.UNKNOWN);
             session.setAttribute(ReqSesParameters.DTO, dto);
             log.info(LogMessageHolder.userLogin(login, password, Employee.AccountRole.UNKNOWN.name().toLowerCase()));
         }
@@ -68,6 +70,6 @@ public class Login implements Command {
             log.warn(LogMessageHolder.userDoubleLogin(dto.getLogin()));
             throw new DoubleLoginException();
         }
-        log.info(LogMessageHolder.userLogin(dto.getLogin(), dto.getPassword(), dto.getRole()));
+        log.info(LogMessageHolder.userLogin(dto.getLogin(), dto.getPassword(), dto.getRole().name()));
     }
 }

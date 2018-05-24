@@ -7,8 +7,8 @@ import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.constant.controller.command.CommandParameters;
-import ua.training.tts.constant.model.Entity;
 import ua.training.tts.controller.util.EmployeeDTO;
+import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,19 +25,16 @@ public class MainPageTest extends Assert{
     private EmployeeDTO dtoAdmin;
     private EmployeeDTO dtoEmployee;
     private EmployeeDTO dtoUnknown;
-    private EmployeeDTO dtoRoleNotExist;
 
     @Before
     public void init() {
         dtoAdmin = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
-                Entity.ACCOUNT_ROLE_ADMIN);
+                Employee.AccountRole.ADMIN);
         dtoEmployee = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
-                Entity.ACCOUNT_ROLE_EMPLOYEE);
+                Employee.AccountRole.EMPLOYEE);
         dtoUnknown = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
-                Entity.ACCOUNT_ROLE_UNKNOWN);
+                Employee.AccountRole.UNKNOWN);
         when(request.getSession()).thenReturn(session);
-        dtoRoleNotExist = new EmployeeDTO(TestConstants.ID, CommandParameters.EMPTY, CommandParameters.EMPTY,
-                TestConstants.VALUE1);
         when(request.getSession()).thenReturn(session);
     }
 
@@ -68,13 +65,6 @@ public class MainPageTest extends Assert{
     @Test
     public void executeDtoNull() {
         given(session.getAttribute(ReqSesParameters.DTO)).willReturn(null);
-        String page = this.page.execute(request);
-        assertEquals(Pages.INDEX_PAGE, page);
-    }
-
-    @Test
-    public void executeDtoRoleNotExist() {
-        given(session.getAttribute(ReqSesParameters.DTO)).willReturn(dtoRoleNotExist);
         String page = this.page.execute(request);
         assertEquals(Pages.INDEX_PAGE, page);
     }

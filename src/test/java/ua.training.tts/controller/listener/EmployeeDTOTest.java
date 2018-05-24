@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.constant.controller.Listener;
 import ua.training.tts.controller.util.EmployeeDTO;
+import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,7 @@ public class EmployeeDTOTest extends Assert{
 
     private String login = TestConstants.LOGIN;
     private String password = TestConstants.PASSWORD;
-    private String role = TestConstants.ROLE;
+    private Employee.AccountRole role = Employee.AccountRole.UNKNOWN;
     private Integer id = TestConstants.ID;
     private EmployeeDTO dto = new EmployeeDTO(id, login, password, role);
     private Map<EmployeeDTO, HttpSession> logins = mock(Map.class);
@@ -107,7 +108,7 @@ public class EmployeeDTOTest extends Assert{
 
     @Test
     public void hashcodeNotEqualOnRole(){
-        Boolean check = (dto.hashCode() == new EmployeeDTO(id, login, password, login).hashCode());
+        Boolean check = (dto.hashCode() == new EmployeeDTO(id, login, password, Employee.AccountRole.ADMIN).hashCode());
         assertFalse(check);
     }
 

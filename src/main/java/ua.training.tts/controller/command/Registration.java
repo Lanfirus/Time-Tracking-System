@@ -2,6 +2,7 @@ package ua.training.tts.controller.command;
 
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.controller.command.CommandParameters;
+import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.BadRegistrationDataException;
 import ua.training.tts.model.exception.NotUniqueLoginException;
@@ -10,6 +11,7 @@ import ua.training.tts.util.LogMessageHolder;
 
 import javax.servlet.http.HttpServletRequest;
 
+@AccessRights(acceptedRoles = {Employee.AccountRole.UNKNOWN}, isAvailableForGuests = true)
 public class Registration implements Command {
 
     private EmployeeService service;
