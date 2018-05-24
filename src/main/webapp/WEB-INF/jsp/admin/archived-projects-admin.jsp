@@ -14,8 +14,10 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="status" titleKey="admin.allprojects.status"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="deadline" titleKey="admin.allprojects.deadline"
-                                sortable="true" headerClass="sortable" />
+                <display:column titleKey="admin.allprojects.deadline" sortable="true" headerClass="sortable" >
+                    <fmt:parseDate value="${project.deadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                    <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/>
+                </display:column>
             </display:table>
 
 </div>

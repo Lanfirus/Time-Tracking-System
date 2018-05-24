@@ -20,10 +20,10 @@
             <div>
                 <form action="${pageContext.request.contextPath}/app/language" method="post">
                     <select name="language">
-                        <option value="en" ${language == 'en' ? 'selected' : ''}>
+                        <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>
                                 <fmt:message key="header.language.english" />
                         </option>
-                        <option value="ua" ${language == 'ua' ? 'selected' : ''}>
+                        <option value="uk_UA" ${language == 'uk_UA' ? 'selected' : ''}>
                             <fmt:message key="header.language.ukrainian" />
                         </option>
                     </select>

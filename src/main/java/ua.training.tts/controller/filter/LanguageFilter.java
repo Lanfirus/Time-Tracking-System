@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
+import java.util.Locale;
 
 @WebFilter(FilterParameters.URL_PATTERN_ALL)
 public class LanguageFilter implements Filter {
@@ -38,6 +40,8 @@ public class LanguageFilter implements Filter {
         if(request.getParameter(ReqSesParameters.LANGUAGE) != null
                 && session.getAttribute(ReqSesParameters.LANGUAGE) != request.getParameter(ReqSesParameters.LANGUAGE)) {
             session.setAttribute(ReqSesParameters.LANGUAGE, request.getParameter(ReqSesParameters.LANGUAGE));
+            Config.set(session, Config.FMT_LOCALE, new Locale(request.getParameter(ReqSesParameters.LANGUAGE)));
+            System.out.println(Config.FMT_LOCALE +" = " + request.getParameter(ReqSesParameters.LANGUAGE));
             response.sendRedirect(request.getHeader(FilterParameters.REFERER));
             return;
         }

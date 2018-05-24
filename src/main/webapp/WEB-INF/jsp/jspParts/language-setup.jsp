@@ -5,7 +5,7 @@
     </c:when>
 
     <c:otherwise>
-        <c:set var="language" value="en" scope="session"/>
+        <c:set var="language" value="en_US" scope="session"/>
     </c:otherwise>
 
 </c:choose>

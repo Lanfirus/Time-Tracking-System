@@ -29,8 +29,10 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="status" titleKey="admin.alltasks.status"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="deadline" titleKey="admin.alltasks.deadline"
-                                sortable="true" headerClass="sortable" />
+                <display:column titleKey="admin.alltasks.deadline" sortable="true" headerClass="sortable" >
+                    <fmt:parseDate value="${task.deadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                    <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/>
+                </display:column>
                 <display:column property="spentTime" titleKey="admin.alltasks.spentTime"
                                 sortable="true" headerClass="sortable" />
                 <display:column property="approvalState" titleKey="admin.alltasks.approvalState"

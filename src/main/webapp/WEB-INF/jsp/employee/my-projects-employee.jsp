@@ -57,7 +57,8 @@
             <tr>
                 <td><c:out value="${project.projectId}"/></td>
                 <td><c:out value="${project.projectName}"/></td>
-                <td><c:out value="${project.projectDeadline}"/></td>
+                <td><fmt:parseDate value="${project.projectDeadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/></td>
                 <td><c:out value="${project.projectStatus}"/></td>
             </tr>
         </c:forEach>

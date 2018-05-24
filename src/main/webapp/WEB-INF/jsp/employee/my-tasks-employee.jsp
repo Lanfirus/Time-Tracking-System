@@ -39,7 +39,8 @@
                 <td><c:out value="${task.id}"/></td>
                 <td><c:out value="${task.projectId}"/></td>
                 <td><c:out value="${task.name}"/></td>
-                <td><c:out value="${task.deadline}"/></td>
+                <td><fmt:parseDate value="${task.deadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/></td>
 
                 <c:choose>
 
