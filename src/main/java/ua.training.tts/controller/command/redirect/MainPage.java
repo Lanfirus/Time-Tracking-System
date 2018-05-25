@@ -40,7 +40,6 @@ public class MainPage implements Command {
         if (Employee.AccountRole.UNKNOWN == role) {
             request.setAttribute(ReqSesParameters.BAD_LOGIN_PASSWORD, true);
             request.getSession().removeAttribute(ReqSesParameters.DTO);
-            return Pages.INDEX_PAGE;
         }
         return Pages.INDEX_PAGE;
     }

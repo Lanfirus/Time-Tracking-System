@@ -7,6 +7,9 @@ import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Shows page with confirmation of successful registration
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.UNKNOWN}, isAvailableForGuests = true)
 public class RegistrationSuccessfulPage implements Command {
     @Override

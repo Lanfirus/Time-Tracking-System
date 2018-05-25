@@ -11,8 +11,8 @@ public interface Pages {
     String DOUBLE_LOGIN_RESOLUTION_PAGE ="/WEB-INF/jsp/double-login.jsp";
     String PROFILE_EMPLOYEE_PAGE = "/WEB-INF/jsp/employee/profile-employee.jsp";
     String PROFILE_ADMIN_PAGE = "/WEB-INF/jsp/admin/profile-admin.jsp";
-    String ADMIN_EMLOYEE_INFORMATION_PAGE = "/WEB-INF/jsp/admin/employee-information.jsp";
-    String ADMIN_EMLOYEE_EDIT_PAGE = "/WEB-INF/jsp/admin/employee-edit.jsp";
+    String ADMIN_EMPLOYEE_INFORMATION_PAGE = "/WEB-INF/jsp/admin/employee-information.jsp";
+    String ADMIN_EMPLOYEE_EDIT_PAGE = "/WEB-INF/jsp/admin/employee-edit.jsp";
     String ADMIN_ALL_TASKS_PAGE = "/WEB-INF/jsp/admin/all-tasks-admin.jsp";
     String ADMIN_ALL_PROJECTS_PAGE = "/WEB-INF/jsp/admin/all-projects-admin.jsp";
     String EMPLOYEE_MY_TASKS_PAGE = "/WEB-INF/jsp/employee/my-tasks-employee.jsp";

@@ -1,4 +1,4 @@
-package ua.training.tts.controller.command.redirect;
+package ua.training.tts.controller.command.admin.project;
 
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
@@ -7,18 +7,16 @@ import ua.training.tts.controller.command.Command;
 import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.entity.Project;
-import ua.training.tts.model.entity.Task;
 import ua.training.tts.model.service.ProjectService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.Objects;
 
 @AccessRights(acceptedRoles = {Employee.AccountRole.ADMIN}, isAvailableForGuests = false)
 public class ProjectEditFormAdmin implements Command {
 
     private ProjectService service;
 
-    //ToDo Add logger
 
     public ProjectEditFormAdmin(ProjectService service) {
         this.service = service;
@@ -26,8 +24,8 @@ public class ProjectEditFormAdmin implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        Project project = service.findById(Integer.parseInt(request.getParameter(ReqSesParameters.PROJECT_ID)));
-        if(project != null) {
+        if (Objects.nonNull(request.getParameter(ReqSesParameters.PROJECT_ID))) {
+            Project project = service.findById(Integer.parseInt(request.getParameter(ReqSesParameters.PROJECT_ID)));
             request.setAttribute(ReqSesParameters.PROJECT, project);
             return Pages.ADMIN_PROJECT_EDIT_PAGE;
         }

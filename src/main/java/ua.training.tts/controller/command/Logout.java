@@ -14,7 +14,6 @@ public class Logout implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        //ToDo Implement disabling loggon for those with null login
         HttpSession session = request.getSession();
         String login = (String)session.getAttribute(ReqSesParameters.LOGIN);
         session.invalidate();

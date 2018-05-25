@@ -3,29 +3,23 @@ package ua.training.tts.controller.command.employee;
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
-import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
-import ua.training.tts.model.entity.Project;
-import ua.training.tts.model.entity.Task;
 import ua.training.tts.model.entity.full.FullTask;
-import ua.training.tts.model.exception.BadTaskDataException;
 import ua.training.tts.model.service.FullTaskService;
-import ua.training.tts.model.service.ProjectService;
-import ua.training.tts.model.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * Shows all projects assigned to specific employee.
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.EMPLOYEE}, isAvailableForGuests = false)
 public class MyProjects implements Command {
 
     private FullTaskService service;
-
-    //ToDo Add logger
 
     public MyProjects(FullTaskService service) {
         this.service = service;
@@ -40,8 +34,14 @@ public class MyProjects implements Command {
         return Pages.EMPLOYEE_MY_PROJECTS_PAGE;
     }
 
-    public static List<FullTask> prepareListForPagination(HttpServletRequest request, List<FullTask> list){
-
+    /**
+     * Pagination implementation. Creates sublist from original list according to current page user is on.
+     * Returns it to be showed for user as well as some parameters to be used on page (like "Number of pages").
+     * @param request       User's request from his browser.
+     * @param list          Initial list of all Tasks assigned to this Employee.
+     * @return              Sublist related to current page user is on.
+     */
+    private static List<FullTask> prepareListForPagination(HttpServletRequest request, List<FullTask> list){
         int numberOfPages = (int)Math.ceil((double)list.size() / CommandParameters.RECORDS_PER_PAGE);
         String currentPage = request.getParameter(ReqSesParameters.CURRENT_PAGE);
 

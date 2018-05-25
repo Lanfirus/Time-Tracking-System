@@ -13,12 +13,13 @@ import ua.training.tts.model.service.TaskService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Shows page where new task could be created by Employee
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.EMPLOYEE}, isAvailableForGuests = false)
 public class NewTaskFormEmployee implements Command {
 
     private TaskService service;
-
-    //ToDo Add logger
 
     public NewTaskFormEmployee(TaskService service) {
         this.service = service;

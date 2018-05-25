@@ -8,9 +8,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
-import java.util.Locale;
 
 @WebFilter(FilterParameters.URL_PATTERN_ALL)
 public class LanguageFilter implements Filter {
@@ -22,12 +20,12 @@ public class LanguageFilter implements Filter {
     /**
      * Monitor parameters of request and session responsible for holding preferred language setting.
      * If request parameter is not null it means that user selected some language on language selector.
-     * If language parameters in session and request ar different it means that session parameter needs to be
+     * If language parameters in session and request are different it means that session parameter needs to be
      * changed to one from request to reflect user choice.
      *
-     * @param servletRequest
-     * @param servletResponse
-     * @param chain
+     * @param servletRequest        Http servlet request
+     * @param servletResponse       Http servlet response
+     * @param chain                 Filter chain
      * @throws IOException
      * @throws ServletException
      */
@@ -40,8 +38,6 @@ public class LanguageFilter implements Filter {
         if(request.getParameter(ReqSesParameters.LANGUAGE) != null
                 && session.getAttribute(ReqSesParameters.LANGUAGE) != request.getParameter(ReqSesParameters.LANGUAGE)) {
             session.setAttribute(ReqSesParameters.LANGUAGE, request.getParameter(ReqSesParameters.LANGUAGE));
-            Config.set(session, Config.FMT_LOCALE, new Locale(request.getParameter(ReqSesParameters.LANGUAGE)));
-            System.out.println(Config.FMT_LOCALE +" = " + request.getParameter(ReqSesParameters.LANGUAGE));
             response.sendRedirect(request.getHeader(FilterParameters.REFERER));
             return;
         }

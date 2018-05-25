@@ -10,5 +10,9 @@ public interface ExceptionMessages {
     String NOT_UNIQUE_LOGIN = "Not unique login";
     String CANNOT_ADD_UPDATE_CHILD_ROW = "Cannot add or update a child row";
     String BAD_REGISTRATION_DATA = "Not correct registration data";
+    String BAD_NEW_PROJECT_DATA = "Not correct new project request's data";
+    String BAD_UPDATE_PROJECT_DATA = "Not correct update project request's data";
+    String BAD_NEW_TASK_DATA = "Not correct new task request's data";
+    String BAD_UPDATE_TASK_DATA = "Not correct update task request's data";
     String ILLEGAL_OPERATION_ON_EMPTY_RESULT_SET = "Illegal operation on empty result set.";
 }

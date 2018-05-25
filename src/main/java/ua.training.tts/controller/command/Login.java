@@ -7,7 +7,6 @@ import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
-import ua.training.tts.model.util.Annotation;
 import ua.training.tts.util.LogMessageHolder;
 import ua.training.tts.util.PasswordHashing;
 
@@ -30,8 +29,8 @@ public class Login implements Command {
      * browser and/or computer to prevent multi-logins from the same user. In case double login detected user will be
      * notified that his old session has been finished and he could proceed with his newer one.
      * At the very end method sets role to "Unknown" if all previous steps failed.
-     * @param request               user's request from his browser
-     * @return String               page where user will be redirected, it's main page of the site
+     * @param request               User's request from his browser
+     * @return String               Page where user will be redirected, it's main page of the site
      */
     @Override
     public String execute(HttpServletRequest request) {

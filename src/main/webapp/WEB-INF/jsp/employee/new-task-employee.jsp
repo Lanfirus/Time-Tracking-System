@@ -11,11 +11,6 @@
     <h5>You have created request for your task.</h5>
     </c:if>
 
-    <c:if test = "${not empty requestScope.bad_task_request_data}">
-    <br>
-    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
-    </c:if>
-
     <c:if test = "${not empty requestScope.task_data_changed}">
     <br>
     <h5 style="color:red;">Warning: Task data has been changed before your update.

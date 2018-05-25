@@ -5,24 +5,23 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.Command;
 import ua.training.tts.controller.util.AccessRights;
-import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.entity.Project;
 import ua.training.tts.model.entity.Task;
-import ua.training.tts.model.entity.full.FullTask;
-import ua.training.tts.model.service.FullTaskService;
 import ua.training.tts.model.service.ProjectService;
 import ua.training.tts.model.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Shows task edit page filled with all required data
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.ADMIN}, isAvailableForGuests = false)
 public class TaskEditFormAdmin implements Command {
 
     private TaskService service;
-
-    //ToDo Add logger
 
     public TaskEditFormAdmin(TaskService service) {
         this.service = service;
@@ -30,8 +29,8 @@ public class TaskEditFormAdmin implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        Task task = service.findById(Integer.parseInt(request.getParameter(ReqSesParameters.TASK_ID)));
-        if(task != null) {
+        if (Objects.nonNull(request.getParameter(ReqSesParameters.TASK_ID))){
+            Task task = service.findById(Integer.parseInt(request.getParameter(ReqSesParameters.TASK_ID)));
             request.setAttribute(ReqSesParameters.TASK, task);
             ProjectService projectService = new ProjectService();
             List<Project> activeProjects = projectService.findAllActive();

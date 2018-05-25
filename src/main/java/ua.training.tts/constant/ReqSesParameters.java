@@ -11,6 +11,7 @@ public interface ReqSesParameters {
     String PASSWORD = "password";
     String ROLE = "accountRole";
     String ID = "id";
+    String EMPLOYEE_ID = "employee_id";
     String LANGUAGE = "language";
     String BAD_LOGIN_PASSWORD = "badLoginPassword";
     String DTO = "dto";

@@ -1,5 +1,6 @@
 package ua.training.tts.model.service;
 
+import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.RegExp;
 import ua.training.tts.constant.model.Entity;
@@ -75,21 +76,21 @@ public class TaskService {
         return task;
     }
 
-    public void tryToPutTaskDataFromWebIntoDB(Task task, HttpServletRequest request) throws BadTaskDataException{
+    public void tryToPutTaskDataFromWebIntoDB(Task task, HttpServletRequest request){
         if (checkDataFromWebForCorrectness(task, request)) {
                 sendReadyRegistrationDataToDB(task);
         }
         else {
-            throw new BadTaskDataException();
+            throw new RuntimeException(ExceptionMessages.BAD_NEW_TASK_DATA);
         }
     }
 
-    public void tryToPutUpdateTaskDataFromWebIntoDB(Task task, HttpServletRequest request) throws BadTaskDataException{
+    public void tryToPutUpdateTaskDataFromWebIntoDB(Task task, HttpServletRequest request){
         if (checkDataFromWebForCorrectness(task, request)) {
             sendReadyUpdateDataToDB(task);
         }
         else {
-            throw new BadTaskDataException();
+            throw new RuntimeException(ExceptionMessages.BAD_UPDATE_TASK_DATA);
         }
     }
 

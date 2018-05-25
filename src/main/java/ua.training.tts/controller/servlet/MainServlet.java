@@ -5,6 +5,11 @@ import ua.training.tts.constant.controller.Servlet;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.command.*;
 import ua.training.tts.controller.command.admin.*;
+import ua.training.tts.controller.command.admin.employee.EmployeeChangeRole;
+import ua.training.tts.controller.command.admin.employee.EmployeeDelete;
+import ua.training.tts.controller.command.admin.employee.EmployeeInformation;
+import ua.training.tts.controller.command.admin.project.*;
+import ua.training.tts.controller.command.admin.task.*;
 import ua.training.tts.controller.command.employee.*;
 import ua.training.tts.controller.command.redirect.NewTaskFormEmployee;
 import ua.training.tts.controller.command.profile.Profile;
@@ -62,6 +67,7 @@ public class MainServlet extends HttpServlet {
             throws ServletException, IOException {
         Command command = getCommand(request);
         String page = command.execute(request);
+//        System.out.println("page=" + page);
         sendUserToPage(page, request, response);
     }
 
@@ -87,6 +93,7 @@ public class MainServlet extends HttpServlet {
 
     private Command getCommand(HttpServletRequest request) {
         String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
+//        System.out.println("path=" + path);
         Command command = commands.get(path);
         return Objects.nonNull(command) && isAccessGranted(command, request) ?
                 command : x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN;
@@ -121,7 +128,7 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.EMPLOYEE_MY_TASKS, new MyTasks(new TaskService()));
             commands.put(Servlet.ADMIN_ALL_TASKS, new AllTasks(new TaskService()));
             commands.put(Servlet.EMPLOYEE_NEW_TASK_FORM, new NewTaskFormEmployee(new TaskService()));
-            commands.put(Servlet.EMPLOYEE_REQUEST_NEW_TASK, new NewTaskEmployee(new TaskService()));
+            commands.put(Servlet.EMPLOYEE_REQUEST_NEW_TASK, new NewTaskByEmployee(new TaskService()));
             commands.put(Servlet.EMPLOYEE_MY_PROJECTS, new MyProjects(new FullTaskService()));
             commands.put(Servlet.EMPLOYEE_MY_PROJECTS_SORT, new MyProjectsSort(new FullTaskService()));
             commands.put(Servlet.EMPLOYEE_CONTACTS, new Contacts());
@@ -130,8 +137,8 @@ public class MainServlet extends HttpServlet {
             commands.put(Servlet.ADMIN_TASK_EDIT, new TaskEdit(new TaskService()));
             commands.put(Servlet.ADMIN_TASK_DELETE, new TaskDelete(new TaskService()));
             commands.put(Servlet.ADMIN_NEW_TASK_FORM, new NewTaskFormAdmin());
-            commands.put(Servlet.ADMIN_NEW_TASK, new NewTaskAdmin(new TaskService()));
-            commands.put(Servlet.ADMIN_NEW_PROJECT, new NewProject(new ProjectService()));
+            commands.put(Servlet.ADMIN_NEW_TASK, new NewTaskByAdmin(new TaskService()));
+            commands.put(Servlet.ADMIN_NEW_PROJECT, new NewProjectCreation(new ProjectService()));
             commands.put(Servlet.ADMIN_NEW_PROJECT_FORM, new NewProjectFormAdmin());
             commands.put(Servlet.ADMIN_PROJECT_DELETE, new ProjectDelete(new ProjectService()));
             commands.put(Servlet.ADMIN_PROJECT_EDIT, new ProjectEdit(new ProjectService()));

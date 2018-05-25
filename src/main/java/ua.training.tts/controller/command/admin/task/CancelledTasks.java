@@ -1,4 +1,4 @@
-package ua.training.tts.controller.command.admin;
+package ua.training.tts.controller.command.admin.task;
 
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
@@ -11,21 +11,22 @@ import ua.training.tts.model.service.TaskService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Shows all tasks with status "cancelled" except for archived ones.
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.ADMIN}, isAvailableForGuests = false)
-public class NewRequestTasks implements Command {
+public class CancelledTasks implements Command {
 
     private TaskService service;
 
-    //ToDo Add logger
-
-    public NewRequestTasks(TaskService service) {
+    public CancelledTasks(TaskService service) {
         this.service = service;
     }
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<Task> list = service.findAllByApprovalState(Task.ApprovalState.NEW_REQUEST.name());
+        List<Task> list = service.findAllByStatus(Task.Status.CANCELLED.name());
         request.setAttribute(ReqSesParameters.TASK_LIST, list);
-        return Pages.ADMIN_NEW_REQUEST_TASKS_PAGE;
+        return Pages.ADMIN_CANCELLED_TASKS_PAGE;
     }
 }

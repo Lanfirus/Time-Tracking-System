@@ -1,5 +1,6 @@
 package ua.training.tts.model.service;
 
+import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.RegExp;
 import ua.training.tts.constant.model.Entity;
@@ -51,22 +52,21 @@ public class ProjectService {
         return new Project(name, deadline, status);
     }
 
-    public void tryToPutProjectDataFromWebIntoDB(Project project, HttpServletRequest request) throws BadProjectDataException {
+    public void tryToPutProjectDataIntoDB(Project project, HttpServletRequest request) {
         if (checkDataFromWebForCorrectness(project, request)) {
                 sendReadyRegistrationDataToDB(project);
         }
         else {
-            throw new BadProjectDataException();
+            throw new RuntimeException(ExceptionMessages.BAD_NEW_PROJECT_DATA);
         }
     }
 
-    public void tryToPutUpdateDataFromWebIntoDBEmployee(Project project, HttpServletRequest request)
-                throws BadTaskDataException {
+    public void tryToPutUpdateDataFromEmployeeIntoDB(Project project, HttpServletRequest request) {
         if (checkDataFromWebForCorrectness(project, request)) {
                 sendReadyUpdateDataToDB(project);
         }
         else {
-            throw new BadTaskDataException();
+            throw new RuntimeException(ExceptionMessages.BAD_UPDATE_PROJECT_DATA);
         }
     }
 

@@ -7,6 +7,9 @@ import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Shows login page
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.UNKNOWN}, isAvailableForGuests = true)
 public class LoginForm implements Command {
     @Override

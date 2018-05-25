@@ -16,12 +16,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Sorts projects according to user preferences.
+ */
 @AccessRights(acceptedRoles = {Employee.AccountRole.EMPLOYEE}, isAvailableForGuests = false)
 public class MyProjectsSort implements Command {
 
     private FullTaskService service;
-
-    //ToDo Add logger
 
     public MyProjectsSort(FullTaskService service) {
         this.service = service;
@@ -42,30 +43,38 @@ public class MyProjectsSort implements Command {
 
         if (sortOrder.equals(CommandParameters.ASC)) {
             if(sortField.equals(TableParameters.PROJECT_ID)) {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectId)).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectId))
+                                    .collect(Collectors.toList());
             }
             else if(sortField.equals(TableParameters.PROJECT_NAME)) {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectName)).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectName))
+                                    .collect(Collectors.toList());
             }
             else if(sortField.equals(TableParameters.PROJECT_DEADLINE)) {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectDeadline)).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectDeadline))
+                                    .collect(Collectors.toList());
             }
             else {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectStatus)).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectStatus))
+                                    .collect(Collectors.toList());
             }
         }
         else{
             if(sortField.equals(TableParameters.PROJECT_ID)) {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectId).reversed()).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectId).reversed())
+                                    .collect(Collectors.toList());
             }
             else if(sortField.equals(TableParameters.PROJECT_NAME)) {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectName).reversed()).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectName).reversed())
+                                    .collect(Collectors.toList());
             }
             else if(sortField.equals(TableParameters.PROJECT_DEADLINE)) {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectDeadline).reversed()).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectDeadline).reversed())
+                                    .collect(Collectors.toList());
             }
             else {
-                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectStatus).reversed()).collect(Collectors.toList());
+                list = list.stream().sorted(Comparator.comparing(FullTask::getProjectStatus).reversed())
+                                    .collect(Collectors.toList());
             }
         }
 

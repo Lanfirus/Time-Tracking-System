@@ -1,63 +1,88 @@
 <%@ include file="../jspParts/general.jsp" %>
 <%@ include file="../jspParts/header-admin.jsp"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
 <div class="main">
     <h2><fmt:message key="employeeInformation.title" /></h2>
 
-    <table>
-        <tr>
-            <th><fmt:message key="employeeInformation.table.id"/></th>
-            <th><fmt:message key="employeeInformation.table.login"/></th>
-            <th><fmt:message key="employeeInformation.table.password"/></th>
-            <th><fmt:message key="employeeInformation.table.name"/></th>
-            <th><fmt:message key="employeeInformation.table.surname"/></th>
-            <th><fmt:message key="employeeInformation.table.patronymic"/></th>
-            <th><fmt:message key="employeeInformation.table.email"/></th>
-            <th><fmt:message key="employeeInformation.table.mobilePhone"/></th>
-            <th><fmt:message key="employeeInformation.table.comment"/></th>
-            <th><fmt:message key="employeeInformation.table.accountRole"/></th>
-            <th><fmt:message key="employeeInformation.table.changeRole"/></th>
-            <th><fmt:message key="employeeInformation.table.delete"/></th>
-        </tr>
+    <form method="post" action="" name="employee_information_form">
 
-        <c:forEach var="employee" items="${employees}">
-            <tr>
-                <td><c:out value="${employee.id}"/></td>
-                <td><c:out value="${employee.login}"/></td>
-                <td><c:out value="${employee.password}"/></td>
-                <td><c:out value="${employee.name}"/></td>
-                <td><c:out value="${employee.surname}"/></td>
-                <td><c:out value="${employee.patronymic}"/></td>
-                <td><c:out value="${employee.email}"/></td>
-                <td><c:out value="${employee.mobilePhone}"/></td>
-                <td><c:out value="${employee.comment}"/></td>
+        <display:table name="employees" id="employee" sort="list" requestURI="" pagesize="5">
 
-                <form method="post" action="" name="all_employee_form">
-                <td>
-                    <select name="e_account_role">
-                        <option value="employee" ${employee.accountRole == 'EMPLOYEE' ? 'selected' : ''}>
-                            <fmt:message key="registration.accountRole.employee" />
-                        </option>
+            <display:column property="id" titleKey="employeeInformation.table.id"
+                sortable="true" headerClass="sortable" />
 
-                        <option value="admin" ${employee.accountRole == 'ADMIN' ? 'selected' : ''}>
-                            <fmt:message key="registration.accountRole.admin" />
-                        </option>
-                    </select></td>
-                    <td>
-                        <input type="hidden" name="id" value="${employee.id}">
-                        <input type="submit" name="changeRole"
-                            value=<fmt:message key="employeeInformation.table.button.changeRole"/>
-                            onClick='this.form.action="employee_change_role";'></td>
+            <display:column property="login" titleKey="employeeInformation.table.login"
+                sortable="true" headerClass="sortable" />
 
-                    <td><input type="submit" name="delete"
-                            value=<fmt:message key="employeeInformation.table.button.delete"/>
-                            onClick='this.form.action="employee_delete";' ></td>
-                </form>
-            </tr>
-        </c:forEach>
-    </table>
+            <display:column property="password" titleKey="employeeInformation.table.password"
+                sortable="true" headerClass="sortable" />
+
+            <display:column property="name" titleKey="employeeInformation.table.name"
+                sortable="true" headerClass="sortable" />
+
+            <display:column property="surname" titleKey="employeeInformation.table.surname"
+                sortable="true" headerClass="sortable" />
+
+            <display:column property="patronymic" titleKey="employeeInformation.table.patronymic"
+                sortable="true" headerClass="sortable" />
+
+            <display:column property="email" titleKey="employeeInformation.table.email"
+                sortable="true" headerClass="sortable" />
+
+            <display:column property="mobilePhone" titleKey="employeeInformation.table.mobilePhone"
+                sortable="true" headerClass="sortable" />
+
+            <display:column property="comment" titleKey="employeeInformation.table.comment"
+                sortable="true" headerClass="sortable" />
+
+            <display:column titleKey="employeeInformation.table.accountRole" sortable="true" headerClass="sortable">
+                <select name="e_account_role${employee.id}">
+                                        <option value="employee" ${employee.accountRole == 'EMPLOYEE' ? 'selected' : ''}>
+                                            <fmt:message key="registration.accountRole.employee" />
+                                        </option>
+
+                                        <option value="admin" ${employee.accountRole == 'ADMIN' ? 'selected' : ''}>
+                                            <fmt:message key="registration.accountRole.admin" />
+                                        </option>
+                                    </select>
+            </display:column>
+
+            <display:column titleKey="employeeInformation.table.select" >
+                    <input type="radio" name="employee_id" value="${employee.id}" checked>
+                </display:column>
+
+            </display:table>
+
+<div class="but">
+            <button class="submit" type="submit" onClick="return check(this);" name="changeRole" >
+                <fmt:message key="employeeInformation.table.button.changeRole" />
+            </button>
+            <br>
+            <button class="submit" type="submit" onClick="return check(this);" name="delete" >
+                <fmt:message key="employeeInformation.table.button.delete" />
+            </button>
+</div>
+
+    </form>
 
 </div>
+
+<script type="text/javascript">
+function check(button) {
+    <c:if test="${empty employee.id}">
+        return false;
+    </c:if>
+    var form = button.form;
+    if(button.name == "changeRole") {
+        form.action = "employee_change_role";
+    }
+    else {
+        form.action = "employee_delete";
+    }
+    return true;
+}
+</script>
 
 <jsp:include page="../jspParts/footer.jsp"/>
