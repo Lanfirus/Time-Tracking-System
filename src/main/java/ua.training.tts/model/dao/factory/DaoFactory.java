@@ -6,13 +6,21 @@ import ua.training.tts.model.dao.ProjectDao;
 import ua.training.tts.model.dao.TaskDao;
 
 
-public interface DaoFactory {
+public abstract class DaoFactory {
 
-   EmployeeDao createEmployeeDao();
+   public static DaoFactory getInstance() {
+      return Holder.INSTANCE;
+   }
 
-   TaskDao createTaskDao();
+   private static class Holder {
+      static final DaoFactory INSTANCE = new JDBCDaoFactoryImpl();
+   }
 
-   ProjectDao createProjectDao();
+   public abstract EmployeeDao createEmployeeDao();
 
-   FullTaskDao createFullTaskDao();
+   public abstract TaskDao createTaskDao();
+
+   public abstract ProjectDao createProjectDao();
+
+   public abstract FullTaskDao createFullTaskDao();
 }

@@ -4,18 +4,17 @@ import ua.training.tts.model.entity.Task;
 
 import java.util.List;
 
-public interface TaskDao extends GeneralDao<Task, Integer, String, String> {
+public interface TaskDao extends GeneralDao<Task, Integer> {
 
     void setStatusById(Integer id, String status);
 
-    public List<Task> findAllByEmployeeId(Integer id);
+    List<Task> findAllByEmployeeId(Integer id);
 
-    public List<Task> findAllByStatus(String status);
+    List<Task> findAllByStatus(String status);
 
-    public List<Task> findAllArchived();
+    List<Task> findAllArchived();
 
-    public List<Task> findAllByApprovalState(String approvalState);
+    List<Task> findAllByApprovalState(String approvalState);
 
-    public void updateTaskEmployee(Task task);
-
+    void updateTaskByEmployee(Task task);
 }

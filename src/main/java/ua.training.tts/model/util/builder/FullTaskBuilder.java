@@ -3,7 +3,7 @@ package ua.training.tts.model.util.builder;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.entity.Project;
 import ua.training.tts.model.entity.Task;
-import ua.training.tts.model.entity.full.FullTask;
+import ua.training.tts.model.entity.FullTask;
 
 import java.time.LocalDate;
 

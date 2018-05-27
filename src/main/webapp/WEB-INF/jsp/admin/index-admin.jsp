@@ -7,8 +7,7 @@
 
    <section class="land-body">
           <div class="main-container">
-              <h2 class="land-body-h2 land-body-h2-long">Create project scope,  assign work to your team,
-              record work hours and keep everything on track with the insightful data</h2>
+              <h2 class="land-body-h2 land-body-h2-long"><fmt:message key="main.text.additional" /></h2>
           </div>
    </section>
 <jsp:include page="../jspParts/footer.jsp"/>

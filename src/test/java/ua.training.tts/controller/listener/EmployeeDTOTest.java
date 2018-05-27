@@ -2,8 +2,8 @@ package ua.training.tts.controller.listener;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ua.training.tts.constant.General;
 import ua.training.tts.constant.TestConstants;
-import ua.training.tts.constant.controller.Listener;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 
@@ -34,7 +34,7 @@ public class EmployeeDTOTest extends Assert{
     public void valueBoundAlreadyLogin(){
         given(event.getSession()).willReturn(session);
         given(session.getServletContext()).willReturn(context);
-        given(context.getAttribute(Listener.LOGINS)).willReturn(logins);
+        given(context.getAttribute(General.LOGINS)).willReturn(logins);
         given(logins.get(any(EmployeeDTO.class))).willReturn(oldSession);
         dto.valueBound(event);
         assertTrue(dto.isAlreadyLoggedIn());
@@ -45,7 +45,7 @@ public class EmployeeDTOTest extends Assert{
     public void valueBoundNotYetLogin(){
         given(event.getSession()).willReturn(session);
         given(session.getServletContext()).willReturn(context);
-        given(context.getAttribute(Listener.LOGINS)).willReturn(logins);
+        given(context.getAttribute(General.LOGINS)).willReturn(logins);
         given(logins.get(any(EmployeeDTO.class))).willReturn(null);
         given(logins.put(any(EmployeeDTO.class), eq(session))).willReturn(null);
         dto.valueBound(event);
@@ -58,7 +58,7 @@ public class EmployeeDTOTest extends Assert{
     public void valueUnbound(){
         given(event.getSession()).willReturn(session);
         given(session.getServletContext()).willReturn(context);
-        given(context.getAttribute(Listener.LOGINS)).willReturn(logins);
+        given(context.getAttribute(General.LOGINS)).willReturn(logins);
         given(logins.remove(any(EmployeeDTO.class))).willReturn(null);
         dto.valueUnbound(event);
         verify(logins, times(1)).remove(any(EmployeeDTO.class));

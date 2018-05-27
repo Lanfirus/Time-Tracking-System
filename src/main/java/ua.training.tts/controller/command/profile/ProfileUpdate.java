@@ -58,7 +58,7 @@ public class ProfileUpdate implements Command {
      */
     private String tryToAddEmployeeRegistrationDataToDB(Employee employee, HttpServletRequest request){
         try{
-            service.tryToPutUpdateDataFromWebIntoDB(employee, request);
+            service.tryToPutUpdateDataIntoDB(employee, request);
             checkDTOAndChangeDataIfNeeded(employee);
             request.setAttribute(ReqSesParameters.PROFILE_UPDATE_OK, true);
             log.info(LogMessageHolder.userRegistrationSuccessful(employee.getLogin()));

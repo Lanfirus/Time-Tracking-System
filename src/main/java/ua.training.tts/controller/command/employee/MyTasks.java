@@ -56,7 +56,7 @@ public class MyTasks implements Command {
     private void updateTask(HttpServletRequest request){
         Task task = service.buildTaskForUpdateByEmployee(request);
         try{
-            service.tryToPutUpdateDataFromWebIntoDBEmployee(task, request);
+            service.tryToPutUpdatedByEmployeeTaskDataIntoDB(task, request);
             request.setAttribute(ReqSesParameters.TASK_UPDATE_OK, true);
         }
         catch (BadTaskDataException e){

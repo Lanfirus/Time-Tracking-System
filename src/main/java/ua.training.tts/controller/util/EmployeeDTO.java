@@ -1,6 +1,6 @@
 package ua.training.tts.controller.util;
 
-import ua.training.tts.constant.controller.Listener;
+import ua.training.tts.constant.General;
 import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.http.HttpSession;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Data transfer object class to implement multi-login management and to ease CRUD operations on Employee entities.
+ * Data transfer object class to implement multi-login management and to ease CRUD operations on entities.
  * On login this DTO is filled with respective employee's data and put into his session.
  * Could be extended later on to implement other functionalities or to improve some code during refactoring.
  */
@@ -24,13 +24,13 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
     /**
      * Is called every time this DTO is put into session's attributes.
      *
-     * @param event             Putting this DTO into session's attribute.
+     * @param event     Putting this DTO into session's attribute.
      */
     @Override
     @SuppressWarnings("unchecked")
     public void valueBound(HttpSessionBindingEvent event) {
         Map<EmployeeDTO, HttpSession> logins =
-                (Map<EmployeeDTO, HttpSession>) event.getSession().getServletContext().getAttribute(Listener.LOGINS);
+                (Map<EmployeeDTO, HttpSession>) event.getSession().getServletContext().getAttribute(General.LOGINS);
         Optional<HttpSession> oldSession = Optional.ofNullable(logins.get(this));
         if (oldSession.isPresent()) {
             oldSession.get().invalidate();
@@ -42,13 +42,13 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
     /**
      * Is called every time this DTO is removed from session's attributes. This includes session invalidate process.
      *
-     * @param event             Removing this DTO from session's attribute.
+     * @param event     Removing this DTO from session's attribute.
      */
     @Override
     @SuppressWarnings("unchecked")
     public void valueUnbound(HttpSessionBindingEvent event) {
         Map<EmployeeDTO, HttpSession> logins =
-                (Map<EmployeeDTO, HttpSession>) event.getSession().getServletContext().getAttribute(Listener.LOGINS);
+                (Map<EmployeeDTO, HttpSession>) event.getSession().getServletContext().getAttribute(General.LOGINS);
         logins.remove(this);
     }
 
@@ -131,7 +131,4 @@ public class EmployeeDTO implements javax.servlet.http.HttpSessionBindingListene
         this.password = password;
         this.role = role;
     }
-
-    //ToDo implement serialization
-
 }

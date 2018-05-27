@@ -16,7 +16,7 @@ public class TaskBuilder {
     private Task.Status status;
     private LocalDate deadline;
     private Integer spentTime;
-    private Task.ApprovalState approved;
+    private Task.ApprovalState approvalState;
 
     public TaskBuilder setId(Integer id) {
         this.id = id;
@@ -53,8 +53,8 @@ public class TaskBuilder {
         return this;
     }
 
-    public TaskBuilder setApproved(String approved) {
-        this.approved = Task.ApprovalState.valueOf(approved.toUpperCase());
+    public TaskBuilder setApprovalState(String approved) {
+        this.approvalState = Task.ApprovalState.valueOf(approved.toUpperCase());
         return this;
     }
 
@@ -67,7 +67,7 @@ public class TaskBuilder {
         task.setStatus(status);
         task.setDeadline(deadline);
         task.setSpentTime(spentTime);
-        task.setApprovalState(approved);
+        task.setApprovalState(approvalState);
         return task;
     }
 
@@ -76,7 +76,7 @@ public class TaskBuilder {
         task.setId(id);
         task.setStatus(status);
         task.setSpentTime(spentTime);
-        task.setApprovalState(approved);
+        task.setApprovalState(approvalState);
         return task;
     }
 }

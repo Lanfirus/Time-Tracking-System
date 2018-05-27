@@ -20,7 +20,7 @@ public class RequestBuilder {
         return this;
     }
 
-    public RequestBuilder insertValues(List<String> fieldNames){
+    public RequestBuilder insertValueNames(List<String> fieldNames){
         request.append("(");
         for (int fieldNumber = 0; fieldNumber < fieldNames.size(); fieldNumber++) {
             request.append("`")

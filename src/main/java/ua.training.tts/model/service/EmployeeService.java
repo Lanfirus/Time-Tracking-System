@@ -6,7 +6,6 @@ import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.dao.EmployeeDao;
 import ua.training.tts.model.dao.factory.DaoFactory;
-import ua.training.tts.model.dao.factory.JDBCDaoFactoryImpl;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.BadRegistrationDataException;
 import ua.training.tts.model.exception.NotUniqueLoginException;
@@ -21,8 +20,13 @@ import java.util.regex.Pattern;
 public class EmployeeService {
 
     private ResourceBundle regexpBundle;
-    private DaoFactory daoFactory = new JDBCDaoFactoryImpl();
+    private EmployeeDao dao = DaoFactory.getInstance().createEmployeeDao();
 
+    /**
+     * Builds Employee entity from the data passed within user's http servlet request
+     * @param request       User's request from his browser
+     * @return              Employee entity built from user's data
+     */
     public Employee buildEmployee(HttpServletRequest request){
         String hashedPassword = PasswordHashing.hashPassword(request.getParameter(TableParameters.EMPLOYEE_PASSWORD));
         Employee employee = new EmployeeBuilder().setLogin(request.getParameter(TableParameters.EMPLOYEE_LOGIN))
@@ -37,26 +41,16 @@ public class EmployeeService {
             return employee;
     }
 
-    public Employee buildEmployeeFull(HttpServletRequest request){
-        String hashedPassword = PasswordHashing.hashPassword(request.getParameter(TableParameters.EMPLOYEE_PASSWORD));
-        Employee employee = new EmployeeBuilder()
-                .setId(Integer.parseInt(request.getParameter(TableParameters.EMPLOYEE_ID)))
-                .setLogin(request.getParameter(TableParameters.EMPLOYEE_LOGIN))
-                .setPassword(hashedPassword)
-                .setName(request.getParameter(TableParameters.EMPLOYEE_NAME))
-                .setSurname(request.getParameter(TableParameters.EMPLOYEE_SURNAME))
-                .setPatronymic(request.getParameter(TableParameters.EMPLOYEE_PATRONYMIC))
-                .setEmail(request.getParameter(TableParameters.EMPLOYEE_EMAIL))
-                .setMobilePhone(request.getParameter(TableParameters.EMPLOYEE_MOBILE_PHONE))
-                .setComment(request.getParameter(TableParameters.EMPLOYEE_COMMENT))
-                .setAccountRole(request.getParameter(TableParameters.EMPLOYEE_ACCOUNT_ROLE))
-                .buildEmployee();
-        return employee;
-    }
-
-    public void tryToPutRegistrationDataFromWebIntoDB(Employee employee, HttpServletRequest request)
+    /**
+     * Checks validity of user's registration data then tries to put data into database
+     * @param employee      Employee entity built from user's registration data
+     * @param request       User's request from his browser
+     * @throws NotUniqueLoginException      Thrown if database already has such login
+     * @throws BadRegistrationDataException Thrown if data validity check is failed
+     */
+    public void tryToPutRegistrationDataIntoDB(Employee employee, HttpServletRequest request)
             throws NotUniqueLoginException, BadRegistrationDataException {
-        if (checkDataFromWebForCorrectness(employee, request)) {
+        if (isDataCorrect(employee, request)) {
             try{
                 sendReadyRegistrationDataToDB(employee);
             }
@@ -74,9 +68,16 @@ public class EmployeeService {
         }
     }
 
-    public void tryToPutUpdateDataFromWebIntoDB(Employee employee, HttpServletRequest request)
+    /**
+     * Checks validity of user's update data then tries to put data into database
+     * @param employee      Employee entity built from user's update data
+     * @param request       User's request from his browser
+     * @throws NotUniqueLoginException      Thrown if database already has such login
+     * @throws BadRegistrationDataException Thrown if data validity check is failed
+     */
+    public void tryToPutUpdateDataIntoDB(Employee employee, HttpServletRequest request)
             throws NotUniqueLoginException, BadRegistrationDataException {
-        if (checkDataFromWebForCorrectness(employee, request)) {
+        if (isDataCorrect(employee, request)) {
             try{
                 sendReadyUpdateDataToDB(employee);
             }
@@ -95,124 +96,103 @@ public class EmployeeService {
     }
 
     /**
-     * Matches data from web with regexps. For some types of data that is not String,
-     * performs other checks.
-     * @param employee
-     * @param request
-     * @return boolean
+     * Matches user's data with regexps.
+     * @param employee      Employee entity built from user's data
+     * @param request       User's request from his browser
+     * @return      True if data is valid, false otherwise
      */
-    private boolean checkDataFromWebForCorrectness(Employee employee, HttpServletRequest request) {
-        List<String> fieldNames = employee.getFieldNames();
-        List<String> fieldValues = employee.getFieldValues();
-        boolean check = true;
-        HttpSession session = request.getSession();
-        String locale = session.getAttribute(ReqSesParameters.LANGUAGE) == null ?
-                Service.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
-        bundleInitialization(new Locale(locale));
-        for (int field = 0; field < fieldValues.size(); field++){
-            check &= matchInputWithRegexp(fieldValues.get(field), regexpBundle.getString(fieldNames.get(field)));
-        }
+    private boolean isDataCorrect(Employee employee, HttpServletRequest request) {
+        bundleInitialization(request);
+        boolean check = matchInputWithRegexp(employee.getLogin(), regexpBundle.getString(TableParameters.EMPLOYEE_LOGIN));
+        check &= matchInputWithRegexp(employee.getPassword(),
+                regexpBundle.getString(TableParameters.EMPLOYEE_PASSWORD));
+        check &= matchInputWithRegexp(employee.getName(), regexpBundle.getString(TableParameters.EMPLOYEE_NAME));
+        check &= matchInputWithRegexp(employee.getSurname(), regexpBundle.getString(TableParameters.EMPLOYEE_SURNAME));
+        check &= matchInputWithRegexp(employee.getPatronymic(),
+                regexpBundle.getString(TableParameters.EMPLOYEE_PATRONYMIC));
+        check &= matchInputWithRegexp(employee.getEmail(), regexpBundle.getString(TableParameters.EMPLOYEE_EMAIL));
+        check &= matchInputWithRegexp(employee.getMobilePhone(),
+                regexpBundle.getString(TableParameters.EMPLOYEE_MOBILE_PHONE));
+        check &= matchInputWithRegexp(employee.getComment(), regexpBundle.getString(TableParameters.EMPLOYEE_COMMENT));
+
         return check;
     }
 
     /**
-     * Sends checked data to user to be put into DB.
-     * @param employee
+     * Initializes Resource Bundles with respective locale
+     *
+     * @param request       User's request from his browser
+     */
+    private void bundleInitialization(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String locale = session.getAttribute(ReqSesParameters.LANGUAGE) == null ?
+                Service.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
+        regexpBundle = ResourceBundle.getBundle(Service.REGEXP_BUNDLE_NAME, new Locale(locale));
+    }
+
+    /**
+     * Applies regexp to user input data to check its validity
+     *
+     * @param input     User data
+     * @param regexp        Respective regexp to be applied to input data
+     * @return      True if data pass regexp, false otherwise
+     */
+    private boolean matchInputWithRegexp(String input, String regexp) {
+        return Pattern.matches(regexp, input);
+    }
+
+    /**
+     * Sends checked user data to be put into database
+     * @param employee      Employee entity built from user's registration data
      */
     private void sendReadyRegistrationDataToDB(Employee employee) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.create(employee);
     }
 
     /**
-     * Sends checked data to user to be put into DB.
-     * @param employee
+     * Sends checked  user data to be put into DB.
+     * @param employee      Employee entity built from user's update data
      */
     public void sendReadyUpdateDataToDB(Employee employee) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.update(employee);
     }
 
     /**
-     * Initialize Resource Bundles with respective locale.
-     *
-     * @param locale
+     * Sets data entered by user back to request scope to be used later on on html page
+     * @param request       User's request from his browser
+     * @param employee      Employee entity built from user data
      */
-    public void bundleInitialization(Locale locale) {
-        regexpBundle = ResourceBundle.getBundle(Service.REGEXP_BUNDLE_NAME, locale);
-    }
-
-    /**
-     * Applies regexp to employeeRegistrationData input to check its validity.
-     *
-     * @param input
-     * @param regexp
-     * @return
-     */
-    public boolean matchInputWithRegexp(String input, String regexp) {
-        return Pattern.matches(regexp, input);
-    }
-
     public void setEmployeeEnteredDataBackToForm(HttpServletRequest request, Employee employee){
         request.setAttribute(TableParameters.EMPLOYEE_LOGIN, employee.getLogin());
         request.setAttribute(TableParameters.EMPLOYEE_NAME, employee.getName());
         request.setAttribute(TableParameters.EMPLOYEE_SURNAME, employee.getSurname());
-        request.setAttribute(TableParameters.EMPLOYEE_PATRONYMIC, employee.getPatronymic() == null ? "" : employee.getPatronymic());
+        request.setAttribute(TableParameters.EMPLOYEE_PATRONYMIC, employee.getPatronymic());
         request.setAttribute(TableParameters.EMPLOYEE_EMAIL, employee.getEmail());
         request.setAttribute(TableParameters.EMPLOYEE_MOBILE_PHONE, employee.getMobilePhone());
-        request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
-    }
-
-    public void setFullEmployeeDataBackToForm(HttpServletRequest request, Employee employee){
-        request.setAttribute(TableParameters.EMPLOYEE_ID, employee.getId());
-        request.setAttribute(TableParameters.EMPLOYEE_LOGIN, employee.getLogin());
-        request.setAttribute(TableParameters.EMPLOYEE_PASSWORD, employee.getPassword());
-        request.setAttribute(TableParameters.EMPLOYEE_NAME, employee.getName());
-        request.setAttribute(TableParameters.EMPLOYEE_SURNAME, employee.getSurname());
-        request.setAttribute(TableParameters.EMPLOYEE_PATRONYMIC, employee.getPatronymic() == null ? "" : employee.getPatronymic());
-        request.setAttribute(TableParameters.EMPLOYEE_EMAIL, employee.getEmail());
-        request.setAttribute(TableParameters.EMPLOYEE_MOBILE_PHONE, employee.getMobilePhone());
-        request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment() == null ? "" : employee.getComment());
-        request.setAttribute(TableParameters.EMPLOYEE_ACCOUNT_ROLE, employee.getAccountRole());
+        request.setAttribute(TableParameters.EMPLOYEE_COMMENT, employee.getComment());
     }
 
     public boolean isEmployeeExist(String login, String password){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.isEntryExist(login, password);
     }
 
-    public Integer getEmployeeID(String login, String password) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
-        return dao.findIdByKeys(login, password);
-    }
-
-    public String getRoleByLoginPassword(String login, String password) {
-        EmployeeDao dao = daoFactory.createEmployeeDao();
-        return dao.findParamByKeys(TableParameters.EMPLOYEE_ACCOUNT_ROLE, login, password);
-    }
-
     public Employee findByLogin(String login){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.findByLogin(login);
     }
 
     public Employee findById(Integer id){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.findById(id);
     }
 
     public List<Employee> findAll(){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         return dao.findAll();
     }
 
     public void setRoleById(Integer id, String role){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.setRoleById(id, role);
     }
 
     public void deleteById(Integer id){
-        EmployeeDao dao = daoFactory.createEmployeeDao();
         dao.delete(id);
     }
 }

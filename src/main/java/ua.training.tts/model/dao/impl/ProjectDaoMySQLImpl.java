@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * MySQL implementation of Project entity DAO
+ */
 public class ProjectDaoMySQLImpl implements ProjectDao {
 
     private RequestBuilder builder;
@@ -26,7 +29,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
     @Override
     public void create(Project project) {
         String request = builder.insertIntoTable(TableParameters.PROJECT_TABLE_NAME)
-                                .insertValues(getFieldNames())
+                                .insertValueNames(getFieldNames())
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)) {
@@ -35,6 +38,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setString(3, project.getStatus().name().toLowerCase());
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -52,6 +56,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setInt(1,id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -62,6 +67,13 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
         }
     }
 
+    /**
+     * Builds Project entity from data gotten from database
+     *
+     * @param set       Result set with data from database
+     * @return          Project entity filled with data from database
+     * @throws SQLException
+     */
     private Project extractDataFromResultSet(ResultSet set) throws SQLException{
         Integer id = set.getInt(TableParameters.PROJECT_ID);
         String name = set.getString(TableParameters.PROJECT_NAME);
@@ -80,6 +92,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -92,6 +105,11 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
         return resultList;
     }
 
+    /**
+     * Searches all active projects meaning ones with statuses New or Assigned
+     *
+     * @return      List of active projects
+     */
     @Override
     public List<Project> findAllActive() {
         List<Project> resultList = new ArrayList<>();
@@ -105,6 +123,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setString(2, Project.Status.NEW.name().toLowerCase());
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -117,6 +136,11 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
         return resultList;
     }
 
+    /**
+     * Gathers information about all projects put into archive
+     *
+     * @return      List of archived projects
+     */
     @Override
     public List<Project> findAllArchived() {
         List<Project> resultList = new ArrayList<>();
@@ -126,42 +150,25 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
             }
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
-                    savedStatement), e);
+                                                                                        savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
         return resultList;
     }
 
-
-    @Override
-    public List<Project> findAllByEmployeeId(Integer id) {
-        List<Project> resultList = new ArrayList<>();
-        String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
-                                .where(TableParameters.EMPLOYEE_ID)
-                                .build();
-        try (Connection connection = ConnectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(request)){
-            statement.setInt(1,id);
-            savedStatement = statement.toString();
-            ResultSet set = statement.executeQuery();
-            while (set.next()){
-                Project result = extractDataFromResultSet(set);
-                resultList.add(result);
-            }
-        } catch (SQLException e) {
-            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
-                                                                                            savedStatement), e);
-            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
-        }
-        return resultList;
-    }
-
+    /**
+     * Gathers information about all projects that satisfy provided status
+     *
+     * @param status        Project status provided by user
+     * @return              List of projects that satisfy provided project status
+     */
     @Override
     public List<Project> findAllByStatus(String status) {
         List<Project> resultList = new ArrayList<>();
@@ -173,13 +180,14 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setString(1, status);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
             }
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
-                    savedStatement), e);
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
         return resultList;
@@ -198,8 +206,9 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setInt(4, project.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
-            log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.PROJECT_TABLE_NAME,
+            log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
@@ -215,6 +224,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setInt(1, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -222,18 +232,8 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
         }
     }
 
-    public List<String> getFieldNames() {
+    private List<String> getFieldNames() {
         return Arrays.asList(TableParameters.PROJECT_NAME, TableParameters.PROJECT_DEADLINE,
                 TableParameters.PROJECT_STATUS);
-    }
-
-    @Override
-    public Integer findIdByKeys(String... strings) {
-        return null;
-    }
-
-    @Override
-    public String findParamByKeys(String s, String... strings) {
-        return null;
     }
 }

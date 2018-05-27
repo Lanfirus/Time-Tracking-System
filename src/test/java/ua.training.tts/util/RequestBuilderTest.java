@@ -29,7 +29,7 @@ public class RequestBuilderTest extends Assert {
 
     @Test
     public void insertValues() {
-        String actuals = builder.insertValues(values).build().toLowerCase();
+        String actuals = builder.insertValueNames(values).build().toLowerCase();
         String expected = TestConstants.INSERT_VALUES_EXPECTED.toLowerCase();
         Assert.assertEquals(expected, actuals);
     }

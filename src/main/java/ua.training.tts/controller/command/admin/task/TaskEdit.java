@@ -28,10 +28,10 @@ public class TaskEdit implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        Task task = service.buildNewTaskForEditByAdmin(request);
+        Task task = service.buildNewTaskForUpdateByAdmin(request);
         if (Objects.nonNull(task.getDeadline())) {
             checkProjectDeadline(task, request);
-            service.tryToPutUpdateTaskDataFromWebIntoDB(task, request);
+            service.tryToPutUpdatedByAdminTaskDataIntoDB(task, request);
         }
         return CommandParameters.REDIRECT + CommandParameters.MAIN;
     }

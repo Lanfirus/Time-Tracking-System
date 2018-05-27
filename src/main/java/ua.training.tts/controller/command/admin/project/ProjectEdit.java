@@ -24,7 +24,7 @@ public class ProjectEdit implements Command {
     @Override
     public String execute(HttpServletRequest request) {
             Project project = service.buildProject(request);
-            service.tryToPutUpdateDataFromEmployeeIntoDB(project, request);
+            service.tryToPutUpdatedProjectDataIntoDB(project, request);
         return CommandParameters.REDIRECT + CommandParameters.MAIN;
     }
 }

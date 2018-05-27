@@ -1,8 +1,4 @@
-package ua.training.tts.model.entity.full;
-
-import ua.training.tts.model.entity.Employee;
-import ua.training.tts.model.entity.Project;
-import ua.training.tts.model.entity.Task;
+package ua.training.tts.model.entity;
 
 import java.time.LocalDate;
 

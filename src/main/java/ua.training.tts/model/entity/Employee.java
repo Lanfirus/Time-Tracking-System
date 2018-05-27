@@ -1,11 +1,5 @@
 package ua.training.tts.model.entity;
 
-import ua.training.tts.constant.model.dao.TableParameters;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Employee {
 
     public enum AccountRole {
@@ -101,50 +95,5 @@ public class Employee {
 
     public void setAccountRole(AccountRole accountRole) {
         this.accountRole = accountRole;
-    }
-
-    public List<String> getFieldNames() {
-        return Arrays.asList(TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD, TableParameters.EMPLOYEE_NAME,
-                TableParameters.EMPLOYEE_SURNAME, TableParameters.EMPLOYEE_PATRONYMIC, TableParameters.EMPLOYEE_EMAIL,
-                TableParameters.EMPLOYEE_MOBILE_PHONE, TableParameters.EMPLOYEE_COMMENT);
-    }
-
-    public List<String> getFieldNamesFull() {
-        return Arrays.asList(TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD, TableParameters.EMPLOYEE_NAME,
-                TableParameters.EMPLOYEE_SURNAME, TableParameters.EMPLOYEE_PATRONYMIC, TableParameters.EMPLOYEE_EMAIL,
-                TableParameters.EMPLOYEE_MOBILE_PHONE, TableParameters.EMPLOYEE_COMMENT, TableParameters.EMPLOYEE_ACCOUNT_ROLE);
-    }
-
-    /**
-     * Returns all fields except for id and accountRole.
-     * This method designed to be used for EMPLOYEE purposes where both those fields non accessible.
-     * Both fields are part of full variant of this method.
-     * @return
-     */
-    public List<String> getFieldValues(){
-        List<String> list = new ArrayList<>();
-        list.add(getLogin());
-        list.add(getPassword());
-        list.add(getName());
-        list.add(getSurname());
-        list.add(getPatronymic());
-        list.add(getEmail());
-        list.add(getMobilePhone());
-        list.add(getComment());
-        return list;
-    }
-
-    public List<Object> getFieldValuesFull(){
-        List<Object> list = new ArrayList<>();
-        list.add(getLogin());
-        list.add(getPassword());
-        list.add(getName());
-        list.add(getSurname());
-        list.add(getPatronymic());
-        list.add(getEmail());
-        list.add(getMobilePhone());
-        list.add(getComment());
-        list.add(getAccountRole());
-        return list;
     }
 }

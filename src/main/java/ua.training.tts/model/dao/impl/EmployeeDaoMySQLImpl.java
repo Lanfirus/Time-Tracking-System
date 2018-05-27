@@ -12,6 +12,9 @@ import ua.training.tts.util.LogMessageHolder;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * MySQL implementation of Employee entity DAO
+ */
 public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     private RequestBuilder builder;
@@ -23,37 +26,28 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public void create(Employee employee) {
-        List<String> fieldNames = employee.getFieldNames();
-        List<String> fieldValues = employee.getFieldValues();
         String request = builder.insertIntoTable(TableParameters.EMPLOYEE_TABLE_NAME)
-                                .insertValues(fieldNames)
+                                .insertValueNames(getFieldNames())
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)) {
-            setValuesToPreparedStatement(statement, fieldValues);
+            statement.setString(1, employee.getLogin());
+            statement.setString(2, employee.getPassword());
+            statement.setString(3, employee.getName());
+            statement.setString(4, employee.getSurname());
+            statement.setString(5, employee.getPatronymic());
+            statement.setString(6, employee.getEmail());
+            statement.setString(7, employee.getMobilePhone());
+            statement.setString(8, employee.getComment());
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    /**
-     * Service method to set required values into Prepared statement.
-     * Pay attention that "list" index starts form 0 while "statement" index starts from 1, so there is "+1" in the code.
-     * @param statement
-     * @param fieldValues
-     * @throws SQLException
-     */
-    private void setValuesToPreparedStatement(PreparedStatement statement, List<String> fieldValues)
-            throws SQLException{
-        for (int fieldNumber = 0; fieldNumber < fieldValues.size(); fieldNumber++) {
-            statement.setString(fieldNumber + 1, fieldValues.get(fieldNumber));
-        }
-    }
-
 
     @Override
     public Employee findById(Integer id) {
@@ -65,6 +59,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setInt(1,id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -75,21 +70,26 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         }
     }
 
+    /**
+     * Builds Employee entity from data gotten from database
+     *
+     * @param set       Result set with data from database
+     * @return          Employee entity filled with data from database
+     * @throws SQLException
+     */
     private Employee extractDataFromResultSet(ResultSet set) throws SQLException{
         EmployeeBuilder builder = new EmployeeBuilder();
-        //ToDO check whether Field == null is allowed here w/o Exception. Potential are ID, Patronymic and Comment
-        Employee employee = builder.setId(set.getInt(TableParameters.EMPLOYEE_ID))
-                                    .setLogin(set.getString(TableParameters.EMPLOYEE_LOGIN))
-                                    .setPassword(set.getString(TableParameters.EMPLOYEE_PASSWORD))
-                                    .setName(set.getString(TableParameters.EMPLOYEE_NAME))
-                                    .setSurname(set.getString(TableParameters.EMPLOYEE_SURNAME))
-                                    .setPatronymic(set.getString(TableParameters.EMPLOYEE_PATRONYMIC))
-                                    .setEmail(set.getString(TableParameters.EMPLOYEE_EMAIL))
-                                    .setMobilePhone(set.getString(TableParameters.EMPLOYEE_MOBILE_PHONE))
-                                    .setComment(set.getString(TableParameters.EMPLOYEE_COMMENT))
-                                    .setAccountRole(set.getString(TableParameters.EMPLOYEE_ACCOUNT_ROLE))
-                                    .buildEmployeeFull();
-        return employee;
+        return builder.setId(set.getInt(TableParameters.EMPLOYEE_ID))
+                      .setLogin(set.getString(TableParameters.EMPLOYEE_LOGIN))
+                      .setPassword(set.getString(TableParameters.EMPLOYEE_PASSWORD))
+                      .setName(set.getString(TableParameters.EMPLOYEE_NAME))
+                      .setSurname(set.getString(TableParameters.EMPLOYEE_SURNAME))
+                      .setPatronymic(set.getString(TableParameters.EMPLOYEE_PATRONYMIC))
+                      .setEmail(set.getString(TableParameters.EMPLOYEE_EMAIL))
+                      .setMobilePhone(set.getString(TableParameters.EMPLOYEE_MOBILE_PHONE))
+                      .setComment(set.getString(TableParameters.EMPLOYEE_COMMENT))
+                      .setAccountRole(set.getString(TableParameters.EMPLOYEE_ACCOUNT_ROLE))
+                      .buildEmployeeFull();
     }
 
     @Override
@@ -98,16 +98,17 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                                 .where(TableParameters.EMPLOYEE_LOGIN)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(request)) {
+                PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setString(1, login);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
         catch (SQLException e) {
             log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
-                    savedStatement), e);
+                                                                                        savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }
@@ -121,6 +122,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             while (set.next()){
                 Employee result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -133,27 +135,27 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         return resultList;
     }
 
-    /**
-     * Updates Employee record in DB.
-     * fieldValues doesn't have "ID" in itself, while it should be used as a key for request to DB.
-     * For this purpose there is setInt command with "fieldValues.size() + 1" to setup ID.
-     * @param employee
-     */
     @Override
     public void update(Employee employee) {
-        List<String> fieldNames = employee.getFieldNames();
-        List<String> fieldValues = employee.getFieldValues();
-        String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, fieldNames)
+        String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, getFieldNames())
                                 .where(TableParameters.EMPLOYEE_ID)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(request)){
-            setValuesToPreparedStatement(statement, fieldValues);
-            statement.setInt(fieldValues.size() + 1, employee.getId());
+            statement.setString(1, employee.getLogin());
+            statement.setString(2, employee.getPassword());
+            statement.setString(3, employee.getName());
+            statement.setString(4, employee.getSurname());
+            statement.setString(5, employee.getPatronymic());
+            statement.setString(6, employee.getEmail());
+            statement.setString(7, employee.getMobilePhone());
+            statement.setString(8, employee.getComment());
+            statement.setInt(9, employee.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
-            log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+            log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
@@ -169,6 +171,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setInt(1, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -176,65 +179,25 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         }
     }
 
-    @Override
-    public Integer findIdByKeys(String... keyValues) {
-        String[] keyNames = {TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD};
-        String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
-                                 .where(keyNames[0])
-                                 .and(keyNames[1])
-                                 .build();
-        try (Connection connection = ConnectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(request)) {
-            statement.setString(1, keyValues[0]);
-            statement.setString(2, keyValues[1]);
-            savedStatement = statement.toString();
-            ResultSet set = statement.executeQuery();
-            set.next();
-            return set.getInt(TableParameters.EMPLOYEE_ID);
-        }
-        catch (SQLException e) {
-            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
-                                                                                            savedStatement), e);
-            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
-        }
-    }
-
-    @Override
-    public String findParamByKeys(String parameter, String... keyValues) {
-        String[] keyNames = {TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD};
-        String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
-                                .where(keyNames[0])
-                                .and(keyNames[1])
-                                .build();
-        try (Connection connection = ConnectionPool.getConnection();
-                PreparedStatement statement = connection.prepareStatement(request)) {
-            statement.setString(1, keyValues[0]);
-            statement.setString(2, keyValues[1]);
-            savedStatement = statement.toString();
-            ResultSet set = statement.executeQuery();
-            set.next();
-            return set.getString(parameter);
-        }
-        catch (SQLException e) {
-            log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
-                                                                                            savedStatement), e);
-            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
-        }
-    }
-
+    /**
+     * Checks that Employee with provided login and password is exist in database
+     * @param login     Provided login
+     * @param password  Provided password
+     * @return          True if employee with provided login/password exists, false otherwise
+     */
     @Override
     public boolean isEntryExist(String login, String password) {
-        String[] keyNames = {TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD};
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
-                                .where(keyNames[0])
-                                .and(keyNames[1])
+                                .where(TableParameters.EMPLOYEE_LOGIN)
+                                .and(TableParameters.EMPLOYEE_PASSWORD)
                                 .build();
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(request)) {
+                PreparedStatement statement = connection.prepareStatement(request)) {
             statement.setString(1, login);
             statement.setString(2, password);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
+            builder.clear();
             set.next();
             set.getString(TableParameters.EMPLOYEE_ID);
             return true;
@@ -251,23 +214,34 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         }
     }
 
+    /**
+     * Sets provided role to Employee with provided Id
+     *
+     * @param id        Provided Employee Id
+     * @param role      Provided account role to be set to Employee
+     */
     @Override
     public void setRoleById(Integer id, String role) {
-        List<String> fieldNames = Arrays.asList(TableParameters.EMPLOYEE_ACCOUNT_ROLE);
-        List<String> fieldValues = Arrays.asList(role);
-        String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, fieldNames)
-                .where(TableParameters.EMPLOYEE_ID)
-                .build();
+        String request = builder.updateOne(TableParameters.EMPLOYEE_TABLE_NAME, TableParameters.EMPLOYEE_ACCOUNT_ROLE)
+                                .where(TableParameters.EMPLOYEE_ID)
+                                .build();
         try (Connection connection = ConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(request)){
-            setValuesToPreparedStatement(statement, fieldValues);
-            statement.setInt(fieldValues.size() + 1, id);
+                PreparedStatement statement = connection.prepareStatement(request)){
+            statement.setString(1, role);
+            statement.setInt(2, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
+            builder.clear();
         } catch (SQLException e) {
-            log.error(LogMessageHolder.recordUpdatintInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
-                    savedStatement), e);
+            log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
+                                                                                            savedStatement), e);
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
+    }
+
+    private List<String> getFieldNames() {
+        return Arrays.asList(TableParameters.EMPLOYEE_LOGIN, TableParameters.EMPLOYEE_PASSWORD, TableParameters.EMPLOYEE_NAME,
+                TableParameters.EMPLOYEE_SURNAME, TableParameters.EMPLOYEE_PATRONYMIC, TableParameters.EMPLOYEE_EMAIL,
+                TableParameters.EMPLOYEE_MOBILE_PHONE, TableParameters.EMPLOYEE_COMMENT);
     }
 }

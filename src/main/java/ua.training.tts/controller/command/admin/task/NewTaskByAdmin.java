@@ -28,10 +28,10 @@ public class NewTaskByAdmin implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        Task task = service.buildNewTaskForAdmin(request);
+        Task task = service.buildNewTaskByAdmin(request);
         if (Objects.nonNull(task.getDeadline())) {
             checkProjectDeadline(task, request);
-            service.tryToPutTaskDataFromWebIntoDB(task, request);
+            service.tryToPutTaskDataIntoDB(task, request);
         }
         return CommandParameters.REDIRECT + CommandParameters.ADMIN_ALL_TASKS;
     }

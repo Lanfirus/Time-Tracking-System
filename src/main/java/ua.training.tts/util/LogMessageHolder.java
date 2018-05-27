@@ -93,7 +93,7 @@ public class LogMessageHolder {
         return builder.toString();
     }
 
-    public static String recordUpdatintInTableProblem(String tableName, String statement){
+    public static String recordUpdatingInTableProblem(String tableName, String statement){
         StringBuilder builder = new StringBuilder();
         builder.append(LogMessages.PROBLEM_OCCURED_DURING)
                 .append(LogMessages.RECORD_UPDATING)

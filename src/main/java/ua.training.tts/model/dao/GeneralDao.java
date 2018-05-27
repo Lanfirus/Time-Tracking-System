@@ -1,10 +1,11 @@
 package ua.training.tts.model.dao;
 
 import org.apache.log4j.Logger;
+import ua.training.tts.model.util.RequestBuilder;
 
 import java.util.List;
 
-public interface GeneralDao<T, ID, Param, Keys>{
+public interface GeneralDao<T, ID>{
 
     Logger log = Logger.getRootLogger();
 
@@ -37,16 +38,4 @@ public interface GeneralDao<T, ID, Param, Keys>{
      * @param id
      */
     void delete(ID id);
-
-    /**
-     * Returns entity's ID by provided keys
-     * @param keys
-     */
-    ID findIdByKeys(Keys... keys);
-
-    /**
-     * Returns entity's parameter by provided keys
-     * @param keys
-     */
-    Param findParamByKeys(Param param, Keys... keys);
 }

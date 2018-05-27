@@ -8,7 +8,7 @@ import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.entity.Task;
-import ua.training.tts.model.entity.full.FullTask;
+import ua.training.tts.model.entity.FullTask;
 import ua.training.tts.model.exception.DataChangeDetectedException;
 import ua.training.tts.model.service.FullTaskService;
 import ua.training.tts.model.service.ProjectService;
@@ -36,7 +36,7 @@ public class NewTaskByEmployee implements Command {
         Task task = service.buildNewTaskByEmployee(request, dto.getId());
         checkProjectDeadline(task, request);
         try {
-            service.tryToPutTaskDataFromWebIntoDB(task, request);
+            service.tryToPutTaskDataIntoDB(task, request);
             request.setAttribute(ReqSesParameters.TASK_REQUEST_OK, true);
         }
         catch (DataChangeDetectedException e) {

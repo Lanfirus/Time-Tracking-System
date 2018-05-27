@@ -36,7 +36,7 @@ import java.util.Objects;
 
 /**
  * Executes role of controller class switching user requests to respective command implementation.
- * In case of incorrect request forward user to the main (index) page.
+ * In case of incorrect request forwards user to the main (index) page.
  */
 @WebServlet(Servlet.URL_PATTERN)
 public class MainServlet extends HttpServlet {
@@ -56,7 +56,7 @@ public class MainServlet extends HttpServlet {
     /**
      * Processing method for both Get and Post requests.
      * Defines what Command class to use for each particular request based on request's URL.
-     * Redirect user to main page in case of requesting non-existing resources.
+     * Redirects user to main page in case of requesting non-existing resources.
      *
      * @param request  User's request from his browser.
      * @param response Response to be send to user.
@@ -67,8 +67,41 @@ public class MainServlet extends HttpServlet {
             throws ServletException, IOException {
         Command command = getCommand(request);
         String page = command.execute(request);
-//        System.out.println("page=" + page);
         sendUserToPage(page, request, response);
+    }
+
+    /**
+     * Defines Command class to use for user request based on request URI.
+     * If requested resource is incorrect, redirects user to main page.
+     * Also checks user access rights to get to requested resources.
+     * @param request       User's request from his browser
+     * @return              Command class to use to process user's request
+     */
+    private Command getCommand(HttpServletRequest request) {
+        String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
+        Command command = commands.get(path);
+        return Objects.nonNull(command) && isAccessGranted(command, request) ?
+                command : x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN;
+    }
+
+    /**
+     * Does authorization check for requested resource.
+     * It's possible for user to not have any account role (any user before login or after logout). Such users
+     * considered as guests and method checks whether requested resource is allowed for guests or not.
+     * @param command       Command class to be used to process user request
+     * @param request       User's request from his browser
+     * @return              True if user is allowed to launch requested Command class, othersise - false
+     */
+    private boolean isAccessGranted(Command command, HttpServletRequest request) {
+        Class<?> commandClass = command.getClass();
+        AccessRights rights = commandClass.getAnnotation(AccessRights.class);
+        EmployeeDTO dto = (EmployeeDTO) request.getSession().getAttribute(ReqSesParameters.DTO);
+        if (Objects.nonNull(dto)){
+            return Objects.nonNull(rights) && Arrays.asList(rights.acceptedRoles()).contains(dto.getRole());
+        }
+        else {
+            return Objects.nonNull(rights) && rights.isAvailableForGuests();
+        }
     }
 
     /**
@@ -88,26 +121,6 @@ public class MainServlet extends HttpServlet {
             response.sendRedirect(page.replace(Servlet.REDIRECT, Servlet.REPLACEMENT));
         } else {
             request.getRequestDispatcher(page).forward(request, response);
-        }
-    }
-
-    private Command getCommand(HttpServletRequest request) {
-        String path = request.getRequestURI().replaceAll(Servlet.URI_REPLACE_PATTERN, Servlet.REPLACEMENT);
-//        System.out.println("path=" + path);
-        Command command = commands.get(path);
-        return Objects.nonNull(command) && isAccessGranted(command, request) ?
-                command : x -> CommandParameters.REDIRECT + Servlet.SERVLET_MAIN;
-    }
-
-    private boolean isAccessGranted(Command command, HttpServletRequest request) {
-        Class<?> commandClass = command.getClass();
-        AccessRights rights = commandClass.getAnnotation(AccessRights.class);
-        EmployeeDTO dto = (EmployeeDTO) request.getSession().getAttribute(ReqSesParameters.DTO);
-        if (Objects.nonNull(dto)){
-            return Objects.nonNull(rights) && Arrays.asList(rights.acceptedRoles()).contains(dto.getRole());
-        }
-        else {
-            return Objects.nonNull(rights) && rights.isAvailableForGuests();
         }
     }
 

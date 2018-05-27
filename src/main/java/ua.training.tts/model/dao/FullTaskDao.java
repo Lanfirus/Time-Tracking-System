@@ -1,13 +1,13 @@
 package ua.training.tts.model.dao;
 
-import ua.training.tts.model.entity.full.FullTask;
+import ua.training.tts.model.entity.FullTask;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface FullTaskDao extends GeneralDao<FullTask, Integer, String, String> {
+public interface FullTaskDao extends GeneralDao<FullTask, Integer> {
 
-    public List<FullTask> findAllProjectsByEmployeeId(Integer id);
+    List<FullTask> findAllProjectsByEmployeeId(Integer id);
 
-    public void archiveProjectAndTasks(Integer id) throws SQLException;
+    void archiveProjectAndTasks(Integer id) throws SQLException;
 }

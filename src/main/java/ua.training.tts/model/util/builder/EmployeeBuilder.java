@@ -1,6 +1,5 @@
 package ua.training.tts.model.util.builder;
 
-import ua.training.tts.constant.model.Entity;
 import ua.training.tts.model.entity.Employee;
 
 /**

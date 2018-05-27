@@ -4,11 +4,14 @@ import ua.training.tts.model.dao.EmployeeDao;
 import ua.training.tts.model.dao.FullTaskDao;
 import ua.training.tts.model.dao.ProjectDao;
 import ua.training.tts.model.dao.TaskDao;
-import ua.training.tts.model.dao.impl.*;
+import ua.training.tts.model.dao.impl.EmployeeDaoMySQLImpl;
+import ua.training.tts.model.dao.impl.FullTaskDaoMySQLImpl;
+import ua.training.tts.model.dao.impl.ProjectDaoMySQLImpl;
+import ua.training.tts.model.dao.impl.TaskDaoMySQLImpl;
 import ua.training.tts.model.util.RequestBuilder;
 
 
-public class JDBCDaoFactoryImpl implements DaoFactory {
+public class JDBCDaoFactoryImpl extends DaoFactory {
 
     @Override
     public EmployeeDao createEmployeeDao() {

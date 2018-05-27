@@ -8,7 +8,7 @@
 
     <display:table name="myTasks" sort="list" id="task" requestURI = "" pagesize="5">
         <display:column property="id" titleKey="admin.alltasks.id"
-            sortable="true" headerClass="sortable" ></display:column>
+            sortable="true" headerClass="sortable" />
         <display:column property="projectId" titleKey="admin.alltasks.projectId"
             sortable="true" headerClass="sortable" />
         <display:column property="employeeId" titleKey="admin.alltasks.employeeId"
@@ -17,7 +17,7 @@
             sortable="true" headerClass="sortable" />
         <display:column property="status" titleKey="admin.alltasks.status"
             sortable="true" headerClass="sortable" />
-        <display:column titleKey="admin.alltasks.deadline" sortable="true" headerClass="sortable" />
+        <display:column titleKey="admin.alltasks.deadline" sortable="true" headerClass="sortable" >
             <fmt:parseDate value="${task.deadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
             <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/>
         </display:column>
