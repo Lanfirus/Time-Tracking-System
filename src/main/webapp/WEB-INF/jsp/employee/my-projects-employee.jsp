@@ -45,25 +45,6 @@
     </form>
 
     <br>
-    <table>
-        <tr>
-            <th><fmt:message key="employee.myprojects.id"/></th>
-            <th><fmt:message key="employee.myprojects.name"/></th>
-            <th><fmt:message key="employee.myprojects.deadline"/></th>
-            <th><fmt:message key="employee.myprojects.status"/></th>
-        </tr>
-
-        <c:forEach var="project" items="${myProjects}">
-            <tr>
-                <td><c:out value="${project.projectId}"/></td>
-                <td><c:out value="${project.projectName}"/></td>
-                <td><fmt:parseDate value="${project.projectDeadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
-                <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/></td>
-                <td><c:out value="${project.projectStatus}"/></td>
-            </tr>
-        </c:forEach>
-
-    </table>
 
     <nav>
         <ul class="pagination" >
@@ -80,6 +61,41 @@
         </ul>
     </nav>
 
+    <table>
+        <tr>
+            <th><fmt:message key="employee.myprojects.id"/></th>
+            <th><fmt:message key="employee.myprojects.name"/></th>
+            <th><fmt:message key="employee.myprojects.deadline"/></th>
+            <th><fmt:message key="employee.myprojects.status"/></th>
+        </tr>
+
+        <c:forEach var="project" items="${myProjects}">
+            <tr>
+                <td><c:out value="${project.projectId}"/></td>
+                <td><c:out value="${project.projectName}"/></td>
+                <td><fmt:parseDate value="${project.projectDeadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+                <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/></td>
+                <td>
+                      <c:if test = "${project.projectStatus == 'NEW'}">
+                         <fmt:message key="project.status.new" />
+                      </c:if>
+
+                      <c:if test = "${project.projectStatus == 'ASSIGNED'}">
+                         <fmt:message key="project.status.assigned" />
+                      </c:if>
+
+                      <c:if test = "${project.projectStatus == 'FINISHED'}">
+                         <fmt:message key="project.status.finished" />
+                      </c:if>
+
+                      <c:if test = "${project.projectStatus == 'CANCELLED'}">
+                         <fmt:message key="project.status.cancelled" />
+                      </c:if>
+                </td>
+            </tr>
+        </c:forEach>
+
+    </table>
 
 </div>
 

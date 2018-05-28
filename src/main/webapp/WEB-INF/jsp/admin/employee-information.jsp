@@ -55,15 +55,19 @@
 
             </display:table>
 
-<div class="but">
-            <button class="submit" type="submit" onClick="return check(this);" name="changeRole" >
-                <fmt:message key="employeeInformation.table.button.changeRole" />
-            </button>
-            <br>
-            <button class="submit" type="submit" onClick="return check(this);" name="delete" >
-                <fmt:message key="employeeInformation.table.button.delete" />
-            </button>
-</div>
+            <nav>
+                <ul style="display: flex; padding-left: 0;" >
+                    <button class="submit" type="submit" style="margin: 3px"
+                        onClick="return check(this);" name="changeRole" >
+                        <fmt:message key="employeeInformation.table.button.changeRole" />
+                    </button>
+                    <br>
+                    <button class="submit" type="submit" style="margin: 3px"
+                        onClick="return check(this);" name="delete" >
+                        <fmt:message key="employeeInformation.table.button.delete" />
+                    </button>
+                </ul>
+            </nav>
 
     </form>
 
@@ -71,7 +75,7 @@
 
 <script type="text/javascript">
 function check(button) {
-    <c:if test="${empty employee.id}">
+    <c:if test="${empty employees}">
         return false;
     </c:if>
     var form = button.form;

@@ -26,6 +26,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public void create(Task task) {
+        builder.clear();
         String request = builder.insertIntoTable(TableParameters.TASK_TABLE_NAME)
                                 .insertValueNames(getFieldNames())
                                 .build();
@@ -40,7 +41,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setString(7, task.getApprovalState().name().toLowerCase());
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.TASK_TABLE_NAME,
                                                                                         savedStatement), e);
@@ -55,6 +55,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public Task findById(Integer id) {
+        builder.clear();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                 .where(TableParameters.TASK_ID)
                                 .build();
@@ -63,7 +64,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setInt(1,id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -97,6 +97,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public List<Task> findAll() {
+        builder.clear();
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                 .build();
@@ -104,7 +105,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Task result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -124,6 +124,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
      */
     @Override
     public List<Task> findAllArchived() {
+        builder.clear();
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_ARCHIVE_TABLE_NAME)
                                 .build();
@@ -131,7 +132,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Task result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -152,6 +152,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
      */
     @Override
     public List<Task> findAllByEmployeeId(Integer id) {
+        builder.clear();
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                 .where(TableParameters.TASK_EMPLOYEE_ID)
@@ -161,7 +162,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setInt(1, id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Task result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -182,6 +182,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
      */
     @Override
     public List<Task> findAllByStatus(String status) {
+        builder.clear();
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                 .where(TableParameters.TASK_STATUS)
@@ -191,7 +192,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setString(1, status);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Task result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -212,6 +212,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
      */
     @Override
     public List<Task> findAllByApprovalState(String approvalState) {
+        builder.clear();
         List<Task> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                 .where(TableParameters.TASK_APPROVAL_STATE)
@@ -221,7 +222,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setString(1, approvalState);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Task result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -236,6 +236,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public void update(Task task) {
+        builder.clear();
         String request = builder.update(TableParameters.TASK_TABLE_NAME, getFieldNames())
                                 .where(TableParameters.TASK_ID)
                                 .build();
@@ -251,7 +252,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setInt(8, task.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.TASK_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -269,6 +269,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
     @Override
     public void updateTaskByEmployee(Task task) throws DataChangeDetectedException{
         try (Connection connection = ConnectionPool.getConnection()) {
+            builder.clear();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             Task taskFromDB = getTaskData(connection, task.getId());
@@ -328,6 +329,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public void delete(Integer id) {
+        builder.clear();
         String request = builder.delete(TableParameters.TASK_TABLE_NAME)
                                 .where(TableParameters.TASK_ID)
                                 .build();
@@ -336,7 +338,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setInt(1, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.TASK_TABLE_NAME,
                                                                                         savedStatement), e);
@@ -346,6 +347,7 @@ public class TaskDaoMySQLImpl implements TaskDao {
 
     @Override
     public void setStatusById(Integer id, String status) {
+        builder.clear();
         String request = builder.updateOne(TableParameters.TASK_TABLE_NAME, TableParameters.TASK_STATUS)
                                 .where(TableParameters.TASK_ID)
                                 .build();
@@ -355,7 +357,6 @@ public class TaskDaoMySQLImpl implements TaskDao {
             statement.setInt(2, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.TASK_TABLE_NAME,
                                                                                         savedStatement), e);

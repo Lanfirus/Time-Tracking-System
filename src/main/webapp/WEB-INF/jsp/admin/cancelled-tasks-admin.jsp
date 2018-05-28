@@ -16,16 +16,40 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="name" titleKey="admin.alltasks.name"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="status" titleKey="admin.alltasks.status"
-                                sortable="true" headerClass="sortable" />
+                <display:column titleKey="admin.alltasks.status"
+                                sortable="true" headerClass="sortable" >
+                    <c:if test = "${task.status == 'ASSIGNED'}">
+                       <fmt:message key="task.status.assigned" />
+                    </c:if>
+
+                    <c:if test = "${task.status == 'FINISHED'}">
+                       <fmt:message key="task.status.finished" />
+                    </c:if>
+
+                    <c:if test = "${task.status == 'CANCELLED'}">
+                       <fmt:message key="task.status.cancelled" />
+                    </c:if>
+                </display:column>
                 <display:column titleKey="admin.alltasks.deadline" sortable="true" headerClass="sortable" >
                     <fmt:parseDate value="${task.deadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
                     <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/>
                 </display:column>
                 <display:column property="spentTime" titleKey="admin.alltasks.spentTime"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="approvalState" titleKey="admin.alltasks.approvalState"
-                                sortable="true" headerClass="sortable" />
+                <display:column titleKey="admin.alltasks.approvalState"
+                                sortable="true" headerClass="sortable" >
+                     <c:if test = "${task.approvalState == 'APPROVED'}">
+                        <fmt:message key="task.approvalState.approved" />
+                     </c:if>
+
+                     <c:if test = "${task.approvalState == 'NOT_APPROVED'}">
+                        <fmt:message key="task.approvalState.notApproved" />
+                     </c:if>
+
+                     <c:if test = "${task.approvalState == 'NEW_REQUEST'}">
+                        <fmt:message key="task.approvalState.newRequest" />
+                     </c:if>
+                </display:column>
                 <display:column titleKey="admin.alltasks.select" >
                 <input type="radio" name="task_id" value="${task.id}" id="task_id" checked>
                 <c:out value="${task_rowNum}" />
@@ -33,13 +57,17 @@
 
             </display:table>
 
-            <button class="submit" type="submit" onClick="return check(this);" name="edit">
-                <fmt:message key="admin.alltasks.button.edit" />
-            </button>
-            <br>
-            <button class="submit" type="submit" onClick="return check(this);" name="delete">
-                <fmt:message key="admin.alltasks.button.delete" />
-            </button>
+            <nav>
+            <ul style="display: flex; padding-left: 0;" >
+                <button class="submit" type="submit" style="margin: 3px" onClick="return check(this);" name="edit" >
+                    <fmt:message key="admin.alltasks.button.edit" />
+                </button>
+                <br>
+                <button class="submit" type="submit" style="margin: 3px" onClick="return check(this);" name="delete" >
+                    <fmt:message key="admin.alltasks.button.delete" />
+                </button>
+            </ul>
+            </nav>
 
     </form>
 

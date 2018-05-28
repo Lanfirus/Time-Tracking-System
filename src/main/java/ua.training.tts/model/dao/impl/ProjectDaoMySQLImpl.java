@@ -28,6 +28,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
 
     @Override
     public void create(Project project) {
+        builder.clear();
         String request = builder.insertIntoTable(TableParameters.PROJECT_TABLE_NAME)
                                 .insertValueNames(getFieldNames())
                                 .build();
@@ -38,7 +39,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setString(3, project.getStatus().name().toLowerCase());
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -48,6 +48,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
 
     @Override
     public Project findById(Integer id) {
+        builder.clear();
         String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
                                 .where(TableParameters.PROJECT_ID)
                                 .build();
@@ -56,7 +57,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setInt(1,id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -85,6 +85,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
 
     @Override
     public List<Project> findAll() {
+        builder.clear();
         List<Project> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
                                 .build();
@@ -92,7 +93,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -112,6 +112,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
      */
     @Override
     public List<Project> findAllActive() {
+        builder.clear();
         List<Project> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
                                 .where(TableParameters.PROJECT_STATUS)
@@ -123,7 +124,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setString(2, Project.Status.NEW.name().toLowerCase());
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -143,6 +143,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
      */
     @Override
     public List<Project> findAllArchived() {
+        builder.clear();
         List<Project> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.PROJECT_ARCHIVE_TABLE_NAME)
                                 .build();
@@ -150,7 +151,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -171,6 +171,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
      */
     @Override
     public List<Project> findAllByStatus(String status) {
+        builder.clear();
         List<Project> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.PROJECT_TABLE_NAME)
                                 .where(TableParameters.PROJECT_STATUS)
@@ -180,7 +181,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setString(1, status);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Project result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -195,6 +195,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
 
     @Override
     public void update(Project project) {
+        builder.clear();
         String request = builder.update(TableParameters.PROJECT_TABLE_NAME, getFieldNames())
                                 .where(TableParameters.PROJECT_ID)
                                 .build();
@@ -206,7 +207,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setInt(4, project.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -216,6 +216,7 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
 
     @Override
     public void delete(Integer id) {
+        builder.clear();
         String request = builder.delete(TableParameters.PROJECT_TABLE_NAME)
                                 .where(TableParameters.PROJECT_ID)
                                 .build();
@@ -224,7 +225,6 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
             statement.setInt(1, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);

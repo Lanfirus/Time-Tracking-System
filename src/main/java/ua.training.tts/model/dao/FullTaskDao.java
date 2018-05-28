@@ -1,6 +1,6 @@
 package ua.training.tts.model.dao;
 
-import ua.training.tts.model.entity.FullTask;
+import ua.training.tts.model.entity.full.FullTask;
 
 import java.sql.SQLException;
 import java.util.List;

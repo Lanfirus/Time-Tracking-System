@@ -1,9 +1,9 @@
 package ua.training.tts.model.service;
 
 import ua.training.tts.constant.ExceptionMessages;
+import ua.training.tts.constant.General;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.model.dao.TableParameters;
-import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.dao.EmployeeDao;
 import ua.training.tts.model.dao.factory.DaoFactory;
 import ua.training.tts.model.entity.Employee;
@@ -126,8 +126,8 @@ public class EmployeeService {
     private void bundleInitialization(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String locale = session.getAttribute(ReqSesParameters.LANGUAGE) == null ?
-                Service.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
-        regexpBundle = ResourceBundle.getBundle(Service.REGEXP_BUNDLE_NAME, new Locale(locale));
+                General.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
+        regexpBundle = ResourceBundle.getBundle(General.REGEXP_BUNDLE_NAME, new Locale(locale));
     }
 
     /**

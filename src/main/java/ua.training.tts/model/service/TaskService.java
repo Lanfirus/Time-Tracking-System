@@ -1,9 +1,9 @@
 package ua.training.tts.model.service;
 
 import ua.training.tts.constant.ExceptionMessages;
+import ua.training.tts.constant.General;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.model.dao.TableParameters;
-import ua.training.tts.constant.model.service.Service;
 import ua.training.tts.model.dao.TaskDao;
 import ua.training.tts.model.dao.factory.DaoFactory;
 import ua.training.tts.model.entity.Task;
@@ -142,6 +142,7 @@ public class TaskService {
      */
     private boolean isDataCorrect(Task task, HttpServletRequest request) {
         bundleInitialization(request);
+
         boolean check = (task.getId() == null || matchInputWithRegexp(String.valueOf(task.getId()),
                 regexpBundle.getString(TableParameters.TASK_ID)));
         check &= (task.getProjectId() == null ||  matchInputWithRegexp(String.valueOf(task.getProjectId()),
@@ -168,8 +169,8 @@ public class TaskService {
     private void bundleInitialization(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String locale = session.getAttribute(ReqSesParameters.LANGUAGE) == null ?
-                Service.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
-        regexpBundle = ResourceBundle.getBundle(Service.REGEXP_BUNDLE_NAME, new Locale(locale));
+                General.ENGLISH : (String)session.getAttribute(ReqSesParameters.LANGUAGE);
+        regexpBundle = ResourceBundle.getBundle(General.REGEXP_BUNDLE_NAME, new Locale(locale));
     }
 
     /**

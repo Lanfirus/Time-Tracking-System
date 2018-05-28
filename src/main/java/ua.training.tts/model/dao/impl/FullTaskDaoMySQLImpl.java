@@ -5,7 +5,7 @@ import ua.training.tts.constant.model.dao.TableParameters;
 import ua.training.tts.model.dao.FullTaskDao;
 import ua.training.tts.model.dao.connectionpool.ConnectionPool;
 import ua.training.tts.model.entity.Project;
-import ua.training.tts.model.entity.FullTask;
+import ua.training.tts.model.entity.full.FullTask;
 import ua.training.tts.model.util.RequestBuilder;
 import ua.training.tts.model.util.builder.FullTaskBuilder;
 import ua.training.tts.util.LogMessageHolder;
@@ -30,6 +30,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
 
     @Override
     public List<FullTask> findAll() {
+        builder.clear();
         List<FullTask> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.TASK_TABLE_NAME)
                                 .join(TableParameters.PROJECT_TABLE_NAME)
@@ -41,7 +42,6 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 FullTask result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -100,6 +100,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
      */
     @Override
     public List<FullTask> findAllProjectsByEmployeeId(Integer id) {
+        builder.clear();
         List<FullTask> resultList = new ArrayList<>();
         List<String> columnNames = Arrays.asList(TableParameters.PROJECT_ID, TableParameters.PROJECT_NAME,
                 TableParameters.PROJECT_DEADLINE, TableParameters.PROJECT_STATUS);
@@ -115,7 +116,6 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
             statement.setString(2, Project.Status.ASSIGNED.name().toLowerCase());
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 FullTask result = extractProjectDataFromResultSet(set);
                 resultList.add(result);
@@ -154,6 +154,7 @@ public class FullTaskDaoMySQLImpl implements FullTaskDao {
 
         try (Connection connection = ConnectionPool.getConnection()) {
             connection.setAutoCommit(false);
+            builder.clear();
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             buildedStatement = new StringBuilder();
             List<FullTask> projectTaskData = getProjectTaskData(connection, id);

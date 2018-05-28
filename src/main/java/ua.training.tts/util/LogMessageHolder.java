@@ -1,7 +1,7 @@
 package ua.training.tts.util;
 
 import ua.training.tts.constant.LogMessages;
-import ua.training.tts.constant.model.Entity;
+import ua.training.tts.model.entity.Employee;
 
 /**
  * Stores templates for messages to be put into logs.
@@ -14,8 +14,8 @@ public class LogMessageHolder {
                .append(login)
                .append(LogMessages.AND_PASSWORD)
                .append(password)
-               .append((Entity.ACCOUNT_ROLE_UNKNOWN.equals(role)) ? LogMessages.TRIED_TO
-                                                                            : LogMessages.EMPTY)
+               .append((Employee.AccountRole.UNKNOWN.name().equalsIgnoreCase(role)) ? LogMessages.TRIED_TO
+                                                                                    : LogMessages.EMPTY)
                .append(LogMessages.LOGIN_TO_SYSTEM);
         return builder.toString();
     }

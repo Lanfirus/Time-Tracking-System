@@ -5,21 +5,19 @@
 <div class="main">
     <h2><fmt:message key="employee.mytasks.title" /></h2>
 
-    <c:if test = "${not empty requestScope.task_update_ok}">
-    <br>
-    <h5>You have updated your task.</h5>
+    <c:if test = "${not empty requestScope.task_request_ok}">
+        <br>
+        <h5><fmt:message key="employee.mytasks.message.requestOk" /></h5>
     </c:if>
 
     <c:if test = "${not empty requestScope.bad_task_update_data}">
     <br>
-    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
+    <h5 style="color:red;"><fmt:message key="employee.mytasks.message.incorrectData" /></h5>
     </c:if>
 
     <c:if test = "${not empty requestScope.task_data_changed}">
-    <br>
-    <h5 style="color:red;">Warning: Task data has been changed before your update.
-        Check new data and repeat update if needed.
-    </h5>
+        <br>
+        <h5 style="color:red;"><fmt:message key="employee.mytasks.message.dataChanged" /></h5>
     </c:if>
 
     <table>
@@ -47,8 +45,32 @@
                     <c:when test = "${( (task.status == 'FINISHED') || (task.status == 'CANCELLED') ) &&
                         (task.approvalState == 'APPROVED' )}">
                         <td><c:out value="${task.spentTime}"/></td>
-                        <td><c:out value="${fn:toLowerCase(task.status)}"/></td>
-                        <td><c:out value="${fn:toLowerCase(task.approvalState)}"/></td>
+                        <td>
+                            <c:if test = "${task.status == 'ASSIGNED'}">
+                               <fmt:message key="task.status.assigned" />
+                            </c:if>
+
+                            <c:if test = "${task.status == 'FINISHED'}">
+                               <fmt:message key="task.status.finished" />
+                            </c:if>
+
+                            <c:if test = "${task.status == 'CANCELLED'}">
+                               <fmt:message key="task.status.cancelled" />
+                            </c:if>
+                        </td>
+                        <td>
+                                 <c:if test = "${task.approvalState == 'APPROVED'}">
+                                    <fmt:message key="task.approvalState.approved" />
+                                 </c:if>
+
+                                 <c:if test = "${task.approvalState == 'NOT_APPROVED'}">
+                                    <fmt:message key="task.approvalState.notApproved" />
+                                 </c:if>
+
+                                 <c:if test = "${task.approvalState == 'NEW_REQUEST'}">
+                                    <fmt:message key="task.approvalState.newRequest" />
+                                 </c:if>
+                        </td>
                     </c:when>
 
                     <c:otherwise>
@@ -77,7 +99,19 @@
 
                         </td>
 
-                        <td><c:out value="${fn:toLowerCase(task.approvalState)}"/></td>
+                        <td>
+                             <c:if test = "${task.approvalState == 'APPROVED'}">
+                                <fmt:message key="task.approvalState.approved" />
+                             </c:if>
+
+                             <c:if test = "${task.approvalState == 'NOT_APPROVED'}">
+                                <fmt:message key="task.approvalState.notApproved" />
+                             </c:if>
+
+                             <c:if test = "${task.approvalState == 'NEW_REQUEST'}">
+                                <fmt:message key="task.approvalState.newRequest" />
+                             </c:if>
+                        </td>
 
                         <td>
                             <input type="hidden" name="task_id" value="${task.id}">

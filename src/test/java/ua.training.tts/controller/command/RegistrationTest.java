@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ua.training.tts.constant.Pages;
+import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.exception.BadRegistrationDataException;
@@ -44,7 +45,7 @@ public class RegistrationTest extends Assert{
         assertEquals(Pages.REGISTRATION_PAGE, page);
         verify(service, times(1)).buildEmployee(request);
         verify(service, times(1)).setEmployeeEnteredDataBackToForm(request, employee);
-        verify(request, times(1)).setAttribute(CommandParameters.LOGIN_PROBLEM, true);
+        verify(request, times(1)).setAttribute(ReqSesParameters.LOGIN_PROBLEM, true);
     }
 
     @Test

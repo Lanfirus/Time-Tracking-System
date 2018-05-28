@@ -3,6 +3,7 @@ package ua.training.tts.controller.command;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.util.AccessRights;
+import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.util.LogMessageHolder;
 
@@ -15,7 +16,7 @@ public class Logout implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String login = (String)session.getAttribute(ReqSesParameters.LOGIN);
+        String login = ((EmployeeDTO)session.getAttribute(ReqSesParameters.DTO)).getLogin();
         session.invalidate();
         log.info(LogMessageHolder.userLogout(login));
         return CommandParameters.REDIRECT + CommandParameters.MAIN;

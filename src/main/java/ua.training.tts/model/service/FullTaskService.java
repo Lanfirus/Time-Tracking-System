@@ -3,7 +3,7 @@ package ua.training.tts.model.service;
 import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.model.dao.FullTaskDao;
 import ua.training.tts.model.dao.factory.DaoFactory;
-import ua.training.tts.model.entity.FullTask;
+import ua.training.tts.model.entity.full.FullTask;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -8,13 +8,13 @@
 
     <c:if test = "${not empty requestScope.task_request_ok}">
         <br>
-        <h5>You have created request for your task.</h5>
-        </c:if>
+        <h5><fmt:message key="admin.newtask.message.updateOk" /></h5>
+    </c:if>
 
-        <c:if test = "${not empty requestScope.bad_task_request_data}">
+    <c:if test = "${not empty requestScope.bad_task_request_data}">
         <br>
-        <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
-        </c:if>
+        <h5 style="color:red;"><fmt:message key="admin.newtask.message.incorrectData" /></h5>
+    </c:if>
 
     <dl:today/>
 
@@ -24,7 +24,7 @@
             <label for="Project"><fmt:message key="admin.newtask.project" />:</label>
                 <select name="project_id" id="project_id" required onChange = "getDeadline()">
 
-                    <option value="0" selected>Select project</option>
+                    <option value="0" selected><fmt:message key="admin.newtask.selectProject" /></option>
                     <c:forEach var="project" items="${active_projects}">
 
                         <option value="${project.id}" >
@@ -51,7 +51,7 @@
             <label for="employee"><fmt:message key="admin.newtask.employee" />:</label>
                 <select name="employee_id" id="employee_id" required >
 
-                    <option value="0"  selected>Select employee</option>
+                    <option value="0"  selected><fmt:message key="admin.newtask.selectEmployee" /></option>
                     <c:forEach var="employee" items="${employees}">
 
                         <option value="${employee.id}" >
@@ -88,7 +88,7 @@ function getDeadline(){
 
 function checkFunction() {
     if (document.getElementById('project_id').value == 0 || document.getElementById('employee_id').value == 0) {
-        alert("You have not chosen project and/or employee for task!");
+        alert("<fmt:message key="admin.newtask.message.chooseSmth" />");
         return false;
     }
     else {

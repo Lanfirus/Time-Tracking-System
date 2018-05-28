@@ -7,8 +7,8 @@
     <h2><fmt:message key="admin.taskedit.title" /></h2>
 
     <c:if test = "${not empty requestScope.bad_task_edit_data}">
-    <br>
-    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
+        <br>
+        <h5 style="color:red;"><fmt:message key="admin.taskedit.message.incorrectData" /></h5>
     </c:if>
 
     <dl:today/>
@@ -25,7 +25,7 @@
             <label for="Project"><fmt:message key="admin.taskedit.project" />:</label>
                 <select name="project_id" id="project_id" required >
 
-                    <option value="0" selected>Select project</option>
+                    <option value="0" selected><fmt:message key="admin.taskedit.selectProject" /></option>
                     <c:forEach var="project" items="${active_projects}">
 
                         <option value="${project.id}" ${project.id == task.projectId ? 'selected' : ''}>

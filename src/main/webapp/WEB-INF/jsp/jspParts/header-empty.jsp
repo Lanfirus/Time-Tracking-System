@@ -18,4 +18,18 @@
         <div class="header-container">
             <a href="/company/tts" class="header-logo"></a>
         </div>
+
+        <div style="left:400px; top:20px; position:relative;">
+                    <form action="${pageContext.request.contextPath}/app/language" method="post">
+                        <select name="language" >
+                            <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>
+                                    <fmt:message key="header.language.english" />
+                            </option>
+                            <option value="uk_UA" ${language == 'uk_UA' ? 'selected' : ''}>
+                                <fmt:message key="header.language.ukrainian" />
+                            </option>
+                        </select>
+                        <button class="button-select" type="submit"><fmt:message key="header.language.select" /></button>
+                    </form>
+        </div>
     </header>

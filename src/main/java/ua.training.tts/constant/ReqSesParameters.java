@@ -6,7 +6,7 @@ package ua.training.tts.constant;
 public interface ReqSesParameters {
 
     String UPDATE_FLAG = "updateFlag";
-    String LOGIN_PROBLEM = "loginProblem";
+    String LOGIN_PROBLEM = "not_unique_login";
     String LOGIN = "login";
     String PASSWORD = "password";
     String ROLE = "accountRole";

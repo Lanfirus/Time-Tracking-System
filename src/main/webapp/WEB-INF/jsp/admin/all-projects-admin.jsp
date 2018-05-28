@@ -7,13 +7,13 @@
     <h2><fmt:message key="admin.allprojects.title" /></h2>
 
     <c:if test = "${not empty requestScope.project_update_ok}">
-    <br>
-    <h5>You have updated your task.</h5>
+        <br>
+        <h5><fmt:message key="admin.allprojects.message.updateOk" /></h5>
     </c:if>
 
     <c:if test = "${not empty requestScope.bad_project_update_data}">
-    <br>
-    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your task.</h5>
+        <br>
+        <h5 style="color:red;"><fmt:message key="admin.allprojects.message.incorrectData" /></h5>
     </c:if>
 
     <form method="post" action="" name="all_projects_form">
@@ -24,8 +24,23 @@
                                 sortable="true" headerClass="sortable" />
                 <display:column property="name" titleKey="admin.allprojects.name"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="status" titleKey="admin.allprojects.status"
-                                sortable="true" headerClass="sortable" />
+                <display:column titleKey="admin.allprojects.status" sortable="true" headerClass="sortable" >
+                      <c:if test = "${project.status == 'NEW'}">
+                         <fmt:message key="project.status.new" />
+                      </c:if>
+
+                      <c:if test = "${project.status == 'ASSIGNED'}">
+                         <fmt:message key="project.status.assigned" />
+                      </c:if>
+
+                      <c:if test = "${project.status == 'FINISHED'}">
+                         <fmt:message key="project.status.finished" />
+                      </c:if>
+
+                      <c:if test = "${project.status == 'CANCELLED'}">
+                         <fmt:message key="project.status.cancelled" />
+                      </c:if>
+                </display:column>
                 <display:column titleKey="admin.allprojects.deadline" sortable="true" headerClass="sortable" >
                     <fmt:parseDate value="${project.deadline}" pattern="yyyy-MM-dd" var="parsedDate" type="date" />
                     <fmt:formatDate value="${parsedDate}" type="date" dateStyle = "short"/>
@@ -35,19 +50,24 @@
                 </display:column>
             </display:table>
 
-<div class="but">
-            <button class="submit" type="submit" onClick='this.form.action="project_edit_form";'>
-                <fmt:message key="admin.allprojects.button.edit" />
-            </button>
-            <br>
-            <button class="submit" type="submit" onClick='this.form.action="project_delete";'>
-                <fmt:message key="admin.allprojects.button.delete" />
-            </button>
-            <br>
-            <button class="submit" type="submit" onClick='this.form.action="project_archive";'>
-                            <fmt:message key="admin.allprojects.button.archive" />
-            </button>
-</div>
+            <nav>
+                <ul style="display: flex; padding-left: 0;" >
+                    <button class="submit" type="submit" style="margin: 3px"
+                        onClick="return check(this);" name="edit" >
+                        <fmt:message key="admin.allprojects.button.edit" />
+                    </button>
+                    <br>
+                    <button class="submit" type="submit" style="margin: 3px"
+                        onClick="return check(this);" name="delete" >
+                        <fmt:message key="admin.allprojects.button.delete" />
+                    </button>
+                    <br>
+                    <button class="submit" type="submit" style="margin: 3px"
+                        onClick="return check(this);" name="archive">
+                        <fmt:message key="admin.allprojects.button.archive" />
+                    </button>
+                </ul>
+            </nav>
 
     </form>
 
@@ -57,5 +77,24 @@
     </a>
 
 </div>
+
+<script>
+function check(button) {
+    <c:if test="${empty myProjects}">
+        return false;
+    </c:if>
+    var form = button.form;
+    if(button.name == "edit") {
+        form.action = "project_edit_form";
+    }
+    else if(button.name == "delete") {
+        form.action = "project_delete";
+    }
+    else {
+        form.action = "project_archive";
+    }
+    return true;
+}
+</script>
 
 <jsp:include page="../jspParts/footer.jsp"/>

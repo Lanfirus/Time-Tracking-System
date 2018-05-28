@@ -10,15 +10,15 @@
                 <span class="required_notification"><fmt:message key="registration.mandatoryFields" /></span>
                 <br>
                 <c:if test = "${not empty requestScope.profile_update_ok}">
-                    <h5>You have updated your profile.</h5>
+                    <h5><fmt:message key="registration.message.updateOK" /></h5>
                 </c:if>
 
                 <c:if test = "${not empty requestScope.bad_registration_data}">
-                    <h5 style="color:red;">Warning: You have input incorrect data. System can not update your profile.</h5>
+                    <h5 style="color:red;"><fmt:message key="registration.message.incorrectData" /></h5>
                 </c:if>
 
                 <c:if test = "${not empty requestScope.not_unique_login}">
-                    <h5 style="color:red;">Warning: You have to choose another login.</h5>
+                    <h5 style="color:red;"><fmt:message key="registration.message.notUniqueLogin" /></h5>
                 </c:if>
         </li>
 

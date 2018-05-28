@@ -1,6 +1,7 @@
 package ua.training.tts.controller.command;
 
 import ua.training.tts.constant.Pages;
+import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.util.AccessRights;
 import ua.training.tts.model.entity.Employee;
@@ -34,12 +35,13 @@ public class Registration implements Command {
         }
         catch (NotUniqueLoginException e) {
             service.setEmployeeEnteredDataBackToForm(request, employee);
-            request.setAttribute(CommandParameters.LOGIN_PROBLEM, true);
+            request.setAttribute(ReqSesParameters.LOGIN_PROBLEM, true);
             log.warn(LogMessageHolder.userUsedExistingLogin(employee.getLogin()));
             return Pages.REGISTRATION_PAGE;
         }
         catch (BadRegistrationDataException e) {
             service.setEmployeeEnteredDataBackToForm(request, employee);
+            request.setAttribute(ReqSesParameters.BAD_REGISTRATION_DATA, true);
             log.warn(LogMessageHolder.userUsedNotExistingCredentials(employee.getLogin(), employee.getPassword()));
             return Pages.REGISTRATION_PAGE;
         }

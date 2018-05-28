@@ -7,15 +7,13 @@
     <h2><fmt:message key="employee.newtask.title" /></h2>
 
     <c:if test = "${not empty requestScope.task_request_ok}">
-    <br>
-    <h5>You have created request for your task.</h5>
+        <br>
+        <h5><fmt:message key="employee.newtask.message.requestOk" /></h5>
     </c:if>
 
     <c:if test = "${not empty requestScope.task_data_changed}">
-    <br>
-    <h5 style="color:red;">Warning: Task data has been changed before your update.
-        Check new data and repeat update if needed.
-    </h5>
+        <br>
+        <h5 style="color:red;"><fmt:message key="employee.newtask.message.dataChanged" /></h5>
     </c:if>
 
     <dl:today/>
@@ -27,7 +25,7 @@
 
                 <select name="project_id" id="project_id" required onChange = "getDeadline()">
 
-                    <option value="0" selected>Select project</option>
+                    <option value="0" selected><fmt:message key="employee.newtask.selectProject" /></option>
                     <c:forEach var="project" items="${myProjects}">
 
                         <option value="${project.projectId}" >

@@ -2,11 +2,7 @@ package ua.training.tts.constant.controller.command;
 
 public interface CommandParameters {
 
-    String UPDATE_FLAG = "updateFlag";
-    String LOGIN_PROBLEM = "loginProblem";
-    String REGISTRATION_DATA_PROBLEM = "regDataProblem";
     String LOGIN = "login";
-    String PASSWORD = "password";
     String REDIRECT = "redirect";
     String REGISTRATION_SUCCESSFUL = "registration_successful";
     String MAIN = "main";
@@ -15,9 +11,9 @@ public interface CommandParameters {
     String ADMIN_ALL_TASKS = "admin/task";
     String ADMIN_ALL_PROJECTS = "project";
     String ASC = "asc";
-    String DSC = "dsc";
 
     String EMPTY = "";
     Integer ZERO = 0;
     Integer RECORDS_PER_PAGE = 3;
+    Integer ONE = 1;
 }

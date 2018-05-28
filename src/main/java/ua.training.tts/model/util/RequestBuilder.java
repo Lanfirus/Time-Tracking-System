@@ -1,8 +1,5 @@
 package ua.training.tts.model.util;
 
-import ua.training.tts.constant.model.Entity;
-
-import java.util.Arrays;
 import java.util.List;
 
 public class RequestBuilder {

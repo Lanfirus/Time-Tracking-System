@@ -5,15 +5,10 @@ import ua.training.tts.model.dao.FullTaskDao;
 import ua.training.tts.model.dao.ProjectDao;
 import ua.training.tts.model.dao.TaskDao;
 
-
 public abstract class DaoFactory {
 
-   public static DaoFactory getInstance() {
-      return Holder.INSTANCE;
-   }
-
-   private static class Holder {
-      static final DaoFactory INSTANCE = new JDBCDaoFactoryImpl();
+   public static DaoFactory getInstance(){
+      return new JDBCDaoFactoryImpl();
    }
 
    public abstract EmployeeDao createEmployeeDao();

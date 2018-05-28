@@ -165,7 +165,8 @@ th form {
     vertical-align: middle;
     margin : 0;
     padding : 0;
+}
 
-div.but {
+ul.buttons {
     display: flex;
 }

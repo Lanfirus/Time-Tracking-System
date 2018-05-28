@@ -26,6 +26,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public void create(Employee employee) {
+        builder.clear();
         String request = builder.insertIntoTable(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .insertValueNames(getFieldNames())
                                 .build();
@@ -41,7 +42,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setString(8, employee.getComment());
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordInsertionToTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -51,6 +51,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public Employee findById(Integer id) {
+        builder.clear();
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .where(TableParameters.EMPLOYEE_ID)
                                 .build();
@@ -59,7 +60,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setInt(1,id);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -94,6 +94,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public Employee findByLogin(String login) {
+        builder.clear();
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .where(TableParameters.EMPLOYEE_LOGIN)
                                 .build();
@@ -102,7 +103,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setString(1, login);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             set.next();
             return extractDataFromResultSet(set);
         }
@@ -115,6 +115,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public List<Employee> findAll() {
+        builder.clear();
         List<Employee> resultList = new ArrayList<>();
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .build();
@@ -122,7 +123,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
                 PreparedStatement statement = connection.prepareStatement(request)){
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             while (set.next()){
                 Employee result = extractDataFromResultSet(set);
                 resultList.add(result);
@@ -137,6 +137,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public void update(Employee employee) {
+        builder.clear();
         String request = builder.update(TableParameters.EMPLOYEE_TABLE_NAME, getFieldNames())
                                 .where(TableParameters.EMPLOYEE_ID)
                                 .build();
@@ -153,7 +154,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setInt(9, employee.getId());
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -163,6 +163,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
 
     @Override
     public void delete(Integer id) {
+        builder.clear();
         String request = builder.delete(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .where(TableParameters.EMPLOYEE_ID)
                                 .build();
@@ -171,7 +172,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setInt(1, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordDeletingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
@@ -187,6 +187,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
      */
     @Override
     public boolean isEntryExist(String login, String password) {
+        builder.clear();
         String request = builder.selectAllFromTable(TableParameters.EMPLOYEE_TABLE_NAME)
                                 .where(TableParameters.EMPLOYEE_LOGIN)
                                 .and(TableParameters.EMPLOYEE_PASSWORD)
@@ -197,7 +198,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setString(2, password);
             savedStatement = statement.toString();
             ResultSet set = statement.executeQuery();
-            builder.clear();
             set.next();
             set.getString(TableParameters.EMPLOYEE_ID);
             return true;
@@ -222,6 +222,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
      */
     @Override
     public void setRoleById(Integer id, String role) {
+        builder.clear();
         String request = builder.updateOne(TableParameters.EMPLOYEE_TABLE_NAME, TableParameters.EMPLOYEE_ACCOUNT_ROLE)
                                 .where(TableParameters.EMPLOYEE_ID)
                                 .build();
@@ -231,7 +232,6 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
             statement.setInt(2, id);
             savedStatement = statement.toString();
             statement.executeUpdate();
-            builder.clear();
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
