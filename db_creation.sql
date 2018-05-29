@@ -36,7 +36,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `time_tracking`.`employee` (
   `employee_id` INT NOT NULL AUTO_INCREMENT,
   `employee_login` VARCHAR(20) NOT NULL,
-  `employee_password` VARCHAR(20) NOT NULL,
+  `employee_password` VARCHAR(32) NOT NULL,
   `employee_name` VARCHAR(45) NOT NULL,
   `employee_surname` VARCHAR(45) NOT NULL,
   `employee_patronymic` VARCHAR(45) NOT NULL DEFAULT '',
