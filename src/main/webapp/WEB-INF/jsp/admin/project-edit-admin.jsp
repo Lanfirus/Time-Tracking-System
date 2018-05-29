@@ -30,7 +30,7 @@
                     </option>
                 </select>
         </li>
-
+        <li>
             <label for="name"><fmt:message key="admin.projectedit.name" />:</label>
             <input type="text" name="project_name" required pattern=".+" value="${project.name}" />
         </li>
