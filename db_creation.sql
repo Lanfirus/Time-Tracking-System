@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `time_tracking`.`employee` (
   `employee_name` VARCHAR(45) NOT NULL,
   `employee_surname` VARCHAR(45) NOT NULL,
   `employee_patronymic` VARCHAR(45) NOT NULL DEFAULT '',
-  `email` VARCHAR(319) NOT NULL,
+  `employee_email` VARCHAR(319) NOT NULL,
   `employee_mobile_phone` VARCHAR(13) NOT NULL,
   `employee_comment` VARCHAR(45) NOT NULL DEFAULT '',
   `employee_account_role` ENUM('admin', 'employee') NOT NULL DEFAULT 'employee',
