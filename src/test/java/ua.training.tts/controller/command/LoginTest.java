@@ -11,16 +11,15 @@ import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.TestConstants;
 import ua.training.tts.constant.controller.command.CommandParameters;
 import ua.training.tts.controller.util.EmployeeDTO;
-import ua.training.tts.controller.listener.EmployeeDTOTest;
 import ua.training.tts.model.entity.Employee;
 import ua.training.tts.model.service.EmployeeService;
+import ua.training.tts.util.PasswordHashing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Login.class)
@@ -32,6 +31,7 @@ public class LoginTest extends Assert{
     private HttpSession session = mock(HttpSession.class);
     private EmployeeDTO dto = new EmployeeDTO(TestConstants.ID, TestConstants.LOGIN, TestConstants.PASSWORD,
             Employee.AccountRole.EMPLOYEE);
+    private Employee employee = mock(Employee.class);
 
     @Before
     public void init(){
@@ -43,6 +43,7 @@ public class LoginTest extends Assert{
     @Test
     public void executeDtoExist(){
         given(session.getAttribute(ReqSesParameters.DTO)).willReturn(dto);
+
         String page = login.execute(request);
         assertEquals(CommandParameters.REDIRECT + CommandParameters.MAIN, page);
     }
@@ -50,26 +51,31 @@ public class LoginTest extends Assert{
     @Test
     public void executeDtoNotExistUserExist() throws Exception{
         given(session.getAttribute(ReqSesParameters.DTO)).willReturn(null);
-        given(service.isEmployeeExist(TestConstants.LOGIN, TestConstants.PASSWORD)).willReturn(TestConstants.TRUE);
-        final EmployeeDTOTest mockedDto = mock(EmployeeDTOTest.class);
-        whenNew(EmployeeDTOTest.class).withAnyArguments().thenReturn(mockedDto);
+        given(service.isEmployeeExist(TestConstants.LOGIN, PasswordHashing.hashPassword(TestConstants.PASSWORD)))
+                .willReturn(TestConstants.TRUE);
+        given(service.findByLogin(TestConstants.LOGIN)).willReturn(employee);
+        given(employee.getAccountRole()).willReturn(TestConstants.ACCOUNT_ROLE);
+        given(employee.getId()).willReturn(TestConstants.ID);
+        PowerMockito.doNothing().when(login, TestConstants.LOGIN_CHECK_DOUBLE_LOGIN_METHOD);
+
         String page = login.execute(request);
         assertEquals(CommandParameters.REDIRECT + CommandParameters.MAIN, page);
-        verify(session, times(1)).setAttribute(ReqSesParameters.DTO, mockedDto);
-
-        //ToDo Resolve issue with this test part not working properly
-//        verifyPrivate(login, times(1)).invoke(TestConstants.LOGIN_CHECK_DOUBLE_LOGIN_METHOD);
+        verify(session, times(1)).setAttribute(ReqSesParameters.DTO,
+                new EmployeeDTO(TestConstants.ID, TestConstants.LOGIN,
+                        PasswordHashing.hashPassword(TestConstants.PASSWORD), TestConstants.ACCOUNT_ROLE));
+        PowerMockito.verifyPrivate(login, times(1)).invoke(TestConstants.LOGIN_CHECK_DOUBLE_LOGIN_METHOD);
     }
 
     @Test
-    public void executeDtoNotExistUserNotExist() throws Exception{
+    public void executeDtoNotExistUserNotExist(){
         given(session.getAttribute(ReqSesParameters.DTO)).willReturn(null);
-        given(service.isEmployeeExist(TestConstants.LOGIN, TestConstants.PASSWORD)).willReturn(TestConstants.FALSE);
-        final EmployeeDTOTest mockedDto = mock(EmployeeDTOTest.class);
-        whenNew(EmployeeDTOTest.class).withAnyArguments().thenReturn(mockedDto);
+        given(service.isEmployeeExist(TestConstants.LOGIN, PasswordHashing.hashPassword(TestConstants.PASSWORD)))
+                .willReturn(TestConstants.FALSE);
         String page = login.execute(request);
         assertEquals(CommandParameters.REDIRECT + CommandParameters.MAIN, page);
-        verify(session, times(1)).setAttribute(ReqSesParameters.DTO, mockedDto);
+        verify(session, times(1)).setAttribute(ReqSesParameters.DTO,
+                new EmployeeDTO(CommandParameters.ZERO, CommandParameters.EMPTY, CommandParameters.EMPTY,
+                    Employee.AccountRole.UNKNOWN));
     }
 }
 

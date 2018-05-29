@@ -1,10 +1,9 @@
-package ua.training.tts.controller.listener;
+package ua.training.tts.controller.util;
 
 import org.junit.Assert;
 import org.junit.Test;
 import ua.training.tts.constant.General;
 import ua.training.tts.constant.TestConstants;
-import ua.training.tts.controller.util.EmployeeDTO;
 import ua.training.tts.model.entity.Employee;
 
 import javax.servlet.ServletContext;

@@ -39,7 +39,6 @@ public class LanguageFilter implements Filter {
         if(request.getParameter(ReqSesParameters.LANGUAGE) != null
                 && session.getAttribute(ReqSesParameters.LANGUAGE) != request.getParameter(ReqSesParameters.LANGUAGE)) {
             session.setAttribute(ReqSesParameters.LANGUAGE, request.getParameter(ReqSesParameters.LANGUAGE));
-            session.setAttribute(Config.FMT_LOCALE, request.getParameter(ReqSesParameters.LANGUAGE) );
             response.sendRedirect(request.getHeader(FilterParameters.REFERER));
             return;
         }

@@ -27,9 +27,7 @@ public interface TestConstants {
     String LANGUAGE = "language";
     String ANOTHER_LANGUAGE = "another_language";
     String SOME_REQUESTED_URL = "requested_url";
-    String ROLE = Employee.AccountRole.EMPLOYEE.name().toLowerCase();
-    String TEST_PASSED = "test_passed";
-    String SOME_REQUEST = "some_request";
+    String PAGE = "page";
 
     String INSERT_INTO_TABLE_EXPECTED = "INSERT INTO `TABLE` ";
     String INSERT_VALUES_EXPECTED = "(`value1`,`value2`) VALUES (?,?)";
@@ -41,5 +39,7 @@ public interface TestConstants {
 
     String LOGIN_CHECK_DOUBLE_LOGIN_METHOD = "checkDoubleLogin";
     String MAIN_SERVLET_SEND_USER_TO_PAGE = "sendUserToPage";
-    String EMPLOYEE_DAO_IMPL_SET_VALUE_TO_PREPARED_STATEMENT = "setValuesToPreparedStatement";
+    String MAIN_SERVLET_GET_COMMAND = "getCommand";
+
+    Employee.AccountRole ACCOUNT_ROLE = Employee.AccountRole.EMPLOYEE;
 }

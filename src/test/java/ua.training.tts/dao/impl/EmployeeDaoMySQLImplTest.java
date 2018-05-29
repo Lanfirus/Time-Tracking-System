@@ -22,14 +22,11 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({EmployeeDaoMySQLImpl.class, ConnectionPool.class})
 @SuppressWarnings("unchecked")
 public class EmployeeDaoMySQLImplTest extends Assert{
-/*
-
 
     private Employee employee = mock(Employee.class);
     private Connection connection = mock(Connection.class);
@@ -40,61 +37,67 @@ public class EmployeeDaoMySQLImplTest extends Assert{
 
     @Test
     public void create() throws Exception{
-        PowerMockito.mockStatic(ConnectionPool.class);
-        PowerMockito.doNothing().when(dao, TestConstants.EMPLOYEE_DAO_IMPL_SET_VALUE_TO_PREPARED_STATEMENT,
-                statement, null);
-        given(employee.getFieldNames()).willReturn(list);
-        given(employee.getFieldValues()).willReturn(null);
-//        given(builder.insertIntoTable(TableParameters.EMPLOYEE_TABLE_NAME)).willReturn(builder);
-//        given(builder.insertValueNames(anyList())).willReturn(builder);
+        doNothing().when(builder).clear();
         given(builder.build()).willReturn(null);
+        PowerMockito.mockStatic(ConnectionPool.class);
         given(ConnectionPool.getConnection()).willReturn(connection);
         given(connection.prepareStatement(null)).willReturn(statement);
+        doNothing().when(statement).setString(anyInt(), anyString());
         doNothing().when(statement).close();
         doNothing().when(connection).close();
         given(statement.toString()).willReturn(null);
         given(statement.executeUpdate()).willReturn(TestConstants.ROW_COUNT);
+        given(employee.getLogin()).willReturn(TestConstants.LOGIN);
+        given(employee.getPassword()).willReturn(TestConstants.PASSWORD);
+        given(employee.getName()).willReturn(TestConstants.NAME);
+        given(employee.getSurname()).willReturn(TestConstants.SURNAME);
+        given(employee.getPatronymic()).willReturn(TestConstants.PATRONYMIC);
+        given(employee.getEmail()).willReturn(TestConstants.EMAIL);
+        given(employee.getMobilePhone()).willReturn(TestConstants.MOBILE_PHONE);
+        given(employee.getComment()).willReturn(TestConstants.COMMENT);
 
         dao.create(employee);
-        verify(employee, times(1)).getFieldNames();
-        verify(employee, times(1)).getFieldValues();
+        verify(builder, times(1)).clear();
         verify(builder, times(1)).insertIntoTable(TableParameters.EMPLOYEE_TABLE_NAME);
         verify(builder, times(1)).insertValueNames(any(List.class));
         verify(builder, times(1)).build();
         verify(connection, times(1)).prepareStatement(null);
+        verify(statement, times(8)).setString(anyInt(), anyString());
         verify(statement, times(1)).close();
         verify(connection, times(1)).close();
-        verifyPrivate(dao, times(1))
-                .invoke(TestConstants.EMPLOYEE_DAO_IMPL_SET_VALUE_TO_PREPARED_STATEMENT, statement, null);
         verify(statement, times(1)).executeUpdate();
     }
 
     @Test(expected = RuntimeException.class)
     public void createStatementExcecuteThrowException() throws Exception{
-        PowerMockito.mockStatic(ConnectionPool.class);
-        PowerMockito.doNothing().when(dao, TestConstants.EMPLOYEE_DAO_IMPL_SET_VALUE_TO_PREPARED_STATEMENT,
-                statement, null);
-        given(employee.getFieldNames()).willReturn(list);
-        given(employee.getFieldValues()).willReturn(null);
+        doNothing().when(builder).clear();
         given(builder.build()).willReturn(null);
+        PowerMockito.mockStatic(ConnectionPool.class);
         given(ConnectionPool.getConnection()).willReturn(connection);
         given(connection.prepareStatement(null)).willReturn(statement);
+        doNothing().when(statement).setString(anyInt(), anyString());
         doNothing().when(statement).close();
         doNothing().when(connection).close();
         given(statement.toString()).willReturn(null);
         given(statement.executeUpdate()).willThrow(new SQLException());
+        given(employee.getLogin()).willReturn(TestConstants.LOGIN);
+        given(employee.getPassword()).willReturn(TestConstants.PASSWORD);
+        given(employee.getName()).willReturn(TestConstants.NAME);
+        given(employee.getSurname()).willReturn(TestConstants.SURNAME);
+        given(employee.getPatronymic()).willReturn(TestConstants.PATRONYMIC);
+        given(employee.getEmail()).willReturn(TestConstants.EMAIL);
+        given(employee.getMobilePhone()).willReturn(TestConstants.MOBILE_PHONE);
+        given(employee.getComment()).willReturn(TestConstants.COMMENT);
 
         dao.create(employee);
-        verify(employee, times(1)).getFieldNames();
-        verify(employee, times(1)).getFieldValues();
+        verify(builder, times(1)).clear();
         verify(builder, times(1)).insertIntoTable(TableParameters.EMPLOYEE_TABLE_NAME);
         verify(builder, times(1)).insertValueNames(any(List.class));
         verify(builder, times(1)).build();
         verify(connection, times(1)).prepareStatement(null);
+        verify(statement, times(8)).setString(anyInt(), anyString());
         verify(statement, times(1)).close();
         verify(connection, times(1)).close();
-        verifyPrivate(dao, times(1))
-                .invoke(TestConstants.EMPLOYEE_DAO_IMPL_SET_VALUE_TO_PREPARED_STATEMENT, statement, null);
         verify(statement, times(1)).executeUpdate();
-    }*/
+    }
 }
