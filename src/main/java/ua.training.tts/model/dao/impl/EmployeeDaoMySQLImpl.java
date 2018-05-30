@@ -157,7 +157,7 @@ public class EmployeeDaoMySQLImpl implements EmployeeDao {
         } catch (SQLException e) {
             log.error(LogMessageHolder.recordUpdatingInTableProblem(TableParameters.EMPLOYEE_TABLE_NAME,
                                                                                             savedStatement), e);
-            throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
