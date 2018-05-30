@@ -1,5 +1,6 @@
 package ua.training.tts.controller.command.employee;
 
+import ua.training.tts.constant.ExceptionMessages;
 import ua.training.tts.constant.Pages;
 import ua.training.tts.constant.ReqSesParameters;
 import ua.training.tts.constant.model.dao.TableParameters;
@@ -56,8 +57,19 @@ public class NewTaskByEmployee implements Command {
      */
     private void checkProjectDeadline(Task task, HttpServletRequest request){
         ProjectService service = new ProjectService();
-        LocalDate projectDeadline = service.findById(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
-                .getDeadline();
+        LocalDate projectDeadline;
+        try {
+            projectDeadline = service.findById(Integer.parseInt(request.getParameter(TableParameters.TASK_PROJECT_ID)))
+                    .getDeadline();
+        }
+        catch (RuntimeException e){
+            if (e.getMessage().contains(ExceptionMessages.EMPTY_RESULT_SET)) {
+                throw new RuntimeException(ExceptionMessages.PROJECT_IS_ABSCENT);
+            }
+            else {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
         if (task.getDeadline().isAfter(projectDeadline)) {
             task.setDeadline(projectDeadline);
         }

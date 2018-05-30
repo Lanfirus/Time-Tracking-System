@@ -63,6 +63,9 @@ public class ProjectDaoMySQLImpl implements ProjectDao {
         catch (SQLException e) {
             log.error(LogMessageHolder.recordSearchingInTableProblem(TableParameters.PROJECT_TABLE_NAME,
                                                                                             savedStatement), e);
+            if (e.getMessage().contains(ExceptionMessages.EMPTY_RESULT_SET)) {
+                throw new RuntimeException(e.getMessage());
+            }
             throw new RuntimeException(ExceptionMessages.SQL_GENERAL_PROBLEM);
         }
     }

@@ -16,4 +16,5 @@ public interface ExceptionMessages {
     String BAD_UPDATE_TASK_DATA = "Not correct update task request's data";
     String ILLEGAL_OPERATION_ON_EMPTY_RESULT_SET = "Illegal operation on empty result set.";
     String TRIED_TO_ARCHIVE_EMPTY_PROJECT = "Sorry, but you can't archive empty project that doesn't have any tasks. Either assign some task or just delete it.";
+    String PROJECT_IS_ABSCENT = "Seems that project you are trying to use doesn't exist in the database anymore.";
 }
