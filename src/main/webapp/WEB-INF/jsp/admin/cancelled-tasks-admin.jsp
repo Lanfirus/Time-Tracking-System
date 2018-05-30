@@ -52,7 +52,6 @@
                 </display:column>
                 <display:column titleKey="admin.alltasks.select" >
                 <input type="radio" name="task_id" value="${task.id}" id="task_id" checked>
-                <c:out value="${task_rowNum}" />
                 </display:column>
 
             </display:table>

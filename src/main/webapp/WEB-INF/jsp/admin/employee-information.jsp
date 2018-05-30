@@ -16,9 +16,6 @@
             <display:column property="login" titleKey="employeeInformation.table.login"
                 sortable="true" headerClass="sortable" />
 
-            <display:column property="password" titleKey="employeeInformation.table.password"
-                sortable="true" headerClass="sortable" />
-
             <display:column property="name" titleKey="employeeInformation.table.name"
                 sortable="true" headerClass="sortable" />
 
