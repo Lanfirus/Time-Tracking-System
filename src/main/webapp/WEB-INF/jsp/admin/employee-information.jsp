@@ -3,7 +3,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
-<div class="main">
+<div class="main" style="overflow-x: auto">
     <h2><fmt:message key="employeeInformation.title" /></h2>
 
     <form method="post" action="" name="employee_information_form">

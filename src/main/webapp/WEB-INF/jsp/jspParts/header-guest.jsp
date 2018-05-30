@@ -22,7 +22,7 @@
             <a href="${pageContext.request.contextPath}/tts/registration_form" class="button button-header"><fmt:message key="header.registration" /></a>
         </div>
 
-        <div style="left:400px; top:20px; position:relative;">
+        <div style="left:50px; top:20px; position:relative;">
                     <form action="${pageContext.request.contextPath}/app/language" method="post">
                         <select name="language" >
                             <option value="en_US" ${language == 'en_US' ? 'selected' : ''}>
